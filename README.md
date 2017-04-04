@@ -1,6 +1,7 @@
 # moodle-jsxgraph-plugin
 
-Using the [https://jsxgraph.org](JSXGraph) filter makes it a lot easier to embed JSXGraph constructions into moodle online documents.
+This is a plug-in for [moodle](//moodle.org) to enable function plotting and dynamic geometry constructions with [JSXGraph](//jsxgraph.org).
+Using the [JSXGraph](//jsxgraph.org) filter makes it a lot easier to embed JSXGraph constructions into moodle online documents.
 
 ## Installation: (by Moodle Admin)
 1. Upload the complete folder "jsxgraph" into the folder `moodle-->filter`
@@ -12,7 +13,7 @@ Using the [https://jsxgraph.org](JSXGraph) filter makes it a lot easier to embed
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
 	* inserting a `<jsxgraph>`-tag with all required parameters
-    * Example: 
+    * Examples: 
 
 ```html
         <jsxgraph width="600" height="500">
@@ -39,4 +40,13 @@ The workaround is:
 * turn off the HTML-editor in your profile: 
   ("When editing text" -> "Use standard web forms" instead of "Use HTML editor")
 * When editing a question, insert the jsxgraph tag and choose "HTML format".
+
+## Feedback
+
+All bugs, feature requests, feedback, etc., are welcome.
+
+##License
+
+http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+
 
