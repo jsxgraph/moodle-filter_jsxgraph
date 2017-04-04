@@ -1,8 +1,8 @@
 # moodle-jsxgraph-plugin
 
 This is a plug-in for [moodle](//moodle.org) 2+ to enable function plotting and dynamic geometry constructions 
-with [JSXGraph](//jsxgraph.org).
-Using the [JSXGraph](//jsxgraph.org) filter makes it a lot easier to embed JSXGraph constructions into moodle online documents.
+with [JSXGraph](http://jsxgraph.org).
+Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed JSXGraph constructions into moodle online documents.
 
 ## Installation
 ### Installation for moodle 2+: (by Moodle Admin)
