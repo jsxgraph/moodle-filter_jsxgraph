@@ -29,7 +29,7 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
             })();
         </jsxgraph>
 
-        <jsxgraph width="600" height="500" box="mybox">
+        <jsxgraph width="600" height="500" divid="mybox">
             (function() {
                 var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
                 var p = brd.create('point', [1,2]);
