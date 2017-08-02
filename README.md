@@ -1,4 +1,3 @@
-in development...
 # moodle-jsxgraph-plugin
 
 This is a plug-in for [moodle](//moodle.org) 2+ to enable function plotting and dynamic geometry constructions 
