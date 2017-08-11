@@ -5,7 +5,10 @@ with [JSXGraph](http://jsxgraph.org).
 Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed JSXGraph constructions into moodle online documents.
 
 ## Installation
-### Installation for moodle 2+: (by Moodle Admin)
+### Installation for moodle 3+: (by Moodle Admin)
+Instructions therefor will follow when the development has moved on.
+   
+### Installation for moodle 2.x: (by Moodle Admin)
 1. Upload the complete plug-in folder `moodle2` into the folder `moodle-->filter`
 2. In Moodle, navigate to `Moodle->Administration->Configuration->"Filter"` and click on the entry
    `jsxgraph` to activate the filter
