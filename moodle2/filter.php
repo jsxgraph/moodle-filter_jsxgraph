@@ -125,7 +125,7 @@ class filter_jsxgraph extends moodle_text_filter {
             $PAGE->requires->js_init_call($code);
             
             if ($needGXT) {
-                $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/GeonextReader.js') );
+                $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/geonext.min.js') );
             }
             
             --$i;
