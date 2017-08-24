@@ -15,7 +15,7 @@ Instructions therefor will follow when the development has moved on.
 
 ### Installation for moodle 1.9: (by Moodle Admin)
 1. Upload the complete plug-in folder `moodle1.9` into the folder `moodle-->filter`
-2. Follow the instructions from `README.md` therein.
+2. Follow the instructions from [`README.md` therein](moodle1.9/README.md).
 
 ## Usage
 1. In a Moodle course: `->` Add a resource `->` Compose a website
