@@ -9,7 +9,7 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 
 In version 3 the installation has changed a bit. Follow the steps below:
 
-1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from the `moodle3+` folder by downloading the entire GIT directory and extracting `install_jsxgraph_plugin.zip` from it.
+1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from the `moodle3+` folder
 
    **Do not unpack `install_jsxgraph_plugin.zip`!**
 
