@@ -2,15 +2,29 @@
 
 This is a plug-in for [moodle](//moodle.org) 2+ to enable function plotting and dynamic geometry constructions 
 with [JSXGraph](http://jsxgraph.org).
-Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed JSXGraph constructions into moodle online documents.
+Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed [JSXGraph](http://jsxgraph.org) constructions into moodle online documents.
 
 ## Installation
 ### Installation for moodle 3+: (by Moodle Admin)
-Instructions therefor will follow when the development has moved on.
-   
+
+In version 3 the installation has changed a bit. Follow the steps below:
+
+1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from the `moodle3+` folder by downloading the entire GIT directory and extracting `install_jsxgraph_plugin.zip` from it.
+
+   **Do not unpack `install_jsxgraph_plugin.zip`!**
+
+2. In moodle, navigate to `Moodle -> Site administration -> Plugins -> Plugins -> Install plugins`
+3. Under `Install plugin from ZIP file`, drag and drop `install_jsxgraph_plugin.zip` und click on `Show more...`
+4. Choose the plugin type `Text filter (filter)`
+5. Rename the root directory to `jsxgraph` by filling the input (be sure to write correctly)
+6. Click on `Install plugin from ZIP the file` and follow the instructions
+7. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
+
+**To use MathJax, please refer to the "MathJax" section in this documentation**
+
 ### Installation for moodle 2.x: (by Moodle Admin)
 1. Upload the complete plug-in folder `moodle2` into the folder `moodle-->filter`
-2. In Moodle, navigate to `Moodle->Administration->Configuration->"Filter"` and click on the entry
+2. In moodle, navigate to `Moodle -> Administration -> Configuration -> "Filter"` and click on the entry
    `jsxgraph` to activate the filter
 
 ### Installation for moodle 1.9: (by Moodle Admin)
@@ -18,13 +32,17 @@ Instructions therefor will follow when the development has moved on.
 2. Follow the instructions from [`README.md` therein](moodle1.9/README.md).
 
 ## Usage
-1. In a Moodle course: `->` Add a resource `->` Compose a website
+1. In a moodle course you can add an board to different types of content, i.e.:
+   - `Add an activity or resource -> Page`
+   - `Add an activity or resource -> Link`
+   - `Add an activity or resource -> Quiz`
+   - ...
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
 	* inserting a `<jsxgraph>`-tag with all required parameters
     * Examples: 
 
-```html
+   ```html
         <jsxgraph width="600" height="500">
             (function() {
                 var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true});
@@ -38,17 +56,41 @@ Instructions therefor will follow when the development has moved on.
                 var p = brd.create('point', [1,2]);
             })();
         </jsxgraph>
-```
+   ```
  
-Be aware of the fact, that you dont't see the construction unless you leave the editor and save your document.
-On reopening it later, you will notice the code rather than the jsxgraph-tag.
+Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
+On reopening it later, you will notice the code rather than the jsxgraph-tag. To edit your content later, again switch to the code input. 
 
-Using JSXGraph in quiz questions needs a workaround since the HTML editor strips off the JSXGraph tag.
-Here, the wy to go is:
-The workaround is:
-* turn off the HTML-editor in your profile: 
-  ("When editing text" -> "Use standard web forms" instead of "Use HTML editor")
-* When editing a question, insert the jsxgraph tag and choose "HTML format".
+Using JSXGraph in quiz questions needs a workaround: <br>
+When adding or editing a question, insert the jsxgraph tag into the `Question tag`-input and choose "HTML format".
+
+## Using MathJax within the board
+To use the pre-installed `MathJax` notation within the board, the **Moodle Admin** must first make some settings:
+
+1. Go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters`
+2. If not already done, enable the `MathJax` filter
+3. Arrange the filters so, that `MathJax` is before `JSXGraph`.
+4. If the `TeX notation` filter is activated, this must be arranged below `MathJax`
+
+After this changes **everyone** can use `MathJax` notation `$$(...)$$` within the board of JSXGraph as follows:
+
+- Instead of using ` \ ` between `<jsxgraph>`-tags you have to escape the backslash by using ` \\ ` <br>
+  e.g. `\frac` --> `\\frac`
+- To prevent unpredictable behavior you should set `parse: false`
+- *optional:* To make the font bigger, use the `fontSize`-attribute
+
+Look at this example:
+
+```html
+        <jsxgraph width="600" height="600" box="box">
+            (function() {
+                var brd = JXG.JSXGraph.initBoard('box', {boundingbox:[-6,6,6,-6], axis:true});
+                var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
+                var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
+            })();
+        </jsxgraph>
+
+   ```
 
 ## Feedback
 

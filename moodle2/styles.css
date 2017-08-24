@@ -13,7 +13,6 @@
     /* touch-action: none; */ /* Set with JavaScript */
 }
 
-
 .JXGtext {
     background-color: transparent; /* May produce artefacts in IE. Solution: setting a color explicitly. */
     font-family: Arial, Helvetica, Geneva;
