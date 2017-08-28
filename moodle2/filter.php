@@ -51,7 +51,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $content = $dom->getElementsByTagname($tag);
 
         if (count($content) > 0) {
-            $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.js') );
+            $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.min.js') );
         }
         
         // Iterate backwards through the jsxgraph tags
