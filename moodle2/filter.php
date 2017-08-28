@@ -122,6 +122,8 @@ class filter_jsxgraph extends moodle_text_filter {
                     $code = preg_replace("(</?".$tag."[^>]*\>)i", "", $code);
                     // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
                     $code = str_replace("</script>", "<\/script>", $code);
+                    // No HTML-Entities in code
+                    $code = html_entity_decode($code);
                 }
             }
 
