@@ -8,6 +8,7 @@
  */
 
 $string['filtername'] = 'JSXGraph';
+$string['pluginname'] = 'JSXGraph';
 
 $string['divid'] = 'div id';
 $string['divid_desc'] = 'ID of the division containing JSXGraph. Default: box. Number is added automatically, e.g. box0, box1, ...';
