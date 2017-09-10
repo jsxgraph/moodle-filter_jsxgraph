@@ -51,7 +51,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $content = $dom->getElementsByTagname($tag);
 
         if (count($content) > 0) {
-            $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.js') );
+            $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.min.js') );
         }
         
         // Iterate backwards through the jsxgraph tags
@@ -71,9 +71,9 @@ class filter_jsxgraph extends moodle_text_filter {
             
             $brd = $item->getAttribute('board');
             if ($brd == "") { $brd = $CFG->filter_jsxgraph_boardvar . $i; }
-            
-            /* Create new div element containing JSXGraph */
-            
+
+
+            // Create new div element containing JSXGraph
             $out = $dom->createElement('div');
             $a = $dom->createAttribute('id');
             $a->value = $b;
@@ -97,8 +97,9 @@ class filter_jsxgraph extends moodle_text_filter {
             $out->appendChild($t);
             
             $out = $dom->appendChild($out);
-            
-            // Replace <jsxgraph> by <div>
+
+
+            // Replace <jsxgraph>-node by <div>-node
             $item->parentNode->replaceChild($out, $item); 
             
             $code = "";
@@ -114,12 +115,19 @@ class filter_jsxgraph extends moodle_text_filter {
                     $needGXT = true;
                 } else {
                     // Plain JavaScript code
-                    $code = $item->nodeValue;  
+
+                    // To use MathJax on the board, their filter must already have been replaced code to HTML-Tags
+                    $code = $dom->saveHTML($item);
+                    // Remove <jsxgraph>-tags
+                    $code = preg_replace("(</?".$tag."[^>]*\>)i", "", $code);
+                    // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
+                    $code = str_replace("</script>", "<\/script>", $code);
+                    // No HTML-Entities in code
+                    $code = html_entity_decode($code);
                 }
             }
             
             /* Ensure that the div exists */
-
             $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
             $code_post = "}\n });\n";
 
@@ -140,9 +148,6 @@ class filter_jsxgraph extends moodle_text_filter {
         $dom->removeChild($dom->firstChild);            
 
         // remove <html><body></body></html> 
-        //$dom->replaceChild($dom->firstChild->firstChild->firstChild, $dom->firstChild);        
-        //return $dom->saveXML();
-        
         $str = $dom->saveHTML();
         $str = str_replace("<body>", "", $str);
         $str = str_replace("</body>", "", $str);
@@ -155,11 +160,11 @@ class filter_jsxgraph extends moodle_text_filter {
     public function filter($text, array $options = array()) {
         global $PAGE, $CFG;
     
-        // to optimize speed, search for a jsxgraph-tag (avoiding to parse everything on every text)
+        // to optimize speed, search for a <jsxgraph>-tag (avoiding to parse everything on every text)
         if (!is_int(strpos($text, '<jsxgraph'))) {
             return $text;
         }
-        
+
         return $this->getTextBetweenTags("jsxgraph", $text, 0, "UTF-8");
     }
 }
