@@ -119,13 +119,18 @@ class filter_jsxgraph extends moodle_text_filter {
             }
             
             /* Ensure that the div exists */
-            $code = "if (document.getElementById('" . $b . "') != null) {" . $code . "};";
+
+            $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
+            $code_post = "}\n });\n";
+
+            #$code = "if (document.getElementById('" . $b . "') != null) {" . $code . "};";
+            $code = $code_pre . $code . $code_post;
             
             // Place JavaScript code at the end of the page.
             $PAGE->requires->js_init_call($code);
             
             if ($needGXT) {
-                $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/GeonextReader.js') );
+                $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/filter/jsxgraph/geonext.min.js') );
             }
             
             --$i;
