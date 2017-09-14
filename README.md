@@ -60,6 +60,7 @@ Alternatively, you can follow the steps below:
        })();
    </jsxgraph>
    ```
+3. To use HTMLentities within the Javascript code for JSXGraph, add the attribute htmlentities="1" to the <jsxgraph>-tag. (Global setting through Moodle Admin) 
  
 Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
 On reopening it later, you will notice the code rather than the jsxgraph-tag. To edit your content later, again switch to the code input. 
