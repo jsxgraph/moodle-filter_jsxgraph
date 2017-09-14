@@ -1,6 +1,6 @@
 # moodle-jsxgraph-plugin
 
-This is a plug-in for [moodle](//moodle.org) 2+ to enable function plotting and dynamic geometry constructions 
+This is a plug-in for [moodle](//moodle.org) to enable function plotting and dynamic geometry constructions 
 with [JSXGraph](http://jsxgraph.org).
 Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed [JSXGraph](http://jsxgraph.org) constructions into moodle online documents.
 
@@ -10,10 +10,8 @@ To install the filter in moodle2.9 and moodle3+ you can follow the steps in the 
  
 Alternatively, you can follow the steps below:
 
-1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from `moodle2.9_and_3+/install`
-
+1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from `moodle2.9_and_3+/install`<br>
    **Do not unpack `install_jsxgraph_plugin.zip`!**
-
 2. In moodle, navigate to `Moodle -> Site administration -> Plugins -> Plugins -> Install plugins`
 3. Under `Install plugin from ZIP file`, drag and drop `install_jsxgraph_plugin.zip` und click on `Show more...`
 4. Choose the plugin type `Text filter (filter)`
@@ -96,7 +94,7 @@ Look at this example:
 </jsxgraph>
 ```
 
-Using the `MathJax` filter within the board is supported `moodle2.x` and `moodle3.x`. 
+Using the `MathJax` filter within the board is supported in `moodle2.x` and `moodle3.x`. 
 
 ## Feedback
 
