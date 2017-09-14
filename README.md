@@ -5,11 +5,12 @@ with [JSXGraph](http://jsxgraph.org).
 Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed [JSXGraph](http://jsxgraph.org) constructions into moodle online documents.
 
 ## Installation
-### Installation for moodle 3+: (by Moodle Admin)
+### Installation for moolde2.9 and moodle3+: (by Moodle Admin)
+To install the filter in moodle2.9 and moodle3+ you can follow the steps in the "Installation for moodle 2.x" section in this documentation. Make sure downloading the whole `moodle2.9_and_3+` folder and delete folder `install` therein.
+ 
+Alternatively, you can follow the steps below:
 
-In version 3 the installation has changed a bit. Follow the steps below:
-
-1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from the `moodle3+` folder
+1. Download the ZIP-compressed directory `install_jsxgraph_plugin.zip` from `moodle2.9_and_3+/install`
 
    **Do not unpack `install_jsxgraph_plugin.zip`!**
 
@@ -24,8 +25,12 @@ In version 3 the installation has changed a bit. Follow the steps below:
 
 ### Installation for moodle 2.x: (by Moodle Admin)
 1. Upload the complete plug-in folder `moodle2` into the folder `moodle-->filter`
-2. In moodle, navigate to `Moodle -> Administration -> Configuration -> "Filter"` and click on the entry
+2. Rename the folder to `jsxgraph`
+3. Open site root of your moodle installation and follow the steps to install plugin 
+3. In moodle, navigate to `Moodle -> Administration -> Configuration -> "Filter"` and click on the entry
    `jsxgraph` to activate the filter
+   
+**To use MathJax, please refer to the "MathJax" section in this documentation**
 
 ### Installation for moodle 1.9: (by Moodle Admin)
 1. Upload the complete plug-in folder `moodle1.9` into the folder `moodle-->filter`
@@ -43,19 +48,19 @@ In version 3 the installation has changed a bit. Follow the steps below:
     * Examples: 
 
    ```html
-        <jsxgraph width="600" height="500">
-            (function() {
-                var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true});
-                var p = brd.create('point', [1,2]);
-            })();
-        </jsxgraph>
+   <jsxgraph width="600" height="500">
+       (function() {
+           var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true});
+           var p = brd.create('point', [1,2]);
+       })();
+   </jsxgraph>
 
-        <jsxgraph width="600" height="500" box="mybox">
-            (function() {
-                var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
-                var p = brd.create('point', [1,2]);
-            })();
-        </jsxgraph>
+   <jsxgraph width="600" height="500" box="mybox">
+       (function() {
+           var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
+           var p = brd.create('point', [1,2]);
+       })();
+   </jsxgraph>
    ```
  
 Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
@@ -82,15 +87,16 @@ After this changes **everyone** can use `MathJax` notation `$$(...)$$` within th
 Look at this example:
 
 ```html
-        <jsxgraph width="600" height="600" box="box">
-            (function() {
-                var brd = JXG.JSXGraph.initBoard('box', {boundingbox:[-6,6,6,-6], axis:true});
-                var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
-                var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
-            })();
-        </jsxgraph>
+<jsxgraph width="600" height="600" box="box">
+    (function() {
+        var brd = JXG.JSXGraph.initBoard('box', {boundingbox:[-6,6,6,-6], axis:true});
+        var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
+        var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
+    })();
+</jsxgraph>
+```
 
-   ```
+Using the `MathJax` filter within the board is supported `moodle2.x` and `moodle3.x`. 
 
 ## Feedback
 
