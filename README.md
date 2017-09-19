@@ -109,7 +109,7 @@ You also can use
 
     $ make local
 
-if pou pulled the whole [jsxgraph project](https://github.com/jsxgraph) from GitHub. Then the newest JSXGraph-Core will be copied from `../jsxgraph/build/`.
+if you pulled the whole [jsxgraph project](https://github.com/jsxgraph) from GitHub. Then the newest JSXGraph-Core will be copied from `../jsxgraph/build/`.
 
 ## Feedback
 
