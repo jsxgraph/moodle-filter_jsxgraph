@@ -10,10 +10,10 @@ To install the filter in moodle2.9 and moodle3+ you can follow the steps in the 
  
 Alternatively, you can follow the steps below:
 
-1. Download the ZIP-compressed directory [`install_jsxgraph_plugin.zip`](moodle2.9_and_3+/install/install_jsxgraph_plugin.zip) from `moodle2.9_and_3+/install`<br>
-   **Do not unpack `install_jsxgraph_plugin.zip`!**
+1. Download the ZIP-compressed directory [`install_jsxgraph_plugin_moodle3.zip`](moodle2.9_and_3+/install/install_jsxgraph_plugin_moodle3.zip) from `moodle2.9_and_3+/install`<br>
+   **Do not unpack `install_jsxgraph_plugin_moodle3.zip`!**
 2. In moodle, navigate to `Moodle -> Site administration -> Plugins -> Plugins -> Install plugins`
-3. Under `Install plugin from ZIP file`, drag and drop `install_jsxgraph_plugin.zip` und click on `Show more...`
+3. Under `Install plugin from ZIP file`, drag and drop `install_jsxgraph_plugin_moodle3.zip` und click on `Show more...`
 4. Choose the plugin type `Text filter (filter)`
 5. Rename the root directory to `jsxgraph` by filling the input (be sure to write correctly)
 6. Click on `Install plugin from ZIP the file` and follow the instructions
