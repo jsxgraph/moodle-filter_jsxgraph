@@ -36,4 +36,4 @@
                                                     get_string('HTMLentities_desc', 'filter_jsxgraph'),
                                                     '1', PARAM_BOOL));
         
-}
+    }

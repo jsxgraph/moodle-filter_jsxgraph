@@ -154,11 +154,9 @@
                 }
                 
                 /* Ensure that the div exists */
-                #$code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
-                #$code_post = "}\n });\n";
-                
-                $code = "if (document.getElementById('" . $b . "') != null) {" . $code . "};";
-                #$code = $code_pre . $code . $code_post;
+                $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
+                $code_post = "}\n });\n";
+                $code = $code_pre . $code . $code_post;
                 
                 // Place JavaScript code at the end of the page.
                 $PAGE->requires->js_init_call($code);
