@@ -7,10 +7,10 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 ## Installation
 ### Installation for moolde2.9 and moodle3+: (by Moodle Admin)
 To install the filter in moodle2.9 and moodle3+ you can follow the steps in the "Installation for moodle 2.x" section in this documentation. Make sure downloading the whole `moodle2.9_and_3+` folder and delete folder `install` therein.
- 
+
 Alternatively, you can follow the steps below:
 
-1. Download the ZIP-compressed directory [`install_jsxgraph_plugin_moodle3.zip`](moodle2.9_and_3+/install/install_jsxgraph_plugin_moodle3.zip) from `moodle2.9_and_3+/install`<br>
+1. Download the ZIP-compressed directory [`install_jsxgraph_plugin_moodle3.zip`](moodle2.9+/install/install_jsxgraph_plugin_moodle3.zip) from `moodle2.9_and_3+/install`<br>
    **Do not unpack `install_jsxgraph_plugin_moodle3.zip`!**
 2. In moodle, navigate to `Moodle -> Site administration -> Plugins -> Plugins -> Install plugins`
 3. Under `Install plugin from ZIP file`, drag and drop `install_jsxgraph_plugin_moodle3.zip` und click on `Show more...`
