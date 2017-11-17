@@ -12,7 +12,6 @@
     class filter_jsxgraph extends moodle_text_filter {
         
         /**
-         *
          * @get text between tags
          * @param string $tag The tag name
          * @param string $html The XML or XHTML string
@@ -23,6 +22,13 @@
         private function getTextBetweenTags($tag, $html, $strict = 0, $encoding = "UTF-8") {
             global $PAGE, $CFG;
             
+            // set global admin settings default
+            if (!isset($CFG->filter_jsxgraph_jsxfromserver)) {
+                set_config('filter_jsxgraph_jsxfromserver', '0');
+            }
+            if (!isset($CFG->filter_jsxgraph_serverversion)) {
+                set_config('filter_jsxgraph_serverversion', '0.99.6');
+            }
             if (!isset($CFG->filter_jsxgraph_divid)) {
                 set_config('filter_jsxgraph_divid', 'box');
             }
@@ -37,6 +43,9 @@
             }
             if (!isset($CFG->filter_jsxgraph_HTMLentities)) {
                 set_config('filter_jsxgraph_HTMLentities', '1');
+            }
+            if (!isset($CFG->filter_jsxgraph_globalJS)) {
+                set_config('filter_jsxgraph_globalJS', '');
             }
             
             // a new dom object
@@ -60,9 +69,23 @@
             
             // the tag by its tag name
             $content = $dom->getElementsByTagname($tag);
+            $requirejs_problem = false;
+    
+            $jsx_url = $CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.js';
+            $version = '';
             
             if (count($content) > 0) {
-                $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.min.js'));
+                
+                
+                if ($CFG->filter_jsxgraph_jsxfromserver === '1') { // use server version
+                    $version = $CFG->filter_jsxgraph_serverversion;
+                    if ($version !== '') {
+                        $jsx_url = 'http://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $version . '/jsxgraphcore.js';
+                        $requirejs_problem = true;
+                    }
+                }
+                
+                $PAGE->requires->js(new moodle_url($jsx_url));
             }
             
             // Iterate backwards through the jsxgraph tags
@@ -70,7 +93,7 @@
             while ($i > -1) {
                 $item = $content->item($i);
                 
-                // Read attributes
+                // Read tag-attributes
                 $w = $item->getAttribute('width');
                 if ($w == "") {
                     $w = $CFG->filter_jsxgraph_width;
@@ -92,10 +115,30 @@
                 }
                 
                 $convertHTMLentities = $item->getAttribute('htmlentities');
-                if ($convertHTMLentities == "") {
-                    $convertHTMLentities = $CFG->filter_jsxgraph_HTMLentities;
+                switch ($convertHTMLentities) {
+                    case "":
+                        $convertHTMLentities = boolval($CFG->filter_jsxgraph_HTMLentities);
+                        break;
+                    case "false":
+                        $convertHTMLentities = false;
+                        break;
+                    case "true":
+                    default:
+                        $convertHTMLentities = true;
+                        break;
                 }
-                $convertHTMLentities = boolval($convertHTMLentities);
+                
+                $useglobalJS = $item->getAttribute('useglobaljs');
+                switch ($useglobalJS) {
+                    case "false":
+                        $useglobalJS = false;
+                        break;
+                    case "":
+                    case "true":
+                    default:
+                        $useglobalJS = true;
+                        break;
+                }
                 
                 // Create new div element containing JSXGraph
                 $out = $dom->createElement('div');
@@ -116,8 +159,15 @@
                 }
                 $a->value = "width:" . $w . "; height:" . $h . "; ";
                 $out->appendChild($a);
-                
-                $t = $dom->createTextNode("");
+    
+                $message_if_error = '';
+                if ($tmp = fopen($jsx_url, 'r') == false) {
+                    $message_if_error = 'ERROR: There ist no JSX version "' . $version . '" on CDN. The JSX-Graph core could not be loaded. Please contact your admin.';
+                } else {
+                    fclose($tmp);
+                }
+    
+                $t = $dom->createTextNode($message_if_error);
                 $out->appendChild($t);
                 
                 $out = $dom->appendChild($out);
@@ -126,6 +176,20 @@
                 // Replace <jsxgraph>-node by <div>-node
                 $item->parentNode->replaceChild($out, $item);
                 
+                // Load global JavaScript code from administrator settings
+                $globalCode = '';
+                
+                if ($useglobalJS) {
+                    $globalCode = trim($CFG->filter_jsxgraph_globalJS);
+                    if ($globalCode !== '' && substr_compare($globalCode, ';', $globalCode . length - 1) < 0) {
+                        $globalCode .= ';';
+                    }
+                    $globalCode .= '
+
+';
+                }
+                
+                // Load code from <jsxgraph>-nod
                 $code = "";
                 $needGXT = false;
                 $url = $item->getAttribute('file');
@@ -149,14 +213,19 @@
                         if ($convertHTMLentities) {
                             // No HTML-Entities in code
                             $code = html_entity_decode($code);
+                            $globalCode = html_entity_decode($globalCode);
                         }
                     }
                 }
                 
                 /* Ensure that the div exists */
-                $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
-                $code_post = "}\n });\n";
-                $code = $code_pre . $code . $code_post;
+                if ($requirejs_problem) {
+                    $code = "if (document.getElementById('" . $b . "') != null) {" . $globalCode . $code . "};";
+                } else {
+                    $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
+                    $code_post = "}\n });\n";
+                    $code = $globalCode . $code_pre . $code . $code_post;
+                }
                 
                 // Place JavaScript code at the end of the page.
                 $PAGE->requires->js_init_call($code);
