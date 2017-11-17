@@ -18,6 +18,12 @@
     $string['serverversion'] = 'server version';
     $string['serverversion_desc'] = 'If "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph from server</a>" is chosen, the version entered here is loaded by the server. Look at <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> to see, which version is loaded from CDN. Type only the version number.';
     
+    $string['HTMLentities'] = 'HTMLentities';
+    $string['HTMLentities_desc'] = 'Decide wether HTMLentities like "&", "<",... are supported within the JavaScript code for JSXGraph.';
+    
+    $string['globalJS'] = 'Global JavaScript';
+    $string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in each jsxgraph tag before the code contained in it. To type special characters like "<" use HTMLentities.';
+    
     $string['divid'] = 'div id';
     $string['divid_desc'] = 'ID of the division containing JSXGraph. Number is added automatically, e.g. box0, box1, ...';
     
@@ -29,10 +35,4 @@
     
     $string['height'] = 'height';
     $string['height_desc'] = 'Height of JSXGraph container';
-    
-    $string['HTMLentities'] = 'HTMLentities';
-    $string['HTMLentities_desc'] = 'Decide wether HTMLentities like "&", "<",... are supported within the JavaScript code for JSXGraph.';
-
-    $string['globalJS'] = 'Global JavaScript';
-    $string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in each jsxgraph tag before the code contained in it. To type special characters like "<" use HTMLentities.';
     
