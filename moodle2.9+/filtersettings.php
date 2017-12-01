@@ -23,12 +23,12 @@
         $settings->add(new admin_setting_configtext_with_maxlength('filter_jsxgraph_serverversion',
                                                                    get_string('serverversion', 'filter_jsxgraph'),
                                                                    get_string('serverversion_desc', 'filter_jsxgraph') . $placeholder,
-                                                                   '0.99.6', PARAM_TEXT, 6, 6));
+                                                                   filter_jsxgraph::$recommended_version, PARAM_TEXT, 6, 6));
         
         $settings->add(new admin_setting_configselect('filter_jsxgraph_HTMLentities',
                                                       get_string('HTMLentities', 'filter_jsxgraph'),
                                                       get_string('HTMLentities_desc', 'filter_jsxgraph') . $placeholder,
-                                                      '0', [get_string('yes', 'filter_jsxgraph'), get_string('no', 'filter_jsxgraph')]));
+                                                      '1', [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
         
         $settings->add(new admin_setting_configtextarea('filter_jsxgraph_globalJS',
                                                         get_string('globalJS', 'filter_jsxgraph'),
