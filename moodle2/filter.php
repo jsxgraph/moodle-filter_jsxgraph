@@ -62,7 +62,7 @@
             $content = $dom->getElementsByTagname($tag);
             
             if (count($content) > 0) {
-                $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.min.js'));
+                $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.js'));
             }
             
             // Iterate backwards through the jsxgraph tags

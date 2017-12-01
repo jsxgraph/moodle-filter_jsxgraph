@@ -22,4 +22,4 @@
     $string['height_desc'] = 'Standardhöhe des JSXGraph-Containers';
     
     $string['HTMLentities'] = 'HTMLentities';
-    $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden. 1 = "ja", 0 = "nein"';
+    $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden. 1&nbsp;=&nbsp;"ja", 0&nbsp;=&nbsp;"nein"';
