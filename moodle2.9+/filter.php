@@ -2,14 +2,33 @@
     /**
      * Version details
      *
-     * @package    jsxgraph filter
-     * @copyright  2017 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
+     * @package    jsxgraph moodle filter
+     * @copyright  2017 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann, Andreas Walter
      * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
      */
+    
+    global $PAGE, $CFG;
     
     require_once($CFG->libdir . '/pagelib.php');
     
     class filter_jsxgraph extends moodle_text_filter {
+        
+        public static $recommended_version = '0.99.5';
+        public static $jsxcore                = '/filter/jsxgraph/jsxgraphcore.js';
+        
+        /**
+         * @param string $text
+         * @param array $options
+         * @return string
+         */
+        public function filter($text, array $options = array()) {
+            // to optimize speed, search for a <jsxgraph>-tag (avoiding to parse everything on every text)
+            if (!is_int(strpos($text, '<jsxgraph'))) {
+                return $text;
+            }
+            
+            return $this->getTextBetweenTags("jsxgraph", $text, "UTF-8");
+        }
         
         /**
          * @get text between tags
@@ -17,229 +36,160 @@
          * @param string $html The XML or XHTML string
          * @param int $strict Whether to use strict mode
          * @param string $encoding
-         * @return array
+         * @return string
          */
-        private function getTextBetweenTags($tag, $html, $strict = 0, $encoding = "UTF-8") {
-            global $PAGE, $CFG;
+        private function getTextBetweenTags($tag, $html, $encoding = "UTF-8") {
+            global $PAGE;
             
-            // set global admin settings default
-            if (!isset($CFG->filter_jsxgraph_jsxfromserver)) {
-                set_config('filter_jsxgraph_jsxfromserver', '0');
-            }
-            if (!isset($CFG->filter_jsxgraph_serverversion)) {
-                set_config('filter_jsxgraph_serverversion', '0.99.6');
-            }
-            if (!isset($CFG->filter_jsxgraph_divid)) {
-                set_config('filter_jsxgraph_divid', 'box');
-            }
-            if (!isset($CFG->filter_jsxgraph_boardvar)) {
-                set_config('filter_jsxgraph_boardvar', 'board');
-            }
-            if (!isset($CFG->filter_jsxgraph_width)) {
-                set_config('filter_jsxgraph_width', '500');
-            }
-            if (!isset($CFG->filter_jsxgraph_height)) {
-                set_config('filter_jsxgraph_height', '400');
-            }
-            if (!isset($CFG->filter_jsxgraph_HTMLentities)) {
-                set_config('filter_jsxgraph_HTMLentities', '1');
-            }
-            if (!isset($CFG->filter_jsxgraph_globalJS)) {
-                set_config('filter_jsxgraph_globalJS', '');
-            }
+            $setting = $this->getAdminSettings();
             
-            // a new dom object
+            
+            /////////////////////////////////////////
+            // convert HTML-String to a dom object //
+            /////////////////////////////////////////
             $dom = new domDocument;
             $dom->formatOutput = true;
             
             // load the html into the object
-            if ($strict == 1) {
-                $dom->loadXML($html);
-            } else {
-                libxml_use_internal_errors(true);
-                $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
-                $dom->loadHTML($htmlutf8);
-                libxml_use_internal_errors(false);
-            }
+            libxml_use_internal_errors(true);
+            $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
+            $dom->loadHTML($htmlutf8);
+            libxml_use_internal_errors(false);
+            // $dom->loadXML($html);
             
             // discard white space
             $dom->preserveWhiteSpace = false;
             $dom->strictErrorChecking = false;
             $dom->recover = true;
             
-            // the tag by its tag name
-            $content = $dom->getElementsByTagname($tag);
-            $requirejs_problem = false;
-    
-            $jsx_url = $CFG->wwwroot . '/filter/jsxgraph/jsxgraphcore.js';
-            $version = '';
             
-            if (count($content) > 0) {
-                
-                
-                if ($CFG->filter_jsxgraph_jsxfromserver === '1') { // use server version
-                    $version = $CFG->filter_jsxgraph_serverversion;
-                    if ($version !== '') {
-                        $jsx_url = 'http://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $version . '/jsxgraphcore.js';
-                        $requirejs_problem = true;
-                    }
+            //////////////////////
+            // get tag elements //
+            //////////////////////
+            
+            $taglist = $dom->getElementsByTagname($tag);
+            $withREQUIRE = false;
+            $error = false;
+            
+            if (!empty($taglist)) {
+                $tmp = $this->loadJSXGraph(
+                    $setting['JSXfromServer'],
+                    $setting['serverversion']
+                );
+                if ($tmp[0] === 'error') {
+                    $error = $tmp[1];
+                } else {
+                    $withREQUIRE = $tmp[1] === 'withREQUIRE';
                 }
-                
-                $PAGE->requires->js(new moodle_url($jsx_url));
             }
             
-            // Iterate backwards through the jsxgraph tags
-            $i = $content->length - 1;
-            while ($i > -1) {
-                $item = $content->item($i);
+            
+            /////////////////////////////////////////////////
+            // Iterate backwards through the jsxgraph tags //
+            /////////////////////////////////////////////////
+            for ($i = $taglist->length - 1; $i > -1; $i--) {
                 
-                // Read tag-attributes
-                $w = $item->getAttribute('width');
-                if ($w == "") {
-                    $w = $CFG->filter_jsxgraph_width;
-                }
+                $item = $taglist->item($i);
+                $tagattribute = $this->getTagAttributes($item);
                 
-                $h = $item->getAttribute('height');
-                if ($h == "") {
-                    $h = $CFG->filter_jsxgraph_height;
-                }
                 
-                $b = $item->getAttribute('box');
-                if ($b == "") {
-                    $b = $CFG->filter_jsxgraph_divid . $i;
-                }
-                
-                $brd = $item->getAttribute('board');
-                if ($brd == "") {
-                    $brd = $CFG->filter_jsxgraph_boardvar . $i;
-                }
-                
-                $convertHTMLentities = $item->getAttribute('htmlentities');
-                switch ($convertHTMLentities) {
-                    case "":
-                        $convertHTMLentities = boolval($CFG->filter_jsxgraph_HTMLentities);
-                        break;
-                    case "false":
-                        $convertHTMLentities = false;
-                        break;
-                    case "true":
-                    default:
-                        $convertHTMLentities = true;
-                        break;
-                }
-                
-                $useglobalJS = $item->getAttribute('useglobaljs');
-                switch ($useglobalJS) {
-                    case "false":
-                        $useglobalJS = false;
-                        break;
-                    case "":
-                    case "true":
-                    default:
-                        $useglobalJS = true;
-                        break;
-                }
-                
-                // Create new div element containing JSXGraph
+                ////////////////////////////////////////////////
+                // Create new div element containing JSXGraph //
+                ////////////////////////////////////////////////
                 $out = $dom->createElement('div');
+                
                 $a = $dom->createAttribute('id');
-                $a->value = $b;
+                $divID = $this->stringOR($tagattribute['box'], $setting['divID'] . $i);
+                $a->value = $divID;
                 $out->appendChild($a);
                 
                 $a = $dom->createAttribute('class');
-                $a->value = "jxgbox";
+                $a->value = 'jxgbox';
                 $out->appendChild($a);
                 
                 $a = $dom->createAttribute('style');
+                $w = $this->stringOR($tagattribute['width'], $setting['width']);
+                $h = $this->stringOR($tagattribute['height'], $setting['height']);
                 if (is_numeric($w)) {
-                    $w .= "px";
+                    $w .= 'px';
                 }
                 if (is_numeric($h)) {
-                    $h .= "px";
+                    $h .= 'px';
                 }
-                $a->value = "width:" . $w . "; height:" . $h . "; ";
+                $a->value = 'width:' . $w . '; height:' . $h . '; ';
                 $out->appendChild($a);
-    
-                $message_if_error = '';
-                if ($tmp = fopen($jsx_url, 'r') == false) {
-                    $message_if_error = 'ERROR: There ist no JSX version "' . $version . '" on CDN. The JSX-Graph core could not be loaded. Please contact your admin.';
-                } else {
-                    fclose($tmp);
-                }
-    
-                $t = $dom->createTextNode($message_if_error);
-                $out->appendChild($t);
-                
-                $out = $dom->appendChild($out);
-                
                 
                 // Replace <jsxgraph>-node by <div>-node
-                $item->parentNode->replaceChild($out, $item);
+                $item->parentNode->replaceChild($dom->appendChild($out), $item);
                 
-                // Load global JavaScript code from administrator settings
+                if ($error !== false) {
+                    $t = $dom->createElement('p');
+                    $a = $dom->createAttribute('class');
+                    $a->value = 'jxg-error';
+                    $t->appendChild($a);
+                    $t->textContent = $error;
+                    $out->appendChild($t);
+                    continue;
+                }
+                
+                
+                ////////////////////
+                // Construct code //
+                ////////////////////
                 $globalCode = '';
                 
-                if ($useglobalJS) {
-                    $globalCode = trim($CFG->filter_jsxgraph_globalJS);
-                    if ($globalCode !== '' && substr_compare($globalCode, ';', $globalCode . length - 1) < 0) {
+                // Load global JavaScript code from administrator settings
+                if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
+                    $globalCode .= "\n// Global JavaScript code of the administrator\n";
+                    $globalCode .= $setting['globalJS'];
+                    if (substr_compare($setting['globalJS'], ';', $setting['globalJS'] . length - 1) < 0) {
                         $globalCode .= ';';
                     }
-                    $globalCode .= '
-
-';
+                }
+                $globalCode .= "\n\n";
+                
+                // Load code from <jsxgraph>-node
+                $plainJSCode = "\n// Specific JavaScript code\n";
+                $plainJSCode .= $dom->saveHTML($item);
+                // Remove <jsxgraph>-tags
+                $plainJSCode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $plainJSCode);
+                // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
+                $plainJSCode = str_replace("</script>", "<\/script>", $plainJSCode);
+                
+                // Convert HTML-Entities in Code
+                if ($setting['convertEntities'] && $tagattribute['entities']) {
+                    $globalCode = html_entity_decode($globalCode);
+                    $plainJSCode = html_entity_decode($plainJSCode);
                 }
                 
-                // Load code from <jsxgraph>-nod
-                $code = "";
-                $needGXT = false;
-                $url = $item->getAttribute('file');
-                if ($url != "") {
-                    $code = "var " . $brd . " = JXG.JSXGraph.loadBoardFromFile('" . $b . "', '" . $url . "', 'Geonext');";
-                    $needGXT = true;
-                } else {
-                    $url = $item->getAttribute('filestring');
-                    if ($url != "") {
-                        $code = "var " . $brd . " = JXG.JSXGraph.loadBoardFromString('" . $b . "', '" . $url . "', 'Geonext');";
-                        $needGXT = true;
-                    } else {
-                        // Plain JavaScript code
-                        
-                        // To use MathJax on the board, their filter must already have been replaced code to HTML-Tags
-                        $code = $dom->saveHTML($item);
-                        // Remove <jsxgraph>-tags
-                        $code = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $code);
-                        // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
-                        $code = str_replace("</script>", "<\/script>", $code);
-                        if ($convertHTMLentities) {
-                            // No HTML-Entities in code
-                            $code = html_entity_decode($code);
-                            $globalCode = html_entity_decode($globalCode);
-                        }
-                    }
-                }
-                
-                /* Ensure that the div exists */
-                if ($requirejs_problem) {
-                    $code = "if (document.getElementById('" . $b . "') != null) {" . $globalCode . $code . "};";
-                } else {
-                    $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $b . "') != null) { \n";
+                // Complete the code
+                $code = '';
+                if ($withREQUIRE) {
+                    $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divID . "') != null) { \n";
                     $code_post = "}\n });\n";
-                    $code = $globalCode . $code_pre . $code . $code_post;
+                    $code = $globalCode . $code_pre . $plainJSCode . $code_post;
+                    /*
+                    $code_pre = "\nrequire(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divID . "') != null) { \n";
+                    $code_post = "}\n });\n";
+                    $code = $globalCode . $code_pre . $plainJSCode . $code_post;
+                    */
+                } else {
+                    $code_pre = "\nif (document.getElementById('" . $divID . "') != null) {";
+                    $code_post = "};";
+                    $code = $code_pre . $globalCode . $plainJSCode . $code_post;
                 }
                 
                 // Place JavaScript code at the end of the page.
                 $PAGE->requires->js_init_call($code);
-                
-                if ($needGXT) {
-                    $PAGE->requires->js(new moodle_url($CFG->wwwroot . '/filter/jsxgraph/geonext.min.js'));
-                }
-                
-                --$i;
             }
+            
+            
+            ////////////////////////////////////
+            // Paste new div node in web page //
+            ////////////////////////////////////
             
             // remove DOCTYPE
             $dom->removeChild($dom->firstChild);
-            
             // remove <html><body></body></html>
             $str = $dom->saveHTML();
             $str = str_replace("<body>", "", $str);
@@ -250,15 +200,151 @@
             return $str;
         }
         
-        public function filter($text, array $options = array()) {
+        private function loadJSXGraph($fromServer, $serverVersion = "") {
             global $PAGE, $CFG;
             
-            // to optimize speed, search for a <jsxgraph>-tag (avoiding to parse everything on every text)
-            if (!is_int(strpos($text, '<jsxgraph'))) {
-                return $text;
+            $result = ['success', 'withREQUIRE'];
+            
+            $url = $CFG->wwwroot . filter_jsxgraph::$jsxcore;
+            
+            if ($this->convertBool($fromServer)) {
+                // Handle several special cases
+                switch ($serverVersion) {
+                    case '':
+                        break;
+                    case '0.99.6': // Error with requirejs in version 0.99.6
+                        $result[0] = 'error';
+                        $result[1] = get_string('error0.99.6', 'filter_jsxgraph');
+                        
+                        return $result;
+                    case '0.99.5': // Cloudfare-error with version 0.99.5
+                        $url = 'http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
+                        break;
+                    default:
+                        $url = 'http://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverVersion . '/jsxgraphcore.js';
+                }
+                
+                // Check if the entered version exists on the server
+                if ($tmp = fopen($url, 'r') === false) {
+                    $result[0] = 'error';
+                    $result[1] = get_string('errorNotFound_pre', 'filter_jsxgraph') . $serverVersion . get_string('errorNotFound_post', 'filter_jsxgraph');
+                    
+                    return $result;
+                } else {
+                    fclose($tmp);
+                }
+                
+                // Decide how the code should be included.
+                // For versions after 0.99.6, it must be included with "require"
+                $tmp = $serverVersion;
+                $version = [];
+                while ($pos = strpos($tmp, '.')) {
+                    array_push($version, intval(substr($tmp, 0, $pos)));
+                    $tmp = substr($tmp, $pos + 1);
+                }
+                array_push($version, $tmp);
+                if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
+                    $result[1] = 'withoutREQUIRE';
+                } else {
+                    $result[1] = 'withREQUIRE';
+                }
             }
             
-            return $this->getTextBetweenTags("jsxgraph", $text, 0, "UTF-8");
+            $PAGE->requires->js(new moodle_url($url));
+            
+            return $result;
+        }
+        
+        /**
+         * @get settings from administration
+         * @return array
+         */
+        private function getAdminSettings() {
+            global $PAGE, $CFG;
+            
+            // set defaults
+            $tmp = [
+                'JSXfromServer' => false,
+                'serverversion' => filter_jsxgraph::$recommended_version,
+                'convertEntities' => true,
+                'globalJS' => '',
+                'divID' => 'box',
+                'boardVar' => 'board',
+                'width' => '500',
+                'height' => '400'
+            ];
+            
+            // read and save settings
+            if (isset($CFG->filter_jsxgraph_jsxfromserver)) {
+                $tmp['JSXfromServer'] = $this->convertBool($CFG->filter_jsxgraph_jsxfromserver);
+            }
+            if (isset($CFG->filter_jsxgraph_serverversion)) {
+                $tmp['serverversion'] = $CFG->filter_jsxgraph_serverversion;
+            }
+            if (isset($CFG->filter_jsxgraph_HTMLentities)) {
+                $tmp['convertEntities'] = $this->convertBool($CFG->filter_jsxgraph_HTMLentities);
+            }
+            if (isset($CFG->filter_jsxgraph_globalJS)) {
+                $tmp['globalJS'] = trim($CFG->filter_jsxgraph_globalJS);
+            }
+            if (isset($CFG->filter_jsxgraph_divid)) {
+                $tmp['divID'] = $CFG->filter_jsxgraph_divid;
+            }
+            if (isset($CFG->filter_jsxgraph_boardvar)) {
+                $tmp['boardVar'] = $CFG->filter_jsxgraph_boardvar;
+            }
+            if (isset($CFG->filter_jsxgraph_width)) {
+                $tmp['width'] = $CFG->filter_jsxgraph_width;
+            }
+            if (isset($CFG->filter_jsxgraph_height)) {
+                $tmp['height'] = $CFG->filter_jsxgraph_height;
+            }
+            
+            /* in older versions of this plugin:
+                set_config('filter_jsxgraph_jsxfromserver', '0');
+            */
+            
+            return $tmp;
+        }
+        
+        private function getTagAttributes($node) {
+            $attributes = [
+                'width' => '',
+                'height' => '',
+                'box' => '',
+                'board' => '',
+                'entities' => '',
+                'useGlobalJS' => ''
+            ];
+            $boolAttributes = [
+                'entities' => true,
+                'useGlobalJS' => true
+            ];
+            foreach ($attributes as $attr => $value) {
+                if (array_key_exists($attr, $boolAttributes)) {
+                    $attributes[$attr] = $this->convertBool($node->getAttribute($attr), $boolAttributes[$attr]);
+                } else {
+                    $attributes[$attr] = $node->getAttribute($attr);
+                }
+            }
+            
+            return $attributes;
+        }
+        
+        private function convertBool($string, $default = false) {
+            if ($string === false || $string === "false" || $string === 0 || $string === "0") {
+                return false;
+            } else if ($string === true || $string === "true" || $string === 1 || $string === "1") {
+                return true;
+            } else {
+                return $default;
+            }
+        }
+        
+        private function stringOR($firstChoice, $secondChoice) {
+            if (!empty($firstChoice))
+                return $firstChoice;
+            else
+                return $secondChoice;
         }
     }
-
