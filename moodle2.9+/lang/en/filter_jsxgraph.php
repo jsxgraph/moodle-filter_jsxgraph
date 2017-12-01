@@ -12,6 +12,10 @@
     $string['yes'] = 'yes';
     $string['no'] = 'no';
     
+    $string['error0.99.6'] = 'ERROR: Unfortunately the JSX filter does not support the core version 0.99.6. Please contact your admin.';
+    $string['errorNotFound_pre'] = 'ERROR: There is no JSX version ';
+    $string['errorNotFound_post'] = ' on CDN. The JSX-Graph core could not be loaded. Please contact your admin.';
+    
     $string['jsxfromserver'] = 'JSXGraph from server';
     $string['jsxfromserver_desc'] = 'Select whether the plugin is using the server version of JSXGraph core, or the locally provided one supplied with the plugin. <b>Attention:</b> there must be entered a valid version number in "<a href="#admin-filter_jsxgraph_serverversion">server version</a>"!';
     
