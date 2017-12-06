@@ -225,13 +225,11 @@
                 }
                 
                 // Check if the entered version exists on the server
-                if ($tmp = fopen($url, 'r') === false) {
+                if (!file_exists($url)) {
                     $result[0] = 'error';
                     $result[1] = get_string('errorNotFound_pre', 'filter_jsxgraph') . $serverVersion . get_string('errorNotFound_post', 'filter_jsxgraph');
-                    
+    
                     return $result;
-                } else {
-                    fclose($tmp);
                 }
                 
                 // Decide how the code should be included.
