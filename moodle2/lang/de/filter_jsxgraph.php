@@ -31,9 +31,6 @@
     $string['divid'] = 'Div-ID';
     $string['divid_desc'] = 'ID des <div\>, das das JSXGraph-Board enthält. Eine fortlaufende Nummer wird automatisch ergänzt, z.B. box0, box1,...';
     
-    $string['boardvar'] = 'Variablenname des Boards';
-    $string['boardvar_desc'] = 'Variablenname de JSXGraph-Boards (wird nur benötigt, falls eine Datei mit dem Code eingelesen wird).';
-    
     $string['width'] = 'Breite';
     $string['width_desc'] = 'Standardbreite des JSXGraph-Containers.';
     

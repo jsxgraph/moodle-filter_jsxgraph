@@ -36,13 +36,8 @@
         
         $settings->add(new admin_setting_configtext('filter_jsxgraph_divid',
                                                     get_string('divid', 'filter_jsxgraph'),
-                                                    get_string('divid_desc', 'filter_jsxgraph'),
+                                                    get_string('divid_desc', 'filter_jsxgraph') . $placeholder,
                                                     'box'));
-        
-        $settings->add(new admin_setting_configtext('filter_jsxgraph_boardvar',
-                                                    get_string('boardvar', 'filter_jsxgraph'),
-                                                    get_string('boardvar_desc', 'filter_jsxgraph') . $placeholder,
-                                                    'board'));
         
         $settings->add(new admin_setting_configtext('filter_jsxgraph_width',
                                                     get_string('width', 'filter_jsxgraph'),

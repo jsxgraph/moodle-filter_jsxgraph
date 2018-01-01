@@ -32,9 +32,6 @@
     $string['divid'] = 'div id';
     $string['divid_desc'] = 'ID of the division containing JSXGraph. Number is added automatically, e.g. box0, box1,...';
     
-    $string['boardvar'] = 'board var name';
-    $string['boardvar_desc'] = 'Variable name of the JSXGraph board (needed only if file is read).';
-    
     $string['width'] = 'width';
     $string['width_desc'] = 'Width of JSXGraph container.';
     

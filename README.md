@@ -81,11 +81,11 @@ As moodle administrator, you can make the following settings:
     </tr>
     <tr>
         <th>server version</th>
-        <td>Type the version number, which should be loaded, when `JSXGraph from server` is checked.</td>
+        <td>Type the version number, which should be loaded, when <code>JSXGraph from server</code> is checked.</td>
     </tr>
     <tr>
         <th>HTMLentities</th>
-        <td>If this setting is set to <em>true</em>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
+        <td>If this setting is set to <code>true</code>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
     </tr>
     <tr>
         <th>Global JavaScript</th>
@@ -93,55 +93,39 @@ As moodle administrator, you can make the following settings:
     </tr>
     <tr>
         <th>div id</th>
-        <td>D of the division containing JSXGraph.</td>
-    </tr>
-    <tr>
-        <th>board var name</th>
-        <td>Variable name of the JSXGraph board.</td>
+        <td>ID of the division containing JSXGraph.</td>
     </tr>
     <tr>
         <th>width and height</th>
-        <td>Dimensions of JSXGraph container</td>
+        <td>Dimensions of JSXGraph container.</td>
     </tr>
 </table>
 
 ### `<jsxgraph>` tag attributes
 
-Within the `<jsxgraph>` tag different attributes can be declared: `<jsxgraph width="..." height="..." entities="..." useglobalJS="..." box"..." board="...">` 
+Within the `<jsxgraph>` tag different attributes can be declared: `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." box="..." board="...">` 
 <table>
     <tr>
-        <th>JSXGraph from server</th>
-        <td>You can decide whether the used JSXGraph core is loaded from server or if the filter uses the locally provided one supplied with the plugin.</td>
-    </tr>
-    <tr>
-        <th>server version</th>
-        <td>Type the version number, which should be loaded, when `JSXGraph from server` is checked.</td>
-    </tr>
-    <tr>
-        <th>HTMLentities</th>
-        <td>If this setting is set to <em>true</em>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
-    </tr>
-    <tr>
-        <th>Global JavaScript</th>
-        <td>In this textbox you can type a general JavaScript code to be loaded before loading specific tag code.</td>
-    </tr>
-    <tr>
-        <th>div id</th>
-        <td>D of the division containing JSXGraph.</td>
-    </tr>
-    <tr>
-        <th>board var name</th>
-        <td>Variable name of the JSXGraph board.</td>
-    </tr>
-    <tr>
         <th>width and height</th>
-        <td>Dimensions of JSXGraph container</td>
+        <td>Dimensions of JSXGraph container. Overrides the global settings locally. Type only Integers without "px".</td>
+    </tr>
+    <tr>
+        <th>entities</th>
+        <td>If HTMLentities like "&", "<", etc. should be supported within the JavaScript code set the attribute to <code>"true"</code>. To override a global <code>true</code> type <code>"false"</code>.</td>
+    </tr>
+    <tr>
+        <th>useGlobalJS</th>
+        <td>Decide whether global JavaScript from admin settings should be loaded before your code. Possible values: <code>"true"</code>, <code>"false"</code>.</td>
+    </tr>
+    <tr>
+        <th>box</th>
+        <td>This attribute defines, which id the graph of JSXGraph will have. It has to be equal to the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the second example at <a href="#usage">Usage</a>.</td>
     </tr>
 </table>
 
 ## Using MathJax within the board
 
-To use the pre-installed `MathJax` notation within the board, the **Moodle Admin** must first make some settings:
+To use the pre-installed `MathJax` notation within the board, your **Moodle admin** first has to make some settings:
 
 1. Go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters`
 2. If not already done, enable the `MathJax` filter

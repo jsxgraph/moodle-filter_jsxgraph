@@ -239,7 +239,6 @@
                 'convertEntities' => true,
                 'globalJS' => '',
                 'divID' => 'box',
-                'boardVar' => 'board',
                 'width' => '500',
                 'height' => '400'
             ];
@@ -260,9 +259,6 @@
             if (isset($CFG->filter_jsxgraph_divid)) {
                 $tmp['divID'] = $CFG->filter_jsxgraph_divid;
             }
-            if (isset($CFG->filter_jsxgraph_boardvar)) {
-                $tmp['boardVar'] = $CFG->filter_jsxgraph_boardvar;
-            }
             if (isset($CFG->filter_jsxgraph_width)) {
                 $tmp['width'] = $CFG->filter_jsxgraph_width;
             }
@@ -282,7 +278,6 @@
                 'width' => '',
                 'height' => '',
                 'box' => '',
-                'board' => '',
                 'entities' => '',
                 'useGlobalJS' => ''
             ];
