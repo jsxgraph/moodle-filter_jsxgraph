@@ -66,6 +66,7 @@ update_jsxgraphcore_from_local: $(LOCALCORE)
 	$(CP) $(CPFLAGS) $(TEMP)/$(CORE) $(MOODLE2)
 	$(CP) $(CPFLAGS) $(TEMP)/$(CORE) $(MOODLE29)
 	$(RM) $(RMFLAGS) $(TEMP)/$(CORE)
+	$(RM) $(RMFLAGS) $(TEMP)
 
 	$(EMPTYLINE)
 	$(ECHO) complete...
@@ -105,6 +106,7 @@ version2: $(MOODLE2)
 	$(CP) $(CPFLAGS) $(TEMP)/$(MOODLE2ZIP) $(MOODLE2)/$(INSTALL)/
 	$(RM) $(RMFLAGS) $(TEMP)/$(MOODLE2ZIP)
 	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)
+	$(RM) $(RMFLAGS) $(TEMP)
 	$(EMPTYLINE)
 
 	$(EMPTYLINE)
@@ -145,6 +147,7 @@ version29: $(MOODLE29)
 	$(CP) $(CPFLAGS) $(TEMP)/$(MOODLE29ZIP) $(MOODLE29)/$(INSTALL)/
 	$(RM) $(RMFLAGS) $(TEMP)/$(MOODLE29ZIP)
 	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)
+	$(RM) $(RMFLAGS) $(TEMP)
 	$(EMPTYLINE)
 
 	$(EMPTYLINE)
