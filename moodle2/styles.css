@@ -1,16 +1,21 @@
 /**
-*/
+     * Version details
+     *
+     * @package    jsxgraph filter
+     * @copyright  2018 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
+     * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+     */
+
 .jxgbox {
-    position:relative; /* for IE 7 */
-    overflow:hidden;
-    background-color:#ffffff;
-    border-style:solid;
-    border-width:1px;
-    border-color:#356AA0;
-    border-radius:10px;
-    -webkit-border-radius:10px;
-    -ms-touch-action: none;    
-    /* touch-action: none; */ /* Set with JavaScript */
+    position: relative; /* for IE 7 */
+    overflow: hidden;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #356AA0;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -ms-touch-action: none;
 }
 
 .JXGtext {
@@ -21,16 +26,15 @@
 }
 
 .JXGinfobox {
-    border-style:none;
-    border-width:1px;
-    border-color:black;
+    border-style: none;
+    border-width: 1px;
+    border-color: black;
 }
 
-.JXGimage {
-   /* opacity:1.0; */
+.jxg-error {
+    color: red;
+    margin: 20px;
 }
-
-.JXGimageHighlight {
-   /* opacity:0.6;  */
+.jxg-error b {
+    margin-right: 5px;
 }
-
