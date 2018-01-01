@@ -3,7 +3,7 @@
      * Version details
      *
      * @package    jsxgraph filter
-     * @copyright  2017 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
+     * @copyright  2018 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
      * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
      */
     
@@ -14,7 +14,6 @@
     $last = '<div class="placeholder" style="height: 50px;"></div>';
     
     if ($ADMIN->fulltree) {
-        
         $settings->add(new admin_setting_configcheckbox('filter_jsxgraph_jsxfromserver',
                                                         get_string('jsxfromserver', 'filter_jsxgraph'),
                                                         get_string('jsxfromserver_desc', 'filter_jsxgraph'),
@@ -54,5 +53,4 @@
                                                     get_string('height', 'filter_jsxgraph'),
                                                     get_string('height_desc', 'filter_jsxgraph') . $last,
                                                     '400', PARAM_INT));
-        
     }

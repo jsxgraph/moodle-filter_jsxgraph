@@ -3,7 +3,7 @@
      * Version details
      *
      * @package    jsxgraph moodle filter
-     * @copyright  2017 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann, Andreas Walter
+     * @copyright  2018 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann, Andreas Walter
      * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
      */
     
@@ -14,7 +14,7 @@
     class filter_jsxgraph extends moodle_text_filter {
         
         public static $recommended_version = '0.99.5';
-        public static $jsxcore                = '/filter/jsxgraph/jsxgraphcore.js';
+        public static $jsxcore             = '/filter/jsxgraph/jsxgraphcore.js';
         
         /**
          * @param string $text
@@ -33,8 +33,7 @@
         /**
          * @get text between tags
          * @param string $tag The tag name
-         * @param string $html The XML or XHTML string
-         * @param int $strict Whether to use strict mode
+         * @param string $html The HTML string
          * @param string $encoding
          * @return string
          */
@@ -47,6 +46,7 @@
             /////////////////////////////////////////
             // convert HTML-String to a dom object //
             /////////////////////////////////////////
+            
             $dom = new domDocument;
             $dom->formatOutput = true;
             
@@ -55,7 +55,6 @@
             $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
             $dom->loadHTML($htmlutf8);
             libxml_use_internal_errors(false);
-            // $dom->loadXML($html);
             
             // discard white space
             $dom->preserveWhiteSpace = false;
@@ -87,15 +86,13 @@
             /////////////////////////////////////////////////
             // Iterate backwards through the jsxgraph tags //
             /////////////////////////////////////////////////
+            
             for ($i = $taglist->length - 1; $i > -1; $i--) {
                 
                 $item = $taglist->item($i);
                 $tagattribute = $this->getTagAttributes($item);
                 
-                
-                ////////////////////////////////////////////////
-                // Create new div element containing JSXGraph //
-                ////////////////////////////////////////////////
+                // Create new div element containing JSXGraph
                 $out = $dom->createElement('div');
                 
                 $a = $dom->createAttribute('id');
@@ -127,15 +124,21 @@
                     $a = $dom->createAttribute('class');
                     $a->value = 'jxg-error';
                     $t->appendChild($a);
-                    $t->textContent = $error;
+                    $a = $dom->createElement('b');
+                    $a->textContent = get_string('error', 'filter_jsxgraph');
+                    $t->appendChild($a);
+                    $a = $dom->createElement('span');
+                    $a->textContent = $error;
+                    $t->appendChild($a);
                     $out->appendChild($t);
                     continue;
                 }
-                
-                
+
+
                 ////////////////////
                 // Construct code //
                 ////////////////////
+                
                 $globalCode = '';
                 
                 // Load global JavaScript code from administrator settings
@@ -168,11 +171,6 @@
                     $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divID . "') != null) { \n";
                     $code_post = "}\n });\n";
                     $code = $globalCode . $code_pre . $plainJSCode . $code_post;
-                    /*
-                    $code_pre = "\nrequire(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divID . "') != null) { \n";
-                    $code_post = "}\n });\n";
-                    $code = $globalCode . $code_pre . $plainJSCode . $code_post;
-                    */
                 } else {
                     $code_pre = "\nif (document.getElementById('" . $divID . "') != null) {";
                     $code_post = "};";
@@ -228,7 +226,7 @@
                 if ($tmp = fopen($url, 'r') === false) {
                     $result[0] = 'error';
                     $result[1] = get_string('errorNotFound_pre', 'filter_jsxgraph') . $serverVersion . get_string('errorNotFound_post', 'filter_jsxgraph');
-        
+                    
                     return $result;
                 } else {
                     if (isset($tmp)) {

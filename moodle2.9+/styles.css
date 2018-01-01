@@ -2,7 +2,7 @@
      * Version details
      *
      * @package    jsxgraph filter
-     * @copyright  2017 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
+     * @copyright  2018 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
      * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
      */
 
@@ -16,7 +16,6 @@
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -ms-touch-action: none;
-    /* touch-action: none; */ /* Set with JavaScript */
 }
 
 .JXGtext {
@@ -32,14 +31,10 @@
     border-color: black;
 }
 
-.JXGimage {
-    /* opacity:1.0; */
-}
-
-.JXGimageHighlight {
-    /* opacity:0.6;  */
-}
-
 .jxg-error {
     color: red;
+    margin: 20px;
+}
+.jxg-error b {
+    margin-right: 5px;
 }
