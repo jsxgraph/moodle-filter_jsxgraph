@@ -47,14 +47,16 @@
             // convert HTML-String to a dom object //
             /////////////////////////////////////////
             
-            $dom = new domDocument;
+            // $dom = new domDocument;
+            $dom = new domDocument('1.0', 'UTF-8');
             $dom->formatOutput = true;
             
             // load the html into the object
             libxml_use_internal_errors(true);
             // $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
-            $htmlutf8 = mb_convert_encoding($html, $encoding);
-            $dom->loadHTML($htmlutf8);
+            // $htmlutf8 = mb_convert_encoding($html, $encoding);
+            // $dom->loadHTML($htmlutf8);
+            $dom->loadHTML($html);
             libxml_use_internal_errors(false);
             
             // discard white space
