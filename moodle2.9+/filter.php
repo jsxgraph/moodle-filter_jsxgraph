@@ -13,7 +13,7 @@
     
     class filter_jsxgraph extends moodle_text_filter {
         
-        public static $recommended_version = '0.99.6';
+        public static $recommended_version = '0.99.5';
         public static $jsxcore             = '/filter/jsxgraph/jsxgraphcore.js';
         
         /**
@@ -47,13 +47,16 @@
             // convert HTML-String to a dom object //
             /////////////////////////////////////////
             
-            $dom = new domDocument;
+            // $dom = new domDocument;
+            $dom = new domDocument('1.0', 'UTF-8');
             $dom->formatOutput = true;
             
             // load the html into the object
             libxml_use_internal_errors(true);
-            $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
-            $dom->loadHTML($htmlutf8);
+            // $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
+            // $htmlutf8 = mb_convert_encoding($html, $encoding);
+            // $dom->loadHTML($htmlutf8);
+            $dom->loadHTML($html);
             libxml_use_internal_errors(false);
             
             // discard white space
@@ -67,6 +70,7 @@
             //////////////////////
             
             $taglist = $dom->getElementsByTagname($tag);
+            $withREQUIRE = false;
             $error = false;
             
             if (!empty($taglist)) {
@@ -76,6 +80,8 @@
                 );
                 if ($tmp[0] === 'error') {
                     $error = $tmp[1];
+                } else {
+                    $withREQUIRE = $tmp[1] === 'withREQUIRE';
                 }
             }
             
@@ -163,9 +169,16 @@
                 }
                 
                 // Complete the code
-                $code_pre = "\nif (document.getElementById('" . $divID . "') != null) {";
-                $code_post = "};";
-                $code = $code_pre . $globalCode . $plainJSCode . $code_post;
+                $code = '';
+                if ($withREQUIRE) {
+                    $code_pre = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divID . "') != null) { \n";
+                    $code_post = "}\n });\n";
+                    $code = $globalCode . $code_pre . $plainJSCode . $code_post;
+                } else {
+                    $code_pre = "\nif (document.getElementById('" . $divID . "') != null) {";
+                    $code_post = "};";
+                    $code = $code_pre . $globalCode . $plainJSCode . $code_post;
+                }
                 
                 // Place JavaScript code at the end of the page.
                 $PAGE->requires->js_init_call($code);
@@ -191,7 +204,7 @@
         private function loadJSXGraph($fromServer, $serverVersion = "") {
             global $PAGE, $CFG;
             
-            $result = ['success', ''];
+            $result = ['success', 'withREQUIRE'];
             
             $url = $CFG->wwwroot . filter_jsxgraph::$jsxcore;
             
@@ -200,6 +213,11 @@
                 switch ($serverVersion) {
                     case '':
                         break;
+                    case '0.99.6': // Error with requirejs in version 0.99.6
+                        $result[0] = 'error';
+                        $result[1] = get_string('error0.99.6', 'filter_jsxgraph');
+                        
+                        return $result;
                     case '0.99.5': // Cloudfare-error with version 0.99.5
                         $url = 'http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
                         break;
@@ -217,6 +235,21 @@
                     if (isset($tmp)) {
                         fclose($tmp);
                     }
+                }
+                
+                // Decide how the code should be included.
+                // For versions after 0.99.6, it must be included with "require"
+                $tmp = $serverVersion;
+                $version = [];
+                while ($pos = strpos($tmp, '.')) {
+                    array_push($version, intval(substr($tmp, 0, $pos)));
+                    $tmp = substr($tmp, $pos + 1);
+                }
+                array_push($version, $tmp);
+                if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
+                    $result[1] = 'withoutREQUIRE';
+                } else {
+                    $result[1] = 'withREQUIRE';
                 }
             }
             

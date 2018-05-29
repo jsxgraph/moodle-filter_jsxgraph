@@ -1,5 +1,5 @@
 <?php
-   /**
+    /**
      * Version details
      *
      * @package    jsxgraph filter
@@ -13,6 +13,7 @@
     $string['no'] = 'no';
     
     $string['error'] = 'ERROR:';
+    $string['error0.99.6'] = 'Unfortunately the JSX filter does not support JSXGraph core version 0.99.6. Please contact your admin.';
     $string['errorNotFound_pre'] = 'There is no JSX version ';
     $string['errorNotFound_post'] = ' on CDN. The JSXGraph core could not be loaded. Please contact your admin.';
     

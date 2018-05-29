@@ -10,8 +10,8 @@
     defined('MOODLE_INTERNAL') || die();
     
     // Add the placeholder to the description of a setting that should be separated from the following setting
-    $placeholder = '<div class="placeholder" style="padding-top: 10px;padding-bottom: 10px;margin-left: -30%;"><hr></div>';
-    $last = '<div class="placeholder" style="height: 10px;"></div>';
+    $placeholder = '<div class="placeholder" style="height: 65px;padding-top: 10px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
+    $last = '<div class="placeholder" style="height: 50px;"></div>';
     
     if ($ADMIN->fulltree) {
         $settings->add(new admin_setting_configcheckbox('filter_jsxgraph_jsxfromserver',
