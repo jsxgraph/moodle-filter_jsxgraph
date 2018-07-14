@@ -13,6 +13,11 @@
     $placeholder = '<div class="placeholder" style="height: 65px;padding-top: 10px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
     $last = '<div class="placeholder" style="height: 50px;"></div>';
     
+    $recommended_version = '0.99.6'; // use first supported version if class has not been loaded yet
+    if(class_exists('filter_jsxgraph')) {
+        $recommended_version = filter_jsxgraph::$recommended_version;
+    }
+    
     if ($ADMIN->fulltree) {
         $settings->add(new admin_setting_configcheckbox('filter_jsxgraph_jsxfromserver',
                                                         get_string('jsxfromserver', 'filter_jsxgraph'),
@@ -22,7 +27,7 @@
         $settings->add(new admin_setting_configtext_with_maxlength('filter_jsxgraph_serverversion',
                                                                    get_string('serverversion', 'filter_jsxgraph'),
                                                                    get_string('serverversion_desc', 'filter_jsxgraph') . $placeholder,
-                                                                   filter_jsxgraph::$recommended_version, PARAM_TEXT, 6, 6));
+                                                                   $recommended_version, PARAM_TEXT, 6, 6));
         
         $settings->add(new admin_setting_configselect('filter_jsxgraph_HTMLentities',
                                                       get_string('HTMLentities', 'filter_jsxgraph'),
