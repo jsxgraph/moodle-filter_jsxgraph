@@ -13,7 +13,7 @@
     
     class filter_jsxgraph extends moodle_text_filter {
         
-        public static $recommended_version = '0.99.5';
+        public static $recommended_version = '0.99.7';
         public static $jsxcore             = '/filter/jsxgraph/jsxgraphcore.js';
         
         /**
