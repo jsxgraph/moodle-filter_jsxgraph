@@ -25,6 +25,7 @@ MOODLE29 = moodle2.9+
 INSTALL  = install
 TEMP     = _TEMP_
 JSX      = jsxgraph
+README   = README.md
 
 # zip file name
 MOODLE2ZIP  = install_jsxgraph_plugin_moodle2.zip
@@ -91,6 +92,7 @@ version2: $(MOODLE2)
 	$(MKDIR) $(MKDIRFLAGS) $(TEMP)/$(JSX)
 	$(CP) $(CPFLAGS) $(MOODLE2)/* $(TEMP)/$(JSX)
 	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)/$(INSTALL)
+	$(CP) $(CPFLAGS) $(README) $(TEMP)/$(JSX)
 	$(EMPTYLINE)
 
 	$(EMPTYLINE)
@@ -132,6 +134,7 @@ version29: $(MOODLE29)
 	$(MKDIR) $(MKDIRFLAGS) $(TEMP)/$(JSX)
 	$(CP) $(CPFLAGS) $(MOODLE29)/* $(TEMP)/$(JSX)
 	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)/$(INSTALL)
+	$(CP) $(CPFLAGS) $(README) $(TEMP)/$(JSX)
 	$(EMPTYLINE)
 
 	$(EMPTYLINE)
