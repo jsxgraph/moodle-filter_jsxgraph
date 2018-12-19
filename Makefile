@@ -1,4 +1,4 @@
-.PHONY: all version2 version29
+.PHONY: update_jsxgraphcore_from_local update_jsxgraphcore_from_server stable
 
 # general tools
 HIDECMD      = @
@@ -19,26 +19,22 @@ MKDIRFLAGS = -p
 RMFLAGS    = -rf
 ZIPFLAGS   = -r
 
-# directories
-MOODLE2  = moodle2
-MOODLE29 = moodle2.9+
+# directories and files
 INSTALL  = install
 TEMP     = _TEMP_
 JSX      = jsxgraph
+FILES    = filter.php filtersettings.php $(CORE) styles.css version.php lang/ $(README)
 README   = README.md
-
-# zip file name
-MOODLE2ZIP  = install_jsxgraph_plugin_moodle2.zip
-MOODLE29ZIP = install_jsxgraph_plugin_moodle2.9+.zip
+ZIPPED   = install_jsxgraph_plugin_moodle.zip
 
 # core location
 SERVERCORE = http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js
 LOCALCORE  = ../jsxgraph/build/jsxgraphcore.min.js
 CORE       = jsxgraphcore.js
 
-local: update_jsxgraphcore_from_local version2 version29
+local: update_jsxgraphcore_from_local stable
 
-server: update_jsxgraphcore_from_server version2 version29
+server: update_jsxgraphcore_from_server stable
 
 update_jsxgraphcore_from_server:
 	$(EMPTYLINE)
@@ -46,11 +42,8 @@ update_jsxgraphcore_from_server:
 	$(ECHO) "##################################"
 
 	$(EMPTYLINE)
-	$(RM) $(RMFLAGS) $(TEMP)/$(CORE)
-	$(WGET) $(SERVERCORE) -O $(TEMP)/$(CORE)
-	$(CP) $(CPFLAGS) $(TEMP)/$(CORE) $(MOODLE2)
-	$(CP) $(CPFLAGS) $(TEMP)/$(CORE) $(MOODLE29)
-	$(RM) $(RMFLAGS) $(TEMP)/$(CORE)
+	$(RM) $(RMFLAGS) $(CORE)
+	$(WGET) $(SERVERCORE) -O $(CORE)
 
 	$(EMPTYLINE)
 	$(ECHO) complete...
@@ -62,27 +55,23 @@ update_jsxgraphcore_from_local: $(LOCALCORE)
 	$(ECHO) "########################################"
 
 	$(EMPTYLINE)
-	$(RM) $(RMFLAGS) $(TEMP)/$(CORE)
-	$(CP) $(CPFLAGS) $(LOCALCORE) $(TEMP)/$(CORE)
-	$(CP) $(CPFLAGS) $(TEMP)/$(CORE) $(MOODLE2)
-	$(CP) $(CPFLAGS) $(TEMP)/$(CORE) $(MOODLE29)
-	$(RM) $(RMFLAGS) $(TEMP)/$(CORE)
-	$(RM) $(RMFLAGS) $(TEMP)
+	$(RM) $(RMFLAGS) $(CORE)
+	$(CP) $(CPFLAGS) $(LOCALCORE) $(CORE)
 
 	$(EMPTYLINE)
 	$(ECHO) complete...
 	$(EMPTYLINE)
 
-version2: $(MOODLE2)
+stable:
 	$(EMPTYLINE)
-	$(ECHO) UPDATING MOODLE2 INSTALL-ZIP
-	$(ECHO) "############################"
+	$(ECHO) UPDATING MOODLE INSTALL-ZIP
+	$(ECHO) "###########################"
 
 	$(EMPTYLINE)
 	$(ECHO) Removing old files
 	$(ECHO) "------------------"
-	$(RM) $(RMFLAGS) $(MOODLE2)/$(INSTALL)/$(MOODLE2ZIP)
-	$(RM) $(RMFLAGS) $(TEMP)/$(MOODLE2ZIP)
+	$(RM) $(RMFLAGS) $(INSTALL)/$(ZIP)
+	$(RM) $(RMFLAGS) $(TEMP)/$(ZIP)
 	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)
 	$(EMPTYLINE)
 
@@ -90,65 +79,21 @@ version2: $(MOODLE2)
 	$(ECHO) Copying new files in a temporary folder
 	$(ECHO) "---------------------------------------"
 	$(MKDIR) $(MKDIRFLAGS) $(TEMP)/$(JSX)
-	$(CP) $(CPFLAGS) $(MOODLE2)/* $(TEMP)/$(JSX)
-	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)/$(INSTALL)
-	$(CP) $(CPFLAGS) $(README) $(TEMP)/$(JSX)
+	$(foreach f,$(FILES),$(CP) $(CPFLAGS) $f $(TEMP)/$(JSX);)
 	$(EMPTYLINE)
 
 	$(EMPTYLINE)
 	$(ECHO) Zipping
 	$(ECHO) "-------"
 	$(CD) $(TEMP); \
-	$(ZIP) $(ZIPFLAGS) $(MOODLE2ZIP) $(JSX)/*
+	$(ZIP) $(ZIPFLAGS) $(ZIPPED) $(JSX)/*
 	$(EMPTYLINE)
 
 	$(EMPTYLINE)
 	$(ECHO) Copying new zip and clear temporary folder
 	$(ECHO) "------------------------------------------"
-	$(CP) $(CPFLAGS) $(TEMP)/$(MOODLE2ZIP) $(MOODLE2)/$(INSTALL)/
-	$(RM) $(RMFLAGS) $(TEMP)/$(MOODLE2ZIP)
-	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)
-	$(RM) $(RMFLAGS) $(TEMP)
-	$(EMPTYLINE)
-
-	$(EMPTYLINE)
-	$(ECHO) complete...
-	$(EMPTYLINE)
-
-version29: $(MOODLE29)
-	$(EMPTYLINE)
-	$(ECHO) UPDATING MOODLE29 INSTALL-ZIP
-	$(ECHO) "############################"
-
-	$(EMPTYLINE)
-	$(ECHO) Removing old files
-	$(ECHO) "------------------"
-	$(RM) $(RMFLAGS) $(MOODLE29)/$(INSTALL)/$(MOODLE29ZIP)
-	$(RM) $(RMFLAGS) $(TEMP)/$(MOODLE29ZIP)
-	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)
-	$(EMPTYLINE)
-
-	$(EMPTYLINE)
-	$(ECHO) Copying new files in a temporary folder
-	$(ECHO) "---------------------------------------"
-	$(MKDIR) $(MKDIRFLAGS) $(TEMP)/$(JSX)
-	$(CP) $(CPFLAGS) $(MOODLE29)/* $(TEMP)/$(JSX)
-	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)/$(INSTALL)
-	$(CP) $(CPFLAGS) $(README) $(TEMP)/$(JSX)
-	$(EMPTYLINE)
-
-	$(EMPTYLINE)
-	$(ECHO) Zipping
-	$(ECHO) "-------"
-	$(CD) $(TEMP); \
-	$(ZIP) $(ZIPFLAGS) $(MOODLE29ZIP) $(JSX)/*
-	$(EMPTYLINE)
-
-	$(EMPTYLINE)
-	$(ECHO) Copying new zip and clear temporary folder
-	$(ECHO) "------------------------------------------"
-	$(CP) $(CPFLAGS) $(TEMP)/$(MOODLE29ZIP) $(MOODLE29)/$(INSTALL)/
-	$(RM) $(RMFLAGS) $(TEMP)/$(MOODLE29ZIP)
+	$(CP) $(CPFLAGS) $(TEMP)/$(ZIPPED) $(INSTALL)
+	$(RM) $(RMFLAGS) $(TEMP)/$(ZIPPED)
 	$(RM) $(RMFLAGS) $(TEMP)/$(JSX)
 	$(RM) $(RMFLAGS) $(TEMP)
 	$(EMPTYLINE)
