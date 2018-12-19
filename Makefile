@@ -23,7 +23,7 @@ ZIPFLAGS   = -r
 INSTALL  = install
 TEMP     = _TEMP_
 JSX      = jsxgraph
-FILES    = filter.php filtersettings.php geonext.min.js $(CORE) styles.css version.php lang/* $(README)
+FILES    = filter.php filtersettings.php geonext.min.js $(CORE) styles.css version.php lang/ $(README)
 README   = README.md
 ZIPPED   = install_jsxgraph_plugin_moodle2.zip
 
