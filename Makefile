@@ -62,7 +62,7 @@ update_jsxgraphcore_from_local: $(LOCALCORE)
 	$(ECHO) complete...
 	$(EMPTYLINE)
 
-version2: $(MOODLE2)
+version2:
 	$(EMPTYLINE)
 	$(ECHO) UPDATING MOODLE2 INSTALL-ZIP
 	$(ECHO) "############################"
