@@ -136,8 +136,8 @@
                     $out->appendChild($t);
                     continue;
                 }
-
-
+                
+                
                 ////////////////////
                 // Construct code //
                 ////////////////////
@@ -277,31 +277,34 @@
             ];
             
             // read and save settings
-            if (isset($CFG->filter_jsxgraph_jsxfromserver)) {
-                $tmp['JSXfromServer'] = $this->convertBool($CFG->filter_jsxgraph_jsxfromserver);
+            $tmp_cfg = get_config('filter_jsxgraph', 'jsxfromserver');
+            if (isset($tmp_cfg)) {
+                $tmp['JSXfromServer'] = $this->convertBool($tmp_cfg);
             }
-            if (isset($CFG->filter_jsxgraph_serverversion)) {
-                $tmp['serverversion'] = $CFG->filter_jsxgraph_serverversion;
+            $tmp_cfg = get_config('filter_jsxgraph', 'serverversion');
+            if (isset($tmp_cfg)) {
+                $tmp['serverversion'] = $tmp_cfg;
             }
-            if (isset($CFG->filter_jsxgraph_HTMLentities)) {
-                $tmp['convertEntities'] = $this->convertBool($CFG->filter_jsxgraph_HTMLentities);
+            $tmp_cfg = get_config('filter_jsxgraph', 'HTMLentities');
+            if (isset($tmp_cfg)) {
+                $tmp['convertEntities'] = $this->convertBool($tmp_cfg);
             }
-            if (isset($CFG->filter_jsxgraph_globalJS)) {
-                $tmp['globalJS'] = trim($CFG->filter_jsxgraph_globalJS);
+            $tmp_cfg = get_config('filter_jsxgraph', 'globalJS');
+            if (isset($tmp_cfg)) {
+                $tmp['globalJS'] = trim($tmp_cfg);
             }
-            if (isset($CFG->filter_jsxgraph_divid)) {
-                $tmp['divID'] = $CFG->filter_jsxgraph_divid;
+            $tmp_cfg = get_config('filter_jsxgraph', 'divid');
+            if (isset($tmp_cfg)) {
+                $tmp['divID'] = $tmp_cfg;
             }
-            if (isset($CFG->filter_jsxgraph_width)) {
-                $tmp['width'] = $CFG->filter_jsxgraph_width;
+            $tmp_cfg = get_config('filter_jsxgraph', 'width');
+            if (isset($tmp_cfg)) {
+                $tmp['width'] = $tmp_cfg;
             }
-            if (isset($CFG->filter_jsxgraph_height)) {
-                $tmp['height'] = $CFG->filter_jsxgraph_height;
+            $tmp_cfg = get_config('filter_jsxgraph', 'height');
+            if (isset($tmp_cfg)) {
+                $tmp['height'] = $tmp_cfg;
             }
-            
-            /* in older versions of this plugin:
-                set_config('filter_jsxgraph_jsxfromserver', '0');
-            */
             
             return $tmp;
         }
