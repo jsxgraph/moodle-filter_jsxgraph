@@ -38,3 +38,5 @@
     $string['height'] = 'Höhe';
     $string['height_desc'] = 'Standardhöhe des JSXGraph-Containers.';
     
+    $string['privacy'] = 'Dieses Plugin dient lediglich dazu, JSXGraph-Konstruktionen, die mithilfe des jsxgraph-Tags im Editor eingegeben werden, anzuzeigen. Es speichert und übermittelt selbst keine personenbezonenen Daten. Die eventuell extern eingebundene Bibliothek jsxgraphcore.js verarbeitet ebenfalls keinerlei personenbezogene Daten.';
+    
