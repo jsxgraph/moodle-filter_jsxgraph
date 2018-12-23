@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+      <location>jsxgraphcore.js</location>
+      <name>JSXGraph</name>
+      <version>0.99.7</version>
+      <license>LGPL</license>
+      <licenseversion>3.0+</licenseversion>
+  </library>
+</libraries>
