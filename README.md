@@ -25,7 +25,7 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 
 To install the filter for moodle2 you can follow the steps below:
 
-1. Download the ZIP-compressed directory [`install_jsxgraph_plugin_moodle2.zip`](install/install_jsxgraph_plugin_moodle2.zip) from `install` subdirectory<br>
+1. Download the entire `MOODLE_2` branch as a ZIP-compressed folder via the github download button<br>
    **Do not unpack the ZIP directory!**
 2. In Moodle, navigate to `Site administration -> Plugins -> Install plugins`
 3. Under `Install plugin from ZIP file`, drag and drop the downloaded ZIP directory into input field und click on `Show more...`
@@ -38,12 +38,11 @@ To install the filter for moodle2 you can follow the steps below:
 
 Otherwise, you can also install the filter with the following steps:
 
-1. Download the whole branch from repository
-2. Delete `install` and `screenshots` directories therein
-3. Upload the rest of the plugin folder into the directory `moodle -> filter` of your Moodle installation
-4. Rename the folder to `jsxgraph` (be sure to write correctly)
-5. Open site root of your Moodle installation and follow the steps to install plugin 
-6. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
+1. Download the entire `MOODLE_2` branch as a ZIP-compressed folder via the github download button
+2. Create a folder `jsxgraph` in the directory `moodle -> filter` of your Moodle installation (be sure to write correctly)
+3. Upload the files and folders contained in the ZIP directory to the directory just created (`screenshots` directory is not needed anymore) 
+4. Open site root of your Moodle installation and follow the steps to install plugin 
+5. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
 
 ## Usage
 
