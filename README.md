@@ -164,19 +164,12 @@ Look at this example:
 
 Using the `MathJax` filter within the board is supported in `moodle2.x` and `moodle3.x`. 
 
-## Build Plugin
+## Build Plugin (how to release a new version)
 
-To build JSXGraph Moodle Plugin run
+This plugin no longer needs to be explicitly build.
 
-    $ make server
-
-in the plugin root directory. This will download the newest JSXGraph core from [http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js](http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js) and create the ZIP-compressed directory for moodle2.
-
-You also can use
-
-    $ make local
-
-if you pulled the whole [JSXGraph project](https://github.com/jsxgraph) from GitHub. Then the newest JSXGraph core will be copied from `../jsxgraph/build/`.
+To release a **new version of JSXGraph** into the filter, just replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
+In addition, the value of `$plugin->version` should be adjusted in the file `version.php`.
 
 ## Feedback
 
