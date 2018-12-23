@@ -9,16 +9,16 @@
     
     defined('MOODLE_INTERNAL') || die();
     
-    // Add the placeholder to the description of a setting that should be separated from the following setting
-    $placeholder = '<div class="placeholder" style="height: 50px;padding-top: 25px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
-    $last = '<div class="placeholder" style="height: 50px;"></div>';
-    
-    $recommended_version = '0.99.6'; // use first supported version if class has not been loaded yet
-    if (class_exists('filter_jsxgraph')) {
-        $recommended_version = filter_jsxgraph::$recommended_version;
-    }
-    
     if ($ADMIN->fulltree) {
+        // Add the placeholder to the description of a setting that should be separated from the following setting
+        $placeholder = '<div class="placeholder" style="height: 50px;padding-top: 25px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
+        $last = '<div class="placeholder" style="height: 50px;"></div>';
+    
+        $recommended_version = '0.99.6'; // use first supported version if class has not been loaded yet
+        if (class_exists('filter_jsxgraph')) {
+            $recommended_version = filter_jsxgraph::$recommended_version;
+        }
+        
         $settings->add(new admin_setting_configcheckbox('filter_jsxgraph/jsxfromserver',
                                                         get_string('jsxfromserver', 'filter_jsxgraph'),
                                                         get_string('jsxfromserver_desc', 'filter_jsxgraph'),
