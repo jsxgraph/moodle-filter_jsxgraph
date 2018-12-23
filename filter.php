@@ -219,10 +219,10 @@
                         
                         return $result;
                     case '0.99.5': // Cloudfare-error with version 0.99.5
-                        $url = 'http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
+                        $url = 'https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
                         break;
                     default:
-                        $url = 'http://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverVersion . '/jsxgraphcore.js';
+                        $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverVersion . '/jsxgraphcore.js';
                 }
                 
                 // Check if the entered version exists on the server
