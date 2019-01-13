@@ -1,7 +1,7 @@
 /*
     JSXGraph 0.99.7
 
-    Copyright 2008-2018
+    Copyright 2008-2019
         Matthias Ehmann,
         Michael Gerhaeuser,
         Carsten Miller,
