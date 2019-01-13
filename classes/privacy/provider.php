@@ -1,25 +1,42 @@
 <?php
+// This file is part of JSXGraph Moodle Filter.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Privacy Subsystem implementation for moodle-filter_jsxgraph.
+ *
+ * @package    jsxgraph filter
+ * @copyright  2018 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ *             Matthias Ehmann, Michael Gerhaeuser, Carsten Miller, Andreas Walter, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace filter_jsxgraph\privacy;
+
+defined('MOODLE_INTERNAL') || die();
+
+class provider implements \core_privacy\local\metadata\null_provider {
+    
     /**
-     * Privacy Subsystem implementation for moodle-filter_jsxgraph.
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
      *
-     * @package    jsxgraph moodle filter
-     * @copyright  2018 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann, Andreas Walter
-     * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+     * @return  string
      */
-    
-    namespace filter_jsxgraph\privacy;
-    
-    defined('MOODLE_INTERNAL') || die();
-    
-    class provider implements \core_privacy\local\metadata\null_provider {
-        
-        /**
-         * Get the language string identifier with the component's language
-         * file to explain why this plugin stores no data.
-         *
-         * @return  string
-         */
-        public static function get_reason(): string {
-            return 'privacy';
-        }
+    public static function get_reason(): string {
+        return 'privacy';
     }
+}
