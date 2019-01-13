@@ -25,7 +25,11 @@
  *
  * @package    jsxgraph filter
  * @copyright  2018 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
- *             Matthias Ehmann, Michael Gerhaeuser, Carsten Miller, Andreas Walter, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
+ *             Matthias Ehmann,
+ *             Michael Gerhaeuser,
+ *             Carsten Miller,
+ *             Andreas Walter,
+ *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,9 +40,9 @@ if ($ADMIN->fulltree) {
     $placeholder = '<div class="placeholder" style="height: 50px;padding-top: 25px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
     $last = '<div class="placeholder" style="height: 50px;"></div>';
     
-    $recommended_version = '0.99.6'; // use first supported version if class has not been loaded yet
+    $recommendedVersion = '0.99.6'; // use first supported version if class has not been loaded yet
     if (class_exists('filter_jsxgraph')) {
-        $recommended_version = filter_jsxgraph::$recommended_version;
+        $recommendedVersion = filter_jsxgraph::$recommendedVersion;
     }
     
     $settings->add(new admin_setting_configcheckbox('filter_jsxgraph/jsxfromserver',
@@ -49,7 +53,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext_with_maxlength('filter_jsxgraph/serverversion',
                                                                get_string('serverversion', 'filter_jsxgraph'),
                                                                get_string('serverversion_desc', 'filter_jsxgraph') . $placeholder,
-                                                               $recommended_version, PARAM_TEXT, 6, 6));
+                                                               $recommendedVersion, PARAM_TEXT, 6, 6));
     
     $settings->add(new admin_setting_configselect('filter_jsxgraph/HTMLentities',
                                                   get_string('HTMLentities', 'filter_jsxgraph'),
