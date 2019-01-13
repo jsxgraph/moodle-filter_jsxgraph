@@ -19,7 +19,7 @@
  *
  * @package    jsxgraph filter
  * @copyright  2018 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
- *             Matthias Ehmann, Michael Gerhaeuser, Carsten Miller, Andreas Walter, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
+ *             Matthias Ehmann, Michael Gerhaeuser, Carsten Miller, Andreas Walter, Alfred Wassermann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,6 @@ namespace filter_jsxgraph\privacy;
 defined('MOODLE_INTERNAL') || die();
 
 class provider implements \core_privacy\local\metadata\null_provider {
-    
     /**
      * Get the language string identifier with the component's language
      * file to explain why this plugin stores no data.
