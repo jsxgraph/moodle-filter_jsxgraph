@@ -40,7 +40,6 @@ global $PAGE, $CFG;
 require_once($CFG->libdir . '/pagelib.php');
 
 class filter_jsxgraph extends moodle_text_filter {
-    
     public static $recommendedVersion = '0.99.7';
     public static $jsxcore            = '/filter/jsxgraph/jsxgraphcore.js';
     
@@ -81,15 +80,15 @@ class filter_jsxgraph extends moodle_text_filter {
          * Convert HTML-String to a dom object
          */
         
-        #$dom = new domDocument;
+        // $dom = new domDocument;
         $dom = new domDocument('1.0', 'UTF-8');
         $dom->formatOutput = true;
         
         // Load the html into the object
         libxml_use_internal_errors(true);
-        #$htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
-        #$htmlutf8 = mb_convert_encoding($html, $encoding);
-        #$dom->loadHTML($htmlutf8);
+        // $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
+        // $htmlutf8 = mb_convert_encoding($html, $encoding);
+        // $dom->loadHTML($htmlutf8);
         $dom->loadHTML($html);
         libxml_use_internal_errors(false);
         
@@ -236,7 +235,7 @@ class filter_jsxgraph extends moodle_text_filter {
         
         $result = ['success', 'withREQUIRE'];
         
-        $url = $CFG->wwwroot . filter_jsxgraph::$jsxcore;
+        $url = self::$jsxcore;
         
         if ($this->convertBool($fromServer)) {
             // Handle several special cases
@@ -258,7 +257,10 @@ class filter_jsxgraph extends moodle_text_filter {
             // Check if the entered version exists on the server
             if ($tmp = fopen($url, 'r') === false) {
                 $result[0] = 'error';
-                $result[1] = get_string('errorNotFound_pre', 'filter_jsxgraph') . $serverVersion . get_string('errorNotFound_post', 'filter_jsxgraph');
+                $result[1] =
+                    get_string('errorNotFound_pre', 'filter_jsxgraph') .
+                    $serverVersion .
+                    get_string('errorNotFound_post', 'filter_jsxgraph');
                 
                 return $result;
             } else {
@@ -309,33 +311,33 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
         
         // Read and save settings
-        $tmp_cfg = get_config('filter_jsxgraph', 'jsxfromserver');
-        if (isset($tmp_cfg)) {
-            $tmp['JSXfromServer'] = $this->convertBool($tmp_cfg);
+        $tmpcfg = get_config('filter_jsxgraph', 'jsxfromserver');
+        if (isset($tmpcfg)) {
+            $tmp['JSXfromServer'] = $this->convertBool($tmpcfg);
         }
-        $tmp_cfg = get_config('filter_jsxgraph', 'serverversion');
-        if (isset($tmp_cfg)) {
-            $tmp['serverversion'] = $tmp_cfg;
+        $tmpcfg = get_config('filter_jsxgraph', 'serverversion');
+        if (isset($tmpcfg)) {
+            $tmp['serverversion'] = $tmpcfg;
         }
-        $tmp_cfg = get_config('filter_jsxgraph', 'HTMLentities');
-        if (isset($tmp_cfg)) {
-            $tmp['convertEntities'] = $this->convertBool($tmp_cfg);
+        $tmpcfg = get_config('filter_jsxgraph', 'HTMLentities');
+        if (isset($tmpcfg)) {
+            $tmp['convertEntities'] = $this->convertBool($tmpcfg);
         }
-        $tmp_cfg = get_config('filter_jsxgraph', 'globalJS');
-        if (isset($tmp_cfg)) {
-            $tmp['globalJS'] = trim($tmp_cfg);
+        $tmpcfg = get_config('filter_jsxgraph', 'globalJS');
+        if (isset($tmpcfg)) {
+            $tmp['globalJS'] = trim($tmpcfg);
         }
-        $tmp_cfg = get_config('filter_jsxgraph', 'divid');
-        if (isset($tmp_cfg)) {
-            $tmp['divID'] = $tmp_cfg;
+        $tmpcfg = get_config('filter_jsxgraph', 'divid');
+        if (isset($tmpcfg)) {
+            $tmp['divID'] = $tmpcfg;
         }
-        $tmp_cfg = get_config('filter_jsxgraph', 'width');
-        if (isset($tmp_cfg)) {
-            $tmp['width'] = $tmp_cfg;
+        $tmpcfg = get_config('filter_jsxgraph', 'width');
+        if (isset($tmpcfg)) {
+            $tmp['width'] = $tmpcfg;
         }
-        $tmp_cfg = get_config('filter_jsxgraph', 'height');
-        if (isset($tmp_cfg)) {
-            $tmp['height'] = $tmp_cfg;
+        $tmpcfg = get_config('filter_jsxgraph', 'height');
+        if (isset($tmpcfg)) {
+            $tmp['height'] = $tmpcfg;
         }
         
         return $tmp;
