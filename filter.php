@@ -81,7 +81,7 @@ class filter_jsxgraph extends moodle_text_filter {
          */
 
         // $dom = new domDocument;
-        $dom = new domDocument('1.0', 'UTF-8');
+        $dom = new domDocument('1.0', $encoding);
         $dom->formatOutput = true;
 
         // Load the html into the object
