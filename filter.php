@@ -41,7 +41,7 @@ require_once($CFG->libdir . '/pagelib.php');
 
 class filter_jsxgraph extends moodle_text_filter {
     public static $recommended = '0.99.7';
-    public static $jsxcore            = '/filter/jsxgraph/jsxgraphcore.js';
+    public static $jsxcore     = '/filter/jsxgraph/jsxgraphcore.js';
 
     /**
      * Main filter function
@@ -172,30 +172,30 @@ class filter_jsxgraph extends moodle_text_filter {
              * Construct code
              */
 
-            $global_code = '';
+            $globalcode = '';
 
             // Load global JavaScript code from administrator settings
             if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
-                $global_code .= "\n// Global JavaScript code of the administrator\n";
-                $global_code .= $setting['globalJS'];
+                $globalcode .= "\n// Global JavaScript code of the administrator\n";
+                $globalcode .= $setting['globalJS'];
                 if (substr_compare($setting['globalJS'], ';', $setting['globalJS'] . length - 1) < 0) {
-                    $global_code .= ';';
+                    $globalcode .= ';';
                 }
             }
-            $global_code .= "\n\n";
+            $globalcode .= "\n\n";
 
             // Load code from <jsxgraph>-node
-            $plain_jscode = "\n// Specific JavaScript code\n";
-            $plain_jscode .= $dom->saveHTML($item);
+            $jscode = "\n// Specific JavaScript code\n";
+            $jscode .= $dom->saveHTML($item);
             // Remove <jsxgraph>-tags
-            $plain_jscode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $plain_jscode);
+            $jscode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $jscode);
             // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
-            $plain_jscode = str_replace("</script>", "<\/script>", $plain_jscode);
+            $jscode = str_replace("</script>", "<\/script>", $jscode);
 
             // Convert HTML-Entities in Code
             if ($setting['convertEntities'] && $tagattribute['entities']) {
-                $global_code = html_entity_decode($global_code);
-                $plain_jscode = html_entity_decode($plain_jscode);
+                $globalcode = html_entity_decode($globalcode);
+                $jscode = html_entity_decode($jscode);
             }
 
             // Complete the code
@@ -203,11 +203,11 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($require) {
                 $codeprefix = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divid . "') != null) { \n";
                 $codepostfix = "}\n });\n";
-                $code = $global_code . $codeprefix . $plain_jscode . $codepostfix;
+                $code = $globalcode . $codeprefix . $jscode . $codepostfix;
             } else {
                 $codeprefix = "\nif (document.getElementById('" . $divid . "') != null) {";
                 $codepostfix = "};";
-                $code = $codeprefix . $global_code . $plain_jscode . $codepostfix;
+                $code = $codeprefix . $globalcode . $jscode . $codepostfix;
             }
 
             // Place JavaScript code at the end of the page.
@@ -230,16 +230,16 @@ class filter_jsxgraph extends moodle_text_filter {
         return $str;
     }
 
-    private function load_jsxgraph($from_server, $server_version = "") {
+    private function load_jsxgraph($fromserver, $serverversion = "") {
         global $PAGE, $CFG;
 
         $result = ['success', 'withREQUIRE'];
 
         $url = self::$jsxcore;
 
-        if ($this->convert_bool($from_server)) {
+        if ($this->convert_bool($fromserver)) {
             // Handle several special cases
-            switch ($server_version) {
+            switch ($serverversion) {
                 case '':
                     break;
                 case '0.99.6': // Error with requirejs in version 0.99.6
@@ -251,7 +251,7 @@ class filter_jsxgraph extends moodle_text_filter {
                     $url = 'https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
                     break;
                 default:
-                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $server_version . '/jsxgraphcore.js';
+                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
             }
 
             // Check if the entered version exists on the server
@@ -259,7 +259,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 $result[0] = 'error';
                 $result[1] =
                     get_string('errorNotFound_pre', 'filter_jsxgraph') .
-                    $server_version .
+                    $serverversion .
                     get_string('errorNotFound_post', 'filter_jsxgraph');
 
                 return $result;
@@ -271,7 +271,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Decide how the code should be included.
             // For versions after 0.99.6, it must be included with "require"
-            $tmp = $server_version;
+            $tmp = $serverversion;
             $version = [];
             while ($pos = strpos($tmp, '.')) {
                 array_push($version, intval(substr($tmp, 0, $pos)));
@@ -376,10 +376,11 @@ class filter_jsxgraph extends moodle_text_filter {
         }
     }
 
-    private function string_or($first_choice, $second_choice) {
-        if (!empty($first_choice))
-            return $first_choice;
-        else
-            return $second_choice;
+    private function string_or($choice1, $choice2) {
+        if (!empty($choice1)) {
+            return $choice1;
+        } else {
+            return $choice2;
+        }
     }
 }
