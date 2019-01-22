@@ -302,7 +302,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Set defaults
         $tmp = [
             'JSXfromServer' => false,
-            'serverversion' => filter_jsxgraph::$recommendedVersion,
+            'serverversion' => self::$recommendedVersion,
             'convertEntities' => true,
             'globalJS' => '',
             'divID' => 'box',
