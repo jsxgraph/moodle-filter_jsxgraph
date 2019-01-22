@@ -39,42 +39,42 @@ if ($ADMIN->fulltree) {
     // Add the placeholder to the description of a setting that should be separated from the following setting
     $placeholder = '<div class="placeholder" style="height: 50px;padding-top: 25px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
     $last = '<div class="placeholder" style="height: 50px;"></div>';
-    
+
     $recommendedVersion = '0.99.6'; // use first supported version if class has not been loaded yet
     if (class_exists('filter_jsxgraph')) {
         $recommendedVersion = filter_jsxgraph::$recommendedVersion;
     }
-    
+
     $settings->add(new admin_setting_configcheckbox('filter_jsxgraph/jsxfromserver',
                                                     get_string('jsxfromserver', 'filter_jsxgraph'),
                                                     get_string('jsxfromserver_desc', 'filter_jsxgraph'),
                                                     '0'));
-    
+
     $settings->add(new admin_setting_configtext_with_maxlength('filter_jsxgraph/serverversion',
                                                                get_string('serverversion', 'filter_jsxgraph'),
                                                                get_string('serverversion_desc', 'filter_jsxgraph') . $placeholder,
                                                                $recommendedVersion, PARAM_TEXT, 6, 6));
-    
+
     $settings->add(new admin_setting_configselect('filter_jsxgraph/HTMLentities',
                                                   get_string('HTMLentities', 'filter_jsxgraph'),
                                                   get_string('HTMLentities_desc', 'filter_jsxgraph') . $placeholder,
                                                   '1', [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
-    
+
     $settings->add(new admin_setting_configtextarea('filter_jsxgraph/globalJS',
                                                     get_string('globalJS', 'filter_jsxgraph'),
                                                     get_string('globalJS_desc', 'filter_jsxgraph') . $placeholder,
                                                     '', PARAM_RAW, 60, 20));
-    
+
     $settings->add(new admin_setting_configtext('filter_jsxgraph/divid',
                                                 get_string('divid', 'filter_jsxgraph'),
                                                 get_string('divid_desc', 'filter_jsxgraph') . $placeholder,
                                                 'box'));
-    
+
     $settings->add(new admin_setting_configtext('filter_jsxgraph/width',
                                                 get_string('width', 'filter_jsxgraph'),
                                                 get_string('width_desc', 'filter_jsxgraph'),
                                                 '500', PARAM_INT));
-    
+
     $settings->add(new admin_setting_configtext('filter_jsxgraph/height',
                                                 get_string('height', 'filter_jsxgraph'),
                                                 get_string('height_desc', 'filter_jsxgraph') . $last,
