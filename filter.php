@@ -74,7 +74,7 @@ class filter_jsxgraph extends moodle_text_filter {
     private function get_text_between_tags($tag, $html, $encoding = "UTF-8") {
         global $PAGE;
 
-        $setting = $this->getAdminSettings();
+        $setting = $this->get_adminsettings();
 
         /* 1. STEP ---------------------------
          * Convert HTML-String to a dom object
@@ -106,9 +106,9 @@ class filter_jsxgraph extends moodle_text_filter {
         $error = false;
 
         if (!empty($taglist)) {
-            $tmp = $this->loadJSXGraph(
-                $setting['JSXfromServer'],
-                $setting['serverversion']
+            $tmp = $this->load_jsxgraph(
+                $setting['JSXfrom_server'],
+                $setting['server_version']
             );
             if ($tmp[0] === 'error') {
                 $error = $tmp[1];
@@ -124,13 +124,13 @@ class filter_jsxgraph extends moodle_text_filter {
         for ($i = $taglist->length - 1; $i > -1; $i--) {
 
             $item = $taglist->item($i);
-            $tagattribute = $this->getTagAttributes($item);
+            $tagattribute = $this->get_tagattributes($item);
 
             // Create new div element containing JSXGraph
             $out = $dom->createElement('div');
 
             $a = $dom->createAttribute('id');
-            $divid = $this->stringOR($tagattribute['box'], $setting['divID'] . $i);
+            $divid = $this->string_or($tagattribute['box'], $setting['divID'] . $i);
             $a->value = $divid;
             $out->appendChild($a);
 
@@ -139,8 +139,8 @@ class filter_jsxgraph extends moodle_text_filter {
             $out->appendChild($a);
 
             $a = $dom->createAttribute('style');
-            $w = $this->stringOR($tagattribute['width'], $setting['width']);
-            $h = $this->stringOR($tagattribute['height'], $setting['height']);
+            $w = $this->string_or($tagattribute['width'], $setting['width']);
+            $h = $this->string_or($tagattribute['height'], $setting['height']);
             if (is_numeric($w)) {
                 $w .= 'px';
             }
@@ -172,30 +172,30 @@ class filter_jsxgraph extends moodle_text_filter {
              * Construct code
              */
 
-            $globalCode = '';
+            $global_code = '';
 
             // Load global JavaScript code from administrator settings
             if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
-                $globalCode .= "\n// Global JavaScript code of the administrator\n";
-                $globalCode .= $setting['globalJS'];
+                $global_code .= "\n// Global JavaScript code of the administrator\n";
+                $global_code .= $setting['globalJS'];
                 if (substr_compare($setting['globalJS'], ';', $setting['globalJS'] . length - 1) < 0) {
-                    $globalCode .= ';';
+                    $global_code .= ';';
                 }
             }
-            $globalCode .= "\n\n";
+            $global_code .= "\n\n";
 
             // Load code from <jsxgraph>-node
-            $plainJSCode = "\n// Specific JavaScript code\n";
-            $plainJSCode .= $dom->saveHTML($item);
+            $plain_jscode = "\n// Specific JavaScript code\n";
+            $plain_jscode .= $dom->saveHTML($item);
             // Remove <jsxgraph>-tags
-            $plainJSCode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $plainJSCode);
+            $plain_jscode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $plain_jscode);
             // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
-            $plainJSCode = str_replace("</script>", "<\/script>", $plainJSCode);
+            $plain_jscode = str_replace("</script>", "<\/script>", $plain_jscode);
 
             // Convert HTML-Entities in Code
             if ($setting['convertEntities'] && $tagattribute['entities']) {
-                $globalCode = html_entity_decode($globalCode);
-                $plainJSCode = html_entity_decode($plainJSCode);
+                $global_code = html_entity_decode($global_code);
+                $plain_jscode = html_entity_decode($plain_jscode);
             }
 
             // Complete the code
@@ -203,11 +203,11 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($require) {
                 $codeprefix = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('" . $divid . "') != null) { \n";
                 $codepostfix = "}\n });\n";
-                $code = $globalCode . $codeprefix . $plainJSCode . $codepostfix;
+                $code = $global_code . $codeprefix . $plain_jscode . $codepostfix;
             } else {
                 $codeprefix = "\nif (document.getElementById('" . $divid . "') != null) {";
                 $codepostfix = "};";
-                $code = $codeprefix . $globalCode . $plainJSCode . $codepostfix;
+                $code = $codeprefix . $global_code . $plain_jscode . $codepostfix;
             }
 
             // Place JavaScript code at the end of the page.
@@ -230,16 +230,16 @@ class filter_jsxgraph extends moodle_text_filter {
         return $str;
     }
 
-    private function loadJSXGraph($fromServer, $serverVersion = "") {
+    private function load_jsxgraph($from_server, $server_version = "") {
         global $PAGE, $CFG;
 
         $result = ['success', 'withREQUIRE'];
 
         $url = self::$jsxcore;
 
-        if ($this->convertBool($fromServer)) {
+        if ($this->convert_bool($from_server)) {
             // Handle several special cases
-            switch ($serverVersion) {
+            switch ($server_version) {
                 case '':
                     break;
                 case '0.99.6': // Error with requirejs in version 0.99.6
@@ -251,7 +251,7 @@ class filter_jsxgraph extends moodle_text_filter {
                     $url = 'https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
                     break;
                 default:
-                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverVersion . '/jsxgraphcore.js';
+                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $server_version . '/jsxgraphcore.js';
             }
 
             // Check if the entered version exists on the server
@@ -259,7 +259,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 $result[0] = 'error';
                 $result[1] =
                     get_string('errorNotFound_pre', 'filter_jsxgraph') .
-                    $serverVersion .
+                    $server_version .
                     get_string('errorNotFound_post', 'filter_jsxgraph');
 
                 return $result;
@@ -271,7 +271,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Decide how the code should be included.
             // For versions after 0.99.6, it must be included with "require"
-            $tmp = $serverVersion;
+            $tmp = $server_version;
             $version = [];
             while ($pos = strpos($tmp, '.')) {
                 array_push($version, intval(substr($tmp, 0, $pos)));
@@ -296,13 +296,13 @@ class filter_jsxgraph extends moodle_text_filter {
      * @get settings from administration
      * @return array
      */
-    private function getAdminSettings() {
+    private function get_adminsettings() {
         global $PAGE, $CFG;
 
         // Set defaults
         $tmp = [
-            'JSXfromServer' => false,
-            'serverversion' => self::$recommended,
+            'JSXfrom_server' => false,
+            'server_version' => self::$recommended,
             'convertEntities' => true,
             'globalJS' => '',
             'divID' => 'box',
@@ -311,17 +311,17 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         // Read and save settings
-        $tmpcfg = get_config('filter_jsxgraph', 'jsxfromserver');
+        $tmpcfg = get_config('filter_jsxgraph', 'jsxfrom_server');
         if (isset($tmpcfg)) {
-            $tmp['JSXfromServer'] = $this->convertBool($tmpcfg);
+            $tmp['JSXfrom_server'] = $this->convert_bool($tmpcfg);
         }
-        $tmpcfg = get_config('filter_jsxgraph', 'serverversion');
+        $tmpcfg = get_config('filter_jsxgraph', 'server_version');
         if (isset($tmpcfg)) {
-            $tmp['serverversion'] = $tmpcfg;
+            $tmp['server_version'] = $tmpcfg;
         }
         $tmpcfg = get_config('filter_jsxgraph', 'HTMLentities');
         if (isset($tmpcfg)) {
-            $tmp['convertEntities'] = $this->convertBool($tmpcfg);
+            $tmp['convertEntities'] = $this->convert_bool($tmpcfg);
         }
         $tmpcfg = get_config('filter_jsxgraph', 'globalJS');
         if (isset($tmpcfg)) {
@@ -343,7 +343,7 @@ class filter_jsxgraph extends moodle_text_filter {
         return $tmp;
     }
 
-    private function getTagAttributes($node) {
+    private function get_tagattributes($node) {
         $attributes = [
             'width' => '',
             'height' => '',
@@ -351,13 +351,13 @@ class filter_jsxgraph extends moodle_text_filter {
             'entities' => '',
             'useGlobalJS' => ''
         ];
-        $boolAttributes = [
+        $bool_attributes = [
             'entities' => true,
             'useGlobalJS' => true
         ];
         foreach ($attributes as $attr => $value) {
-            if (array_key_exists($attr, $boolAttributes)) {
-                $attributes[$attr] = $this->convertBool($node->getAttribute($attr), $boolAttributes[$attr]);
+            if (array_key_exists($attr, $bool_attributes)) {
+                $attributes[$attr] = $this->convert_bool($node->getAttribute($attr), $bool_attributes[$attr]);
             } else {
                 $attributes[$attr] = $node->getAttribute($attr);
             }
@@ -366,7 +366,7 @@ class filter_jsxgraph extends moodle_text_filter {
         return $attributes;
     }
 
-    private function convertBool($string, $default = false) {
+    private function convert_bool($string, $default = false) {
         if ($string === false || $string === "false" || $string === 0 || $string === "0") {
             return false;
         } else if ($string === true || $string === "true" || $string === 1 || $string === "1") {
@@ -376,10 +376,10 @@ class filter_jsxgraph extends moodle_text_filter {
         }
     }
 
-    private function stringOR($firstChoice, $secondChoice) {
-        if (!empty($firstChoice))
-            return $firstChoice;
+    private function string_or($first_choice, $second_choice) {
+        if (!empty($first_choice))
+            return $first_choice;
         else
-            return $secondChoice;
+            return $second_choice;
     }
 }
