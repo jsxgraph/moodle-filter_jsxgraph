@@ -39,6 +39,7 @@ $string['yes'] = 'yes';
 $string['no'] = 'no';
 
 $string['error'] = 'ERROR:';
+$string['error0.99.5'] = 'Unfortunately the JSX filter does not support JSXGraph core version 0.99.5 due to a CDN error. Please contact your admin.';
 $string['error0.99.6'] = 'Unfortunately the JSX filter does not support JSXGraph core version 0.99.6. Please contact your admin.';
 $string['errorNotFound_pre'] = 'There is no JSX version ';
 $string['errorNotFound_post'] = ' on CDN. The JSXGraph core could not be loaded. Please contact your admin.';
@@ -47,7 +48,7 @@ $string['jsxfromserver'] = 'JSXGraph from server';
 $string['jsxfromserver_desc'] = 'Select whether the plugin is using the server version of JSXGraph core, or the locally provided one supplied with the plugin. <b>Attention:</b> there must be entered a valid version number in "<a href="#admin-filter_jsxgraph_serverversion">server version</a>"!';
 
 $string['serverversion'] = 'server version';
-$string['serverversion_desc'] = 'If "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph from server</a>" is checked, the version entered here is loaded by the server. Look at <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> to see, which version is loaded from CDN. Type only the version number.';
+$string['serverversion_desc'] = 'If "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph from server</a>" is checked, the version entered here is loaded by the server. Look at <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> to see, which version is loaded from CDN. Type only the version number (0.99.5 und 0.99.6 are not supported).';
 
 $string['HTMLentities'] = 'HTMLentities';
 $string['HTMLentities_desc'] = 'Decide wether HTMLentities like "&", "<",... are supported within the JavaScript code for JSXGraph.';

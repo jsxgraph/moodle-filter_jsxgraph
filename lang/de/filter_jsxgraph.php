@@ -39,6 +39,7 @@ $string['yes'] = 'ja';
 $string['no'] = 'nein';
 
 $string['error'] = 'FEHLER:';
+$string['error0.99.5'] = 'Leider wird die Core-Version 0.99.5 aufgrund eines CDN-Fehlers vom JSXGraph-Filter nicht unterstützt. Bitte kontaktieren Sie Ihren Administrator.';
 $string['error0.99.6'] = 'Leider wird die Core-Version 0.99.6 vom JSXGraph-Filter nicht unterstützt. Bitte kontaktieren Sie Ihren Administrator.';
 $string['errorNotFound_pre'] = 'Es existiert keine JSXGraph-Version ';
 $string['errorNotFound_post'] = ' auf CDN. Der JSXGraph-Core konnte nicht geladen werden. Bitte kontaktieren Sie Ihren Administrator.';
@@ -47,7 +48,7 @@ $string['jsxfromserver'] = 'JSXGraph vom Server';
 $string['jsxfromserver_desc'] = 'Wählen Sie aus, ob für das Plugin die Server-Version des JSXGraph-Cores genutzt wird, oder die lokal vorliegende, die mit dem Plugin installiert wurde. <b>Achtung:</b> Es muss eine gültige Versionsnummer unter "<a href="#admin-filter_jsxgraph_serverversion">Serverversion</a>" eingetragen sein!';
 
 $string['serverversion'] = 'Serverversion';
-$string['serverversion_desc'] = 'Ist "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph vom Server</a>" gewählt, wird die hier eingetragene Version vom Server geladen. Unter <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> finden Sie die Versionen, die von CDN geladen werden können. Geben Sie nur die Versionsnummer ein.';
+$string['serverversion_desc'] = 'Ist "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph vom Server</a>" gewählt, wird die hier eingetragene Version vom Server geladen. Unter <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> finden Sie die Versionen, die von CDN geladen werden können. Geben Sie nur die Versionsnummer ein (0.99.5 und 0.99.6 werden leider nicht unterstützt).';
 
 $string['HTMLentities'] = 'HTMLentities';
 $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';

@@ -250,8 +250,10 @@ class filter_jsxgraph extends moodle_text_filter {
 
                     return $result;
                 case '0.99.5': // Cloudfare-error with version 0.99.5
-                    $url = 'https://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore-0.99.5.js';
-                    break;
+                    $result[0] = 'error';
+                    $result[1] = get_string('error0.99.5', 'filter_jsxgraph');
+
+                    return $result;
                 default:
                     $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
             }
