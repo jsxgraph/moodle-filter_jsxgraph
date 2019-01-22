@@ -40,7 +40,7 @@ global $PAGE, $CFG;
 require_once($CFG->libdir . '/pagelib.php');
 
 class filter_jsxgraph extends moodle_text_filter {
-    public static $recommendedVersion = '0.99.7';
+    public static $recommended = '0.99.7';
     public static $jsxcore            = '/filter/jsxgraph/jsxgraphcore.js';
 
     /**
@@ -57,7 +57,7 @@ class filter_jsxgraph extends moodle_text_filter {
             return $text;
         }
 
-        return $this->getTextBetweenTags("jsxgraph", $text, "UTF-8");
+        return $this->get_text_between_tags("jsxgraph", $text, "UTF-8");
     }
 
     /**
@@ -71,7 +71,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @return string
      */
-    private function getTextBetweenTags($tag, $html, $encoding = "UTF-8") {
+    private function get_text_between_tags($tag, $html, $encoding = "UTF-8") {
         global $PAGE;
 
         $setting = $this->getAdminSettings();
@@ -302,7 +302,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Set defaults
         $tmp = [
             'JSXfromServer' => false,
-            'serverversion' => self::$recommendedVersion,
+            'serverversion' => self::$recommended,
             'convertEntities' => true,
             'globalJS' => '',
             'divID' => 'box',
