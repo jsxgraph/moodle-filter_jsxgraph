@@ -175,6 +175,10 @@ In addition, the value of `$plugin->version` should be adjusted in the file `ver
 
 All bugs, feature requests, feedback, etc., are welcome.
 
+## Travis support
+
+https://travis-ci.org/
+
 ## License
 
 http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
