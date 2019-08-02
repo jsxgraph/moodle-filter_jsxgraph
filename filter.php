@@ -265,7 +265,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 $result[1] =
                     get_string('errorNotFound_pre', 'filter_jsxgraph') .
                     $serverversion .
-                    get_string('errorNotFound_post', 'filter_jsxgraph');
+                    get_string('errorNotFound_post', 'filter_jsxgraph'). $url;
 
                 return $result;
             } else {

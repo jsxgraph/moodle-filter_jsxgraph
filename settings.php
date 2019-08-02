@@ -59,7 +59,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configselect('filter_jsxgraph/serverssl',
                                                   get_string('serverssl', 'filter_jsxgraph'),
                                                   get_string('serverssl_desc', 'filter_jsxgraph') . $placeholder,
-                                                  '1', ['http', 'https']));
+                                                  'https', ['http'=>'http', 'https'=>'https']));
 
     $settings->add(new admin_setting_configselect('filter_jsxgraph/HTMLentities',
                                                   get_string('HTMLentities', 'filter_jsxgraph'),
