@@ -50,6 +50,9 @@ $string['jsxfromserver_desc'] = 'Wählen Sie aus, ob für das Plugin die Server-
 $string['serverversion'] = 'Serverversion';
 $string['serverversion_desc'] = 'Ist "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph vom Server</a>" gewählt, wird die hier eingetragene Version vom Server geladen. Unter <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> finden Sie die Versionen, die von CDN geladen werden können. Geben Sie nur die Versionsnummer ein (0.99.5 und 0.99.6 werden leider nicht unterstützt).';
 
+$string['serverssl'] = 'SSL-Verschlüsselung';
+$string['serverssl_desc'] = 'Falls JSXGraph vom Server geladen wird, soll die Einbindung via <code>http://</code> oder <code>https://</code> erfolgen? Es wird die Verwendung von <code>https://</code> empfohlen! Seiten, die SSL verwenden, funktionieren möglicherweise nicht, wenn eine JSXGraph-Serverversion nur über <code>http://</code> geladen wird.';
+
 $string['HTMLentities'] = 'HTMLentities';
 $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';
 

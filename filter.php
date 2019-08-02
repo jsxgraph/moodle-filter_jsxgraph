@@ -110,7 +110,8 @@ class filter_jsxgraph extends moodle_text_filter {
         if (!empty($taglist)) {
             $tmp = $this->load_jsxgraph(
                 $setting['jsxfromserver'],
-                $setting['serverversion']
+                $setting['serverversion'],
+                $setting['serverssl']
             );
             if ($tmp[0] === 'error') {
                 $error = $tmp[1];
@@ -232,7 +233,7 @@ class filter_jsxgraph extends moodle_text_filter {
         return $str;
     }
 
-    private function load_jsxgraph($fromserver, $serverversion = "") {
+    private function load_jsxgraph($fromserver, $serverversion = "", $serverssl = "https") {
         global $PAGE, $CFG;
 
         $result = ['success', 'withREQUIRE'];
@@ -255,7 +256,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
                     return $result;
                 default:
-                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
+                    $url = $serverssl . '://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
             }
 
             // Check if the entered version exists on the server
@@ -307,6 +308,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmp = [
             'jsxfromserver' => false,
             'serverversion' => self::$recommended,
+            'serverssl' => 'https',
             'HTMLentities' => true,
             'globalJS' => '',
             'divid' => 'box',
@@ -322,6 +324,10 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmpcfg = get_config('filter_jsxgraph', 'serverversion');
         if (isset($tmpcfg)) {
             $tmp['serverversion'] = $tmpcfg;
+        }
+        $tmpcfg = get_config('filter_jsxgraph', 'serverssl');
+        if (isset($tmpcfg)) {
+            $tmp['serverssl'] = $tmpcfg;
         }
         $tmpcfg = get_config('filter_jsxgraph', 'HTMLentities');
         if (isset($tmpcfg)) {
