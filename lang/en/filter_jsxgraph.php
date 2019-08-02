@@ -50,9 +50,6 @@ $string['jsxfromserver_desc'] = 'Select whether the plugin is using the server v
 $string['serverversion'] = 'server version';
 $string['serverversion_desc'] = 'If "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph from server</a>" is checked, the version entered here is loaded by the server. Look at <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> to see, which version is loaded from CDN. Type only the version number (0.99.5 und 0.99.6 are not supported).';
 
-$string['serverssl'] = 'ssl encryption';
-$string['serverssl_desc'] = 'If JSXGraph is loaded by the server, should the integration be done via <code>http://</code> or <code>https://</code>? It is recommended to use <code>https://</code>! Sites that use fulltime ssl may not work when a JSXGraph serverversion is loaded only via <code>http://</code>.';
-
 $string['HTMLentities'] = 'HTML entities';
 $string['HTMLentities_desc'] = 'Decide wether HTMLentities like "&", "<",... are supported within the JavaScript code for JSXGraph.';
 

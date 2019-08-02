@@ -110,8 +110,7 @@ class filter_jsxgraph extends moodle_text_filter {
         if (!empty($taglist)) {
             $tmp = $this->load_jsxgraph(
                 $setting['jsxfromserver'],
-                $setting['serverversion'],
-                $setting['serverssl']
+                $setting['serverversion']
             );
             if ($tmp[0] === 'error') {
                 $error = $tmp[1];
@@ -233,7 +232,7 @@ class filter_jsxgraph extends moodle_text_filter {
         return $str;
     }
 
-    private function load_jsxgraph($fromserver, $serverversion = "", $serverssl = "https") {
+    private function load_jsxgraph($fromserver, $serverversion = "") {
         global $PAGE, $CFG;
 
         $result = ['success', 'withREQUIRE'];
@@ -256,7 +255,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
                     return $result;
                 default:
-                    $url = $serverssl . '://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
+                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
             }
 
             // Check if the entered version exists on the server
@@ -265,7 +264,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 $result[1] =
                     get_string('errorNotFound_pre', 'filter_jsxgraph') .
                     $serverversion .
-                    get_string('errorNotFound_post', 'filter_jsxgraph'). $url;
+                    get_string('errorNotFound_post', 'filter_jsxgraph');
 
                 return $result;
             } else {
@@ -308,7 +307,6 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmp = [
             'jsxfromserver' => false,
             'serverversion' => self::$recommended,
-            'serverssl' => 'https',
             'HTMLentities' => true,
             'globalJS' => '',
             'divid' => 'box',
@@ -324,10 +322,6 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmpcfg = get_config('filter_jsxgraph', 'serverversion');
         if (isset($tmpcfg)) {
             $tmp['serverversion'] = $tmpcfg;
-        }
-        $tmpcfg = get_config('filter_jsxgraph', 'serverssl');
-        if (isset($tmpcfg)) {
-            $tmp['serverssl'] = $tmpcfg;
         }
         $tmpcfg = get_config('filter_jsxgraph', 'HTMLentities');
         if (isset($tmpcfg)) {

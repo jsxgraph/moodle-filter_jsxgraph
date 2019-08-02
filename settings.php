@@ -53,13 +53,8 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext_with_maxlength('filter_jsxgraph/serverversion',
                                                                get_string('serverversion', 'filter_jsxgraph'),
-                                                               get_string('serverversion_desc', 'filter_jsxgraph'),
+                                                               get_string('serverversion_desc', 'filter_jsxgraph') . $placeholder,
                                                                $recommended, PARAM_TEXT, 6, 6));
-
-    $settings->add(new admin_setting_configselect('filter_jsxgraph/serverssl',
-                                                  get_string('serverssl', 'filter_jsxgraph'),
-                                                  get_string('serverssl_desc', 'filter_jsxgraph') . $placeholder,
-                                                  'https', ['http'=>'http', 'https'=>'https']));
 
     $settings->add(new admin_setting_configselect('filter_jsxgraph/HTMLentities',
                                                   get_string('HTMLentities', 'filter_jsxgraph'),
