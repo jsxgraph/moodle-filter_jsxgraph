@@ -53,6 +53,9 @@ $string['serverversion_desc'] = 'If "<a href="#admin-filter_jsxgraph_jsxfromserv
 $string['HTMLentities'] = 'HTML entities';
 $string['HTMLentities_desc'] = 'Decide wether HTMLentities like "&", "<",... are supported within the JavaScript code for JSXGraph.';
 
+$string['convertencoding'] = 'convert encoding';
+$string['convertencoding_desc'] = 'Decide wether the encoding of the text between the JSXGraph tags should be converted to UTF-8 or not.';
+
 $string['globalJS'] = 'global JavaScript';
 $string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in each JSXGraph tag before the code contained in it. To type special characters like "<" use HTMLentities.';
 

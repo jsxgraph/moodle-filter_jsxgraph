@@ -58,7 +58,12 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configselect('filter_jsxgraph/HTMLentities',
                                                   get_string('HTMLentities', 'filter_jsxgraph'),
-                                                  get_string('HTMLentities_desc', 'filter_jsxgraph') . $placeholder,
+                                                  get_string('HTMLentities_desc', 'filter_jsxgraph'),
+                                                  '1', [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
+
+    $settings->add(new admin_setting_configselect('filter_jsxgraph/convertencoding',
+                                                  get_string('convertencoding', 'filter_jsxgraph'),
+                                                  get_string('convertencoding_desc', 'filter_jsxgraph') . $placeholder,
                                                   '1', [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
 
     $settings->add(new admin_setting_configtextarea('filter_jsxgraph/globalJS',
