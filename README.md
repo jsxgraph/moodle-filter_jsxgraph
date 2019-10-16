@@ -1,4 +1,4 @@
-# Moodle JSXGraph plugin
+# Moodle JSXGraph filter
 
 ### About JSXGraph
 
