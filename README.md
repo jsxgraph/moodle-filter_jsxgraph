@@ -1,4 +1,4 @@
-# Moodle JSXGraph plugin
+# Moodle JSXGraph filter
 
 ### About JSXGraph
 
@@ -174,6 +174,10 @@ In addition, the value of `$plugin->version` should be adjusted in the file `ver
 ## Feedback
 
 All bugs, feature requests, feedback, etc., are welcome.
+
+## Travis support
+
+https://travis-ci.org/
 
 ## License
 

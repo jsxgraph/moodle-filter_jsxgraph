@@ -57,7 +57,7 @@ class filter_jsxgraph extends moodle_text_filter {
             return $text;
         }
 
-        return $this->get_text_between_tags("jsxgraph", $text, "UTF-8");
+        return $this->get_text_between_tags("jsxgraph", $text);
     }
 
     /**
@@ -71,9 +71,10 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @return string
      */
-    private function get_text_between_tags($tag, $html, $encoding = "UTF-8") {
+    private function get_text_between_tags($tag, $html) {
         global $PAGE;
 
+        $encoding = "UTF-8";
         $setting = $this->get_adminsettings();
 
         /* 1. STEP ---------------------------
@@ -86,12 +87,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
         // Load the html into the object
         libxml_use_internal_errors(true);
-        /* Obsolete
-         * $htmlutf8 = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
-         * $htmlutf8 = mb_convert_encoding($html, $encoding);
-         * $dom->loadHTML($htmlutf8);
-         */
-        $dom->loadHTML($html);
+        if ($setting["convertencoding"]) {
+            $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', $encoding));
+        } else {
+            $dom->loadHTML($html);
+        }
         libxml_use_internal_errors(false);
 
         // Discard white space
@@ -308,6 +308,7 @@ class filter_jsxgraph extends moodle_text_filter {
             'jsxfromserver' => false,
             'serverversion' => self::$recommended,
             'HTMLentities' => true,
+            'convertencoding' => true,
             'globalJS' => '',
             'divid' => 'box',
             'width' => '500',
@@ -326,6 +327,10 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmpcfg = get_config('filter_jsxgraph', 'HTMLentities');
         if (isset($tmpcfg)) {
             $tmp['HTMLentities'] = $this->convert_bool($tmpcfg);
+        }
+        $tmpcfg = get_config('filter_jsxgraph', 'convertencoding');
+        if (isset($tmpcfg)) {
+            $tmp['convertencoding'] = $this->convert_bool($tmpcfg);
         }
         $tmpcfg = get_config('filter_jsxgraph', 'globalJS');
         if (isset($tmpcfg)) {

@@ -53,6 +53,9 @@ $string['serverversion_desc'] = 'Ist "<a href="#admin-filter_jsxgraph_jsxfromser
 $string['HTMLentities'] = 'HTMLentities';
 $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';
 
+$string['convertencoding'] = 'Konvertiere Text-Codierung';
+$string['convertencoding_desc'] = 'Einstellung, ob die Codierung des Texts zwischen den JSXGraph-Tags in UTF-8 konvertiert werden soll oder nicht.';
+
 $string['globalJS'] = 'Globales JavaScript';
 $string['globalJS_desc'] = 'Definieren Sie hier einen allgemein gültigen JavaScript-Code, der in jedem JSXGraph-Tag vor dem darin enthalteten Code geladen wird. Um Sonderzeichen wie beispielsweise "<" zu nutzen, verwenden Sie die entsprechende HTMLentity.';
 
