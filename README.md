@@ -179,4 +179,5 @@ All bugs, feature requests, feedback, etc., are welcome.
 
 http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-
+[![ITEMS](img/items_logo_blue.png)](https://itemspro.eu)
+[![Cofunded by the Erasmus+ programme of the European union](img/eu_flag_co_funded_pos_rgb_left_small.jpg)](https://ec.europa.eu/programmes/erasmus-plus/)
