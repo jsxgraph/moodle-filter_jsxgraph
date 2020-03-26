@@ -24,7 +24,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  * geometry constructions with JSXGraph within a Moodle platform.
  *
  * @package    jsxgraph filter
- * @copyright  2019 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,
@@ -34,7 +34,8 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 .jxgbox {
-    position: relative; /* for IE 7 */
+    /* for IE 7 */
+    position: relative;
     overflow: hidden;
     background-color: #ffffff;
     border-style: solid;
@@ -43,19 +44,111 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -ms-touch-action: none;
+    /* touch-action: none; */ /* Set with JavaScript */
+}
+
+.jxgbox svg text {
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .JXGtext {
-    background-color: transparent; /* May produce artefacts in IE. Solution: setting a color explicitly. */
-    font-family: Arial, Helvetica, Geneva;
-    padding: 0px;
-    margin: 0px;
+    font-family: Courier, monospace;
+    /**
+     * The default font family is now set in
+     * JXG.Options.text.cssdefaultstyle = 'font-family: Arial, Helvetica, Geneva, sans-serif;'
+     */
+    /*
+        font-family: Arial, Helvetica, Geneva, sans-serif;
+    */
+
+    /* "background-color: transparent;" may produce artefacts in IE. Solution: setting a color explicitly. */
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 .JXGinfobox {
     border-style: none;
     border-width: 1px;
     border-color: black;
+}
+
+/* 
+    CSS attributes will (permantely) overwrite attributes set in JSXGraph 
+*/
+.JXGimage {
+    /* opacity: 1.0; */
+}
+
+.JXGimageHighlight {
+    /* opacity: 0.6; */
+}
+
+/*
+    CSS rules for the navigation bar 
+*/
+
+.JXG_navigation {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+
+    z-index: 100;
+
+    background-color: transparent;
+    padding: 2px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.JXG_navigation:hover {
+
+}
+
+.JXG_navigation_button {
+    color: #666666;
+}
+
+.JXG_navigation_button:hover {
+    border-radius: 2px;
+    background-color: #c0c0c0;
+    background-color: rgba(184, 184, 184, 0.5);
+}
+
+/* 
+    CSS rules for the wrapping div in fullscreen mode 
+*/
+
+.JXG_wrap_private:-moz-full-screen {
+   background-color: #cccccc;
+   padding: 0px;
+   width: 100%;
+   height: 100%;
+}
+
+.JXG_wrap_private:-webkit-full-screen {
+   background-color: #cccccc;
+   padding: 0px;
+   width: 100%;
+   height: 100%;
+}
+
+.JXG_wrap_private:fullscreen {
+   background-color: #cccccc;
+   padding: 0px;
+   width: 100%;
+   height: 100%;
+}
+
+.JXG_wrap_private:-ms-fullscreen {
+   background-color: #cccccc;
+   padding: 0px;
+   width: 100%;
+   height: 100%;
 }
 
 .jxg-error {
