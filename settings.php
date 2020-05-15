@@ -41,7 +41,7 @@ if ($ADMIN->fulltree) {
     $last = '<div class="placeholder" style="height: 50px;"></div>';
 
     // Use first supported version if class has not been loaded yet.
-    $recommended = '0.99.6';
+    $recommended = '0.99.7';
     if (class_exists('filter_jsxgraph')) {
         $recommended = filter_jsxgraph::$recommended;
     }

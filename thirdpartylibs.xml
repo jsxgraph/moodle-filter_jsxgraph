@@ -3,7 +3,7 @@
   <library>
       <location>jsxgraphcore.js</location>
       <name>JSXGraph</name>
-      <version>0.99.7</version>
+      <version>1.00.0</version>
       <license>LGPL</license>
       <licenseversion>3.0+</licenseversion>
   </library>
