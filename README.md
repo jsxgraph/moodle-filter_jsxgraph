@@ -81,6 +81,16 @@ On reopening it later, you will notice the code rather than the `<jsxgraph>` tag
 Using JSXGraph in quiz questions needs a workaround: <br>
 When adding or editing a question, insert the `<jsxgraph>` tag into the `Question tag`-input and choose "HTML format".
 
+### JSXGraph and STACK 
+
+This filter is not necessary to use JSXGraph with [STACK](https://moodle.org/plugins/qtype_stack). STACK has its own extension for JSXGraph.
+Please refer 
+[STACK Documentation](https://stack2.maths.ed.ac.uk/demo2018/question/type/stack/doc/doc.php/Authoring/JSXGraph.md) and
+[GitHub](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Authoring/JSXGraph.md).
+
+<i>Note that this STACK extension is not developed or managed by the JSXGraph developing team.</i>
+
+
 ## Attributes and settings
 ### Admin settings
 
@@ -166,10 +176,11 @@ Using the `MathJax` filter within the board is supported in `moodle2.x` and `moo
 
 ## Build Plugin (how to release a new version)
 
-This plugin no longer needs to be explicitly build.
+This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps below:
 
-To release a **new version of JSXGraph** into the filter, just replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`. **Please update version tag in `thirdpartylibs.xml`!**
-In addition, the value of `$plugin->version` should be adjusted in the file `version.php`.
+- replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
+- update version tag in `thirdpartylibs.xml`!
+- the value of `$plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
 
 ## Feedback
 

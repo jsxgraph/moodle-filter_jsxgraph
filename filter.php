@@ -24,11 +24,11 @@
  * geometry constructions with JSXGraph within a Moodle platform.
  *
  * @package    jsxgraph filter
- * @copyright  2019 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,
- *             Andreas Walter,
+ *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
  *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -40,7 +40,7 @@ global $PAGE, $CFG;
 require_once($CFG->libdir . '/pagelib.php');
 
 class filter_jsxgraph extends moodle_text_filter {
-    public static $recommended = '0.99.7';
+    public static $recommended = '1.00.0';
     public static $jsxcore     = '/filter/jsxgraph/jsxgraphcore.js';
 
     /**

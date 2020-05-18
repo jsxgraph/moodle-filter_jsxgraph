@@ -24,11 +24,11 @@
  * geometry constructions with JSXGraph within a Moodle platform.
  *
  * @package    jsxgraph filter
- * @copyright  2019 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,
- *             Andreas Walter,
+ *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
  *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
