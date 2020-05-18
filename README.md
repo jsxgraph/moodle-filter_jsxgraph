@@ -53,7 +53,7 @@ Otherwise, you can also install the filter with the following steps:
    - ...
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
-	* inserting a `<jsxgraph>` tag with all required parameters
+	* inserting a `<jsxgraph>` or `[[jsxgraph]]` tag with all required parameters
    
    Examples: 
 
@@ -65,21 +65,21 @@ Otherwise, you can also install the filter with the following steps:
        })();
    </jsxgraph>
     
-   <jsxgraph width="600" height="500" box="mybox">
+   [[jsxgraph width="600" height="500" box="mybox"]]
        (function() {
            var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
            var p = brd.create('point', [1,2]);
        })();
-   </jsxgraph>
+   [[/jsxgraph]]
    ```
    
 ***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
  
 Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
-On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input. 
+On reopening it later, you will notice the code rather than the `<jsxgraph>` or `[[jsxgraph]]` tag. To edit your content later, again switch to the code input. 
 
 Using JSXGraph in quiz questions needs a workaround: <br>
-When adding or editing a question, insert the `<jsxgraph>` tag into the `Question tag`-input and choose "HTML format".
+When adding or editing a question, insert the `<jsxgraph>` or `[[jsxgraph]]` tag into the `Question tag`-input and choose "HTML format".
 
 ### JSXGraph and STACK 
 
@@ -109,7 +109,11 @@ As moodle administrator, you can make the following settings:
         <td>If this setting is set to <code>true</code>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
     </tr>
     <tr>
-        <th>Global JavaScript</th>
+        <th>convert encoding</th>
+        <td>Decide wether the encoding of the text between the JSXGraph tags should be converted to UTF-8 or not.</td>
+    </tr>
+    <tr>
+        <th>global JavaScript</th>
         <td>In this textbox you can type a general JavaScript code to be loaded before loading specific tag code.</td>
     </tr>
     <tr>
@@ -124,7 +128,7 @@ As moodle administrator, you can make the following settings:
 
 ### `<jsxgraph>` tag attributes
 
-Within the `<jsxgraph>` tag different attributes can be declared: `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." box="..." board="...">` 
+Within the `<jsxgraph>` or `[[jsxgraph]]` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." box="..." board="...">` 
 <table>
     <tr>
         <th>width and height</th>
@@ -155,7 +159,7 @@ To use the pre-installed `MathJax` notation within the board, your **Moodle admi
 
 After this changes **everyone** can use `MathJax` notation `$$(...)$$` within the board of JSXGraph as follows:
 
-- Instead of using ` \ ` between `<jsxgraph>`-tags you have to escape the backslash by using ` \\ ` <br>
+- Instead of using ` \ ` between `<jsxgraph>` or `[[jsxgraph]]` tags you have to escape the backslash by using ` \\ ` <br>
   e.g. `\frac` --> `\\frac`
 - To prevent unpredictable behavior you should set `parse: false`
 - *optional:* To make the font bigger, use the `fontSize`-attribute
