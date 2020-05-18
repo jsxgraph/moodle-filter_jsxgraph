@@ -185,6 +185,7 @@ This plugin no longer needs to be explicitly build. To release a **new version o
 - replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
 - update version tag in `thirdpartylibs.xml`!
 - the value of `$plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
+- submit a new version of the filter to the [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph) (maintained by Andreas Walter) 
 
 ## Feedback
 
