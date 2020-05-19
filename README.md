@@ -1,5 +1,7 @@
 # Moodle JSXGraph filter
 
+Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
+
 ### About JSXGraph
 
 JSXGraph is a cross-browser JavaScript library for interactive geometry, function plotting, charting, and data visualization in the web browser.
