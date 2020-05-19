@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
     // Add the placeholder to the description of a setting that should be separated from the following setting.
-    $placeholder = '<div class="placeholder" style="height: 50px;padding-top: 25px;padding-bottom: 1rem;margin-left: -33%;"><hr></div>';
+    $placeholder = '<div class="placeholder" style="height: 50px;padding-top: 1px;padding-bottom: 25px;margin-left: -33%;"><hr></div>';
     $last = '<div class="placeholder" style="height: 50px;"></div>';
 
     // Use first supported version if class has not been loaded yet.
@@ -75,6 +75,7 @@ if ($ADMIN->fulltree) {
                                                 get_string('divid', 'filter_jsxgraph'),
                                                 get_string('divid_desc', 'filter_jsxgraph') . $placeholder,
                                                 'box'));
+    echo "<script>window.onload = function() {document.getElementById('admin-divid').getElementsByTagName('input')[0].setAttribute('disabled', true);}</script>";
 
     $settings->add(new admin_setting_configtext('filter_jsxgraph/width',
                                                 get_string('width', 'filter_jsxgraph'),

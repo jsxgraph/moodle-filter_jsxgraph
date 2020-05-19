@@ -60,7 +60,7 @@ $string['globalJS'] = 'Globales JavaScript';
 $string['globalJS_desc'] = 'Definieren Sie hier einen allgemein gültigen JavaScript-Code, der in jedem JSXGraph-Tag vor dem darin enthalteten Code geladen wird. Um Sonderzeichen wie beispielsweise "<" zu nutzen, verwenden Sie die entsprechende HTMLentity.';
 
 $string['divid'] = 'Div-ID';
-$string['divid_desc'] = 'ID des <div\>, das das JSXGraph-Board enthält. Eine fortlaufende Nummer wird automatisch ergänzt, z.B. box0, box1,...';
+$string['divid_desc'] = '<b>Dieses Feature ist veraltet:</b> Bitte nutzen Sie zukünftig nur noch den Platzhalter "<code>ref_divid</code>", um die ID der JSXGraph-Box in Ihrem JavaScript zu referenzieren. Diese Option bleibt weiterhin bestehen, um ältere Versionen weiterhin zu unterstützen.';
 
 $string['width'] = 'Breite';
 $string['width_desc'] = 'Standardbreite des JSXGraph-Containers.';

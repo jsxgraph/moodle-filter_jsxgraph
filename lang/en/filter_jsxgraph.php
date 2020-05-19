@@ -60,7 +60,7 @@ $string['globalJS'] = 'global JavaScript';
 $string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in each JSXGraph tag before the code contained in it. To type special characters like "<" use HTMLentities.';
 
 $string['divid'] = 'div id';
-$string['divid_desc'] = 'ID of the division containing JSXGraph. Number is added automatically, e.g. box0, box1,...';
+$string['divid_desc'] = '<b>This feature is deprecated:</b> Please only use the placeholder "<code>ref_divid</code>" in the future to reference the id of the JSXGraph box in your JavaScript. This option remains to support older versions.';
 
 $string['width'] = 'width';
 $string['width_desc'] = 'Width of JSXGraph container.';
