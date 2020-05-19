@@ -45,10 +45,10 @@ $string['errorNotFound_pre'] = 'Es existiert keine JSXGraph-Version ';
 $string['errorNotFound_post'] = ' auf CDN. Der JSXGraph-Core konnte nicht geladen werden. Bitte kontaktieren Sie Ihren Administrator.';
 
 $string['jsxfromserver'] = 'JSXGraph vom Server';
-$string['jsxfromserver_desc'] = 'Wählen Sie aus, ob für das Plugin die Server-Version des JSXGraph-Cores genutzt wird, oder die lokal vorliegende, die mit dem Plugin installiert wurde. <b>Achtung:</b> Es muss eine gültige Versionsnummer unter "<a href="#admin-filter_jsxgraph_serverversion">Serverversion</a>" eingetragen sein!';
+$string['jsxfromserver_desc'] = 'Wählen Sie aus, ob für das Plugin die Server-Version des JSXGraph-Cores genutzt wird, oder die lokal vorliegende, die mit dem Plugin installiert wurde. <b>Achtung:</b> Es muss eine gültige Versionsnummer unter "<a href="#admin-serverversion">Serverversion</a>" eingetragen sein!';
 
 $string['serverversion'] = 'Serverversion';
-$string['serverversion_desc'] = 'Ist "<a href="#admin-filter_jsxgraph_jsxfromserver">JSXGraph vom Server</a>" gewählt, wird die hier eingetragene Version vom Server geladen. Unter <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> finden Sie die Versionen, die von CDN geladen werden können. Geben Sie nur die Versionsnummer ein (0.99.5 und 0.99.6 werden leider nicht unterstützt).';
+$string['serverversion_desc'] = 'Ist "<a href="#admin-jsxfromserver">JSXGraph vom Server</a>" gewählt, wird die hier eingetragene Version vom Server geladen. Unter <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> finden Sie die Versionen, die von CDN geladen werden können. Geben Sie nur die Versionsnummer ein (0.99.5 und 0.99.6 werden leider nicht unterstützt).';
 
 $string['HTMLentities'] = 'HTMLentities';
 $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';
@@ -59,13 +59,16 @@ $string['convertencoding_desc'] = 'Einstellung, ob die Codierung des Texts zwisc
 $string['globalJS'] = 'Globales JavaScript';
 $string['globalJS_desc'] = 'Definieren Sie hier einen allgemein gültigen JavaScript-Code, der in jedem JSXGraph-Tag vor dem darin enthalteten Code geladen wird. Um Sonderzeichen wie beispielsweise "<" zu nutzen, verwenden Sie die entsprechende HTMLentity.';
 
-$string['divid'] = 'Div-ID';
-$string['divid_desc'] = '<b>Dieses Feature ist veraltet:</b> Bitte nutzen Sie zukünftig nur noch den Platzhalter "<code>ref_divid</code>", um die ID der JSXGraph-Box in Ihrem JavaScript zu referenzieren. Diese Option bleibt weiterhin bestehen, um ältere Versionen weiterhin zu unterstützen.';
-
 $string['width'] = 'Breite';
 $string['width_desc'] = 'Standardbreite des JSXGraph-Containers.';
 
 $string['height'] = 'Höhe';
 $string['height_desc'] = 'Standardhöhe des JSXGraph-Containers.';
+
+$string['divid'] = 'Div-ID';
+$string['divid_desc'] = '<b>Dieses Feature ist veraltet:</b> Bitte nutzen Sie zukünftig nur noch den Platzhalter "<code>ref_divid</code>", um die ID der JSXGraph-Box in Ihrem JavaScript zu referenzieren. Diese Option bleibt weiterhin bestehen, um ältere Versionen weiterhin zu unterstützen.';
+
+$string['dynamic_divid'] = 'Verwende eine dynamische Div-ID';
+$string['dynamic_divid_desc'] = 'Ist diese Option aktiviert, wird innerhalb jedes JSXGraph-Tags automatisch eine eindeutige ID für das Board erzeugt. Diese kann innerhalb des JavaScript über die Variable "<code>ref_divid</code>" referenziert werden.<br><b>Diese Option sollte unbedingt deaktiviert werden, wenn noch alte Tags die Option "<a href="#admin-divid">div id</a>" verwenden, da die Div-ID andernfalls unbeachtet belibt.</b>';
 
 $string['privacy'] = 'Dieses Plugin dient lediglich dazu, JSXGraph-Konstruktionen, die mithilfe des jsxgraph-Tags im Editor eingegeben werden, anzuzeigen. Es speichert und übermittelt selbst keine personenbezonenen Daten. Die eventuell extern eingebundene Bibliothek jsxgraphcore.js verarbeitet ebenfalls keinerlei personenbezogene Daten.';

@@ -71,12 +71,6 @@ if ($ADMIN->fulltree) {
                                                     get_string('globalJS_desc', 'filter_jsxgraph') . $placeholder,
                                                     '', PARAM_RAW, 60, 20));
 
-    $settings->add(new admin_setting_configtext('filter_jsxgraph/divid',
-                                                get_string('divid', 'filter_jsxgraph'),
-                                                get_string('divid_desc', 'filter_jsxgraph') . $placeholder,
-                                                'box'));
-    echo "<script>window.onload = function() {document.getElementById('admin-divid').getElementsByTagName('input')[0].setAttribute('disabled', true);}</script>";
-
     $settings->add(new admin_setting_configtext('filter_jsxgraph/width',
                                                 get_string('width', 'filter_jsxgraph'),
                                                 get_string('width_desc', 'filter_jsxgraph'),
@@ -84,6 +78,17 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('filter_jsxgraph/height',
                                                 get_string('height', 'filter_jsxgraph'),
-                                                get_string('height_desc', 'filter_jsxgraph') . $last,
+                                                get_string('height_desc', 'filter_jsxgraph') . $placeholder,
                                                 '400', PARAM_INT));
+
+    $settings->add(new admin_setting_configselect('filter_jsxgraph/dynamic_divid',
+                                                get_string('dynamic_divid', 'filter_jsxgraph'),
+                                                get_string('dynamic_divid_desc', 'filter_jsxgraph'),
+                                                  '1', [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
+
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/divid',
+                                                get_string('divid', 'filter_jsxgraph'),
+                                                get_string('divid_desc', 'filter_jsxgraph') . $last,
+                                                'box'));
+    echo "<script>window.onload = function() {document.getElementById('admin-divid').getElementsByTagName('input')[0].setAttribute('disabled', true);}</script>";
 }
