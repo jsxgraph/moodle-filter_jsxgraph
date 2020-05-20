@@ -46,6 +46,12 @@ if ($ADMIN->fulltree) {
         $recommended = filter_jsxgraph::$recommended;
     }
 
+    $settings->add(new admin_setting_heading('filter_jsxgraph/docs',
+                                             get_string('docs_header', 'filter_jsxgraph'), get_string('docs', 'filter_jsxgraph')));
+
+    $settings->add(new admin_setting_heading('filter_jsxgraph/settings',
+                                             get_string('settings_header', 'filter_jsxgraph'), ''));
+
     $settings->add(new admin_setting_configcheckbox('filter_jsxgraph/jsxfromserver',
                                                     get_string('jsxfromserver', 'filter_jsxgraph'),
                                                     get_string('jsxfromserver_desc', 'filter_jsxgraph'),
@@ -81,14 +87,10 @@ if ($ADMIN->fulltree) {
                                                 get_string('height_desc', 'filter_jsxgraph') . $placeholder,
                                                 '400', PARAM_INT));
 
-    $settings->add(new admin_setting_configselect('filter_jsxgraph/dynamic_divid',
-                                                get_string('dynamic_divid', 'filter_jsxgraph'),
-                                                get_string('dynamic_divid_desc', 'filter_jsxgraph'),
-                                                  '1', [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
-
     $settings->add(new admin_setting_configtext('filter_jsxgraph/divid',
                                                 get_string('divid', 'filter_jsxgraph'),
                                                 get_string('divid_desc', 'filter_jsxgraph') . $last,
                                                 'box'));
-    echo "<script>window.onload = function() {document.getElementById('admin-divid').getElementsByTagName('input')[0].setAttribute('disabled', true);}</script>";
+
+    // echo "<script>window.onload = function() {document.getElementById('admin-divid').getElementsByTagName('input')[0].setAttribute('disabled', true);}</script>";
 }

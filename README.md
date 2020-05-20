@@ -56,6 +56,7 @@ Otherwise, you can also install the filter with the following steps:
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
 	* inserting a `<jsxgraph>` or `[[jsxgraph]]` tag with all required parameters
+	* Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. You can specify this ID within the tag (see [here](#jsxgraph-tag-attributes)). Otherwise an ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
    
    Examples: 
 
@@ -66,8 +67,15 @@ Otherwise, you can also install the filter with the following steps:
            var p = brd.create('point', [1,2]);
        })();
    </jsxgraph>
+   
+   <jsxgraph width="600" height="500">
+          (function() {
+              var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
+              var p = brd.create('point', [1,2]);
+          })();
+      </jsxgraph>
     
-   [[jsxgraph width="600" height="500" box="mybox"]]
+   [[jsxgraph width="600" height="500" boardid="mybox"]]
        (function() {
            var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
            var p = brd.create('point', [1,2]);
@@ -130,7 +138,7 @@ As moodle administrator, you can make the following settings:
 
 ### `<jsxgraph>` tag attributes
 
-Within the `<jsxgraph>` or `[[jsxgraph]]` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." box="..." board="...">` 
+Within the `<jsxgraph>` or `[[jsxgraph]]` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." boardid="...">` 
 <table>
     <tr>
         <th>width and height</th>
@@ -145,8 +153,8 @@ Within the `<jsxgraph>` or `[[jsxgraph]]` tag different attributes can be declar
         <td>Decide whether global JavaScript from admin settings should be loaded before your code. Possible values: <code>"true"</code>, <code>"false"</code>.</td>
     </tr>
     <tr>
-        <th>box</th>
-        <td>This attribute defines, which id the graph of JSXGraph will have. It has to be equal to the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the second example at <a href="#usage">Usage</a>.</td>
+        <th>boardid</th>
+        <td>This attribute defines, which id the graph of JSXGraph will have. It has to be equal to the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. The ID is stored in the constant <code>BOARDID</code> within the JavaScript block. <b>If nothing is specified here in the tag, an ID is automatically generated and saved in the constant.</b> Look at the examples at <a href="#usage">Usage</a>.</td>
     </tr>
 </table>
 
@@ -169,9 +177,9 @@ After this changes **everyone** can use `MathJax` notation `$$(...)$$` within th
 Look at this example:
 
 ```html
-<jsxgraph width="600" height="600" box="box">
+<jsxgraph width="600" height="600">
     (function() {
-        var brd = JXG.JSXGraph.initBoard('box', {boundingbox:[-6,6,6,-6], axis:true});
+        var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-6,6,6,-6], axis:true});
         var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
         var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
     })();

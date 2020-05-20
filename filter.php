@@ -77,6 +77,8 @@ class filter_jsxgraph extends moodle_text_filter {
         $encoding = "UTF-8";
         $setting = $this->get_adminsettings();
 
+        $ref_boardid_title = "BOARDID";
+
         /* 1. STEP ---------------------------
          * Convert HTML-String to a dom object
          */
@@ -143,7 +145,8 @@ class filter_jsxgraph extends moodle_text_filter {
             $out = $dom->createElement('div');
 
             $a = $dom->createAttribute('id');
-            $divid = $this->string_or($tagattribute['box'], $setting['divid'] . $i);
+            $divid = $this->string_or($tagattribute['boardid'], $tagattribute['box']);
+            $divid = $this->string_or($divid, $setting['divid'] . $i);
             $a->value = $divid;
             $out->appendChild($a);
 
@@ -198,7 +201,12 @@ class filter_jsxgraph extends moodle_text_filter {
             $globalcode .= "\n\n";
 
             // Load code from <jsxgraph>- or [[jsxgraph]]-node
-            $jscode = "\n// Specific JavaScript code\n";
+            $jscode = "\n// Specific JavaScript code\n\n";
+            // Define boardid const
+            $jscode .= "\n/** Define boardid const */\n";
+            $jscode .= "\nconst $ref_boardid_title = '$divid';\n\n";
+            $jscode .= "\nconsole.log('board `'+$ref_boardid_title+'` has been integrated');\n\n";
+            // Integrate specific JavaScript
             $jscode .= $dom->saveHTML($item);
             // Remove <jsxgraph>- or [[jsxgraph]]-tags
             $jscode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $jscode);
@@ -367,6 +375,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $attributes = [
             'width' => '',
             'height' => '',
+            'boardid' => '',
             'box' => '',
             'entities' => '',
             'useGlobalJS' => ''

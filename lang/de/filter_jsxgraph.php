@@ -44,6 +44,10 @@ $string['error0.99.6'] = 'Leider wird die Core-Version 0.99.6 vom JSXGraph-Filte
 $string['errorNotFound_pre'] = 'Es existiert keine JSXGraph-Version ';
 $string['errorNotFound_post'] = ' auf CDN. Der JSXGraph-Core konnte nicht geladen werden. Bitte kontaktieren Sie Ihren Administrator.';
 
+$string['settings_header'] = 'Globale Einstellungen';
+$string['docs_header'] = 'Allgemeine Informationen';
+$string['docs'] = 'Vielen Dank, dass sie den JSXGraph-Filter benutzen. Für aktuelle Informationen über JSXGraph besuchen Sie einfach unsere <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">Homepage</a>.<br>Beachten Sie unsere <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detaillierte Filter-Dokumentation auf GitHub</a>.<br>Informationen über die Verwendung von JSXGraph finden sie <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in den docs</a>.';
+
 $string['jsxfromserver'] = 'JSXGraph vom Server';
 $string['jsxfromserver_desc'] = 'Wählen Sie aus, ob für das Plugin die Server-Version des JSXGraph-Cores genutzt wird, oder die lokal vorliegende, die mit dem Plugin installiert wurde. <b>Achtung:</b> Es muss eine gültige Versionsnummer unter "<a href="#admin-serverversion">Serverversion</a>" eingetragen sein!';
 
@@ -65,10 +69,10 @@ $string['width_desc'] = 'Standardbreite des JSXGraph-Containers.';
 $string['height'] = 'Höhe';
 $string['height_desc'] = 'Standardhöhe des JSXGraph-Containers.';
 
-$string['divid'] = 'Div-ID';
-$string['divid_desc'] = '<b>Dieses Feature ist veraltet:</b> Bitte nutzen Sie zukünftig nur noch den Platzhalter "<code>ref_divid</code>", um die ID der JSXGraph-Box in Ihrem JavaScript zu referenzieren. Diese Option bleibt weiterhin bestehen, um ältere Versionen weiterhin zu unterstützen.';
-
-$string['dynamic_divid'] = 'Verwende eine dynamische Div-ID';
-$string['dynamic_divid_desc'] = 'Ist diese Option aktiviert, wird innerhalb jedes JSXGraph-Tags automatisch eine eindeutige ID für das Board erzeugt. Diese kann innerhalb des JavaScript über die Variable "<code>ref_divid</code>" referenziert werden.<br><b>Diese Option sollte unbedingt deaktiviert werden, wenn noch alte Tags die Option "<a href="#admin-divid">div id</a>" verwenden, da die Div-ID andernfalls unbeachtet belibt.</b>';
+$string['divid'] = 'Dynamische Board-ID';
+$string['divid_desc'] =
+    'Jedes <code><div\></code>, das ein JSXGraph-Board enthält, benötigt eine eindeutige ID auf der Seite. Wird diese ID im JSXGraph-Tag angegeben (siehe <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation</a>), so gilt sie für das komplette enthaltene JavaScript.<br>' .
+    'Ist im Tag keine Board-ID angegeben, wird diese automatisch erzeugt. Hierzu wird das hier angegebene Präfix verwendet und um eine fortlaufende Nummer pro Seite ergänzt, z.B. box0, box1,...<br>' .
+    'Der Benutzer braucht die ID nicht zu kennen. <b>Sie kann in jedem Fall innerhalb des JavaScript über die Konstante "<code>BOARDID</code>" referenziert werden.</b>';
 
 $string['privacy'] = 'Dieses Plugin dient lediglich dazu, JSXGraph-Konstruktionen, die mithilfe des jsxgraph-Tags im Editor eingegeben werden, anzuzeigen. Es speichert und übermittelt selbst keine personenbezonenen Daten. Die eventuell extern eingebundene Bibliothek jsxgraphcore.js verarbeitet ebenfalls keinerlei personenbezogene Daten.';

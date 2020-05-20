@@ -44,6 +44,10 @@ $string['error0.99.6'] = 'Unfortunately the JSX filter does not support JSXGraph
 $string['errorNotFound_pre'] = 'There is no JSX version ';
 $string['errorNotFound_post'] = ' on CDN. The JSXGraph core could not be loaded. Please contact your admin.';
 
+$string['settings_header'] = 'Global settings';
+$string['docs_header'] = 'General information';
+$string['docs'] = 'Thank your for using our JSXGraph filter. For current information about JSXGraph, visit our <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">homepage</a>.<br>Please note our <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detailed documentation for our filter on GitHub</a>.<br>Information on using JSXGraph can be found <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in the docs</a>.';
+
 $string['jsxfromserver'] = 'JSXGraph from server';
 $string['jsxfromserver_desc'] = 'Select whether the plugin is using the server version of JSXGraph core, or the locally provided one supplied with the plugin. <b>Attention:</b> there must be entered a valid version number in "<a href="#admin-serverversion">server version</a>"!';
 
@@ -65,10 +69,10 @@ $string['width_desc'] = 'Width of JSXGraph container.';
 $string['height'] = 'height';
 $string['height_desc'] = 'Height of JSXGraph container.';
 
-$string['divid'] = 'div id';
-$string['divid_desc'] = '<b>This feature is deprecated:</b> Please only use the placeholder "<code>ref_divid</code>" in the future to reference the id of the JSXGraph box in your JavaScript. This option remains to support older versions.';
+$string['divid'] = 'dynamic div id';
+$string['divid_desc'] =
+    'Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. If this ID is specified in the JSXGraph tag (see <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">documentation</a>), it can be used in the complete JavaScript included.<br>' .
+    'If no board ID is specified in the tag, it is generated automatically. The prefix specified here is used for this and supplemented by a consecutive number per page, e.g. box0, box1, ...<br>' .
+    'The user does not need to know the ID. <b>In any case, it can be referenced within the JavaScript via the constant "<code>BOARDID</code>".</b>';
 
-$string['dynamic_divid'] = 'use dynamic div id';
-$string['dynamic_divid_desc'] = 'If this option is activated, a unique ID for the board is automatically generated for each JSXGraph tag. This ID can be referenced within the JavaScript via the variable "<code>ref_divid</code>".<br><b>This option should definitely be deactivated if old tags still use the option "<a href="#admin-divid">div id</a>", otherwise the div id is ignored.</b>';
-
-$string['privacy'] = 'This plugin is only used to display JSXGraph constructions typed in the editor using the JSXGraph tag. It does not store or transmit any personally identifiable information. The possibly externally integrated library jsxgraphcore.js does not process any personal data either.';
+$string['privacy'] = 'This plugin is only used to display JSXGraph constructions typed in the editor using the jsxgraph tag. It does not store or transmit any personally identifiable information. The possibly externally integrated library jsxgraphcore.js does not process any personal data either.';
