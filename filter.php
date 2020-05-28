@@ -188,7 +188,13 @@ class filter_jsxgraph extends moodle_text_filter {
              * Construct code
              */
 
+            $generalcode = '';
             $globalcode = '';
+
+            // Define boardid const
+            $generalcode .= "\n/** Define boardid const */\n";
+            $generalcode .= "const $ref_boardid_title = '$divid';\n";
+            $generalcode .= "console.log('board `'+$ref_boardid_title+'` has been integrated');\n";
 
             // Load global JavaScript code from administrator settings
             if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
@@ -201,11 +207,7 @@ class filter_jsxgraph extends moodle_text_filter {
             $globalcode .= "\n\n";
 
             // Load code from <jsxgraph>- or [[jsxgraph]]-node
-            $jscode = "\n// Specific JavaScript code\n\n";
-            // Define boardid const
-            $jscode .= "\n/** Define boardid const */\n";
-            $jscode .= "\nconst $ref_boardid_title = '$divid';\n\n";
-            $jscode .= "\nconsole.log('board `'+$ref_boardid_title+'` has been integrated');\n\n";
+            $jscode = "\n// Specific JavaScript code\n";
             // Integrate specific JavaScript
             $jscode .= $dom->saveHTML($item);
             // Remove <jsxgraph>- or [[jsxgraph]]-tags
@@ -219,6 +221,8 @@ class filter_jsxgraph extends moodle_text_filter {
                 $jscode = html_entity_decode($jscode);
             }
 
+            $jscode = $generalcode . $jscode;
+
             // Complete the code
             $code = '';
             if ($require) {
@@ -230,6 +234,13 @@ class filter_jsxgraph extends moodle_text_filter {
                 $codepostfix = "};";
                 $code = $codeprefix . $globalcode . $jscode . $codepostfix;
             }
+            $code = "\n//< ![CDATA[\n" . $code . "\n//]]>\n";
+            $code =
+                "\n\n// #########################################" .
+                "\n// JavaScript code for JSXGraph board '$divid'\n" .
+                $code .
+                "\n// End Code for JSXGraph board '$divid' " .
+                "\n// #########################################\n\n";
 
             // Place JavaScript code at the end of the page.
             $PAGE->requires->js_init_call($code);
