@@ -71,8 +71,9 @@ $string['height_desc'] = 'Standardhöhe des JSXGraph-Containers.';
 
 $string['divid'] = 'Dynamische Board-ID';
 $string['divid_desc'] =
-    'Jedes <code><div\></code>, das ein JSXGraph-Board enthält, benötigt eine eindeutige ID auf der Seite. Wird diese ID im JSXGraph-Tag angegeben (siehe <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation</a>), so gilt sie für das komplette enthaltene JavaScript.<br>' .
+    '<b>Veraltet! Sie sollten von nun an die Konstante "<code>BOARDID</code>" innerhalb des <jsxgraph\>-Tags benutzen.</b><br>'.
+    '<small>Jedes <code><div\></code>, das ein JSXGraph-Board enthält, benötigt eine eindeutige ID auf der Seite. Wird diese ID im JSXGraph-Tag angegeben (siehe <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation</a>), so gilt sie für das komplette enthaltene JavaScript.<br>' .
     'Ist im Tag keine Board-ID angegeben, wird diese automatisch erzeugt. Hierzu wird das hier angegebene Präfix verwendet und um eine fortlaufende Nummer pro Seite ergänzt, z.B. box0, box1,...<br>' .
-    'Der Benutzer braucht die ID nicht zu kennen. <b>Sie kann in jedem Fall innerhalb des JavaScript über die Konstante "<code>BOARDID</code>" referenziert werden.</b>';
+    'Der Benutzer braucht die ID nicht zu kennen. Sie kann in jedem Fall innerhalb des JavaScript über die Konstante "<code>BOARDID</code>" referenziert werden.</small>';
 
 $string['privacy'] = 'Dieses Plugin dient lediglich dazu, JSXGraph-Konstruktionen, die mithilfe des jsxgraph-Tags im Editor eingegeben werden, anzuzeigen. Es speichert und übermittelt selbst keine personenbezonenen Daten. Die eventuell extern eingebundene Bibliothek jsxgraphcore.js verarbeitet ebenfalls keinerlei personenbezogene Daten.';

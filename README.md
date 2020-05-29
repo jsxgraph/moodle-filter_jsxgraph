@@ -69,15 +69,8 @@ Otherwise, you can also install the filter with the following steps:
    </jsxgraph>
    
    <jsxgraph width="600" height="500">
-          (function() {
-              var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
-              var p = brd.create('point', [1,2]);
-          })();
-      </jsxgraph>
-    
-   <jsxgraph width="600" height="500" boardid="mybox">
        (function() {
-           var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
+           var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
            var p = brd.create('point', [1,2]);
        })();
    </jsxgraph>
@@ -138,7 +131,7 @@ As moodle administrator, you can make the following settings:
 
 ### `<jsxgraph>` tag attributes
 
-Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." boardid="...">` 
+Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="...">` 
 <table>
     <tr>
         <th>width and height</th>
@@ -153,8 +146,8 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
         <td>Decide whether global JavaScript from admin settings should be loaded before your code. Possible values: <code>"true"</code>, <code>"false"</code>.</td>
     </tr>
     <tr>
-        <th>boardid</th>
-        <td>This attribute defines, which id the graph of JSXGraph will have. It has to be equal to the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. The ID is stored in the constant <code>BOARDID</code> within the JavaScript block. <b>If nothing is specified here in the tag, an ID is automatically generated and saved in the constant.</b> Look at the examples at <a href="#usage">Usage</a>.</td>
+        <th>divid</th>
+        <td><b>Deprecated</b><br><small>This attribute defines, which id the graph of JSXGraph will have. Please use the id stored in the constant <code>BOARDID</code> within the JavaScript block, especially for the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the examples at <a href="#usage">Usage</a>.</small></td>
     </tr>
 </table>
 
