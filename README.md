@@ -55,7 +55,7 @@ Otherwise, you can also install the filter with the following steps:
    - ...
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
-	* inserting a `<jsxgraph>` or `[[jsxgraph]]` tag with all required parameters
+	* inserting a `<jsxgraph>` tag with all required parameters
 	* Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. You can specify this ID within the tag (see [here](#jsxgraph-tag-attributes)). Otherwise an ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
    
    Examples: 
@@ -75,21 +75,21 @@ Otherwise, you can also install the filter with the following steps:
           })();
       </jsxgraph>
     
-   [[jsxgraph width="600" height="500" boardid="mybox"]]
+   <jsxgraph width="600" height="500" boardid="mybox">
        (function() {
            var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
            var p = brd.create('point', [1,2]);
        })();
-   [[/jsxgraph]]
+   </jsxgraph>
    ```
    
 ***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
  
 Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
-On reopening it later, you will notice the code rather than the `<jsxgraph>` or `[[jsxgraph]]` tag. To edit your content later, again switch to the code input. 
+On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input. 
 
 Using JSXGraph in quiz questions needs a workaround: <br>
-When adding or editing a question, insert the `<jsxgraph>` or `[[jsxgraph]]` tag into the `Question tag`-input and choose "HTML format".
+When adding or editing a question, insert the `<jsxgraph>` tag into the `Question tag`-input and choose "HTML format".
 
 ### JSXGraph and STACK 
 
@@ -138,7 +138,7 @@ As moodle administrator, you can make the following settings:
 
 ### `<jsxgraph>` tag attributes
 
-Within the `<jsxgraph>` or `[[jsxgraph]]` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." boardid="...">` 
+Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." boardid="...">` 
 <table>
     <tr>
         <th>width and height</th>
@@ -169,7 +169,7 @@ To use the pre-installed `MathJax` notation within the board, your **Moodle admi
 
 After this changes **everyone** can use `MathJax` notation `$$(...)$$` within the board of JSXGraph as follows:
 
-- Instead of using ` \ ` between `<jsxgraph>` or `[[jsxgraph]]` tags you have to escape the backslash by using ` \\ ` <br>
+- Instead of using ` \ ` between `<jsxgraph>` tags you have to escape the backslash by using ` \\ ` <br>
   e.g. `\frac` --> `\\frac`
 - To prevent unpredictable behavior you should set `parse: false`
 - *optional:* To make the font bigger, use the `fontSize`-attribute

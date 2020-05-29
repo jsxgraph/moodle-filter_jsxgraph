@@ -52,8 +52,8 @@ class filter_jsxgraph extends moodle_text_filter {
      * @return string
      */
     public function filter($text, array $options = array()) {
-        // To optimize speed, search for a <jsxgraph>- or [[jsxgraph]]-tag (avoiding to parse everything on every text).
-        if (!is_int(strpos($text, '<jsxgraph')) && !is_int(strpos($text, '[[jsxgraph'))) {
+        // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
+        if (!is_int(strpos($text, '<jsxgraph'))) {
             return $text;
         }
 
@@ -61,7 +61,7 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     /**
-     * Replace <jsxgraph ...> or [[jsxgraph ...]] tag
+     * Replace <jsxgraph ...> tag
      *
      * @get text between tags
      *
@@ -104,17 +104,6 @@ class filter_jsxgraph extends moodle_text_filter {
         /* 2. STEP --------
          * Get tag elements
          */
-
-        $dom_str = $dom->saveHTML();
-        $dom_str = preg_replace_callback(
-            '/\[\[jsxgraph(.*)\]\]/',
-            function($match) {
-                return '<jsxgraph' . $match[1] . '>';
-            },
-            $dom_str
-        );
-        $dom_str = preg_replace('/\[\[\/jsxgraph\]\]/', '</jsxgraph>', $dom_str);
-        $dom->loadHTML($dom_str);
 
         $taglist = $dom->getElementsByTagname($tag);
         $require = false;
@@ -166,7 +155,7 @@ class filter_jsxgraph extends moodle_text_filter {
             $a->value = 'width:' . $w . '; height:' . $h . '; ';
             $out->appendChild($a);
 
-            // Replace <jsxgraph>- or [[jsxgraph]]-node by a <div>-node
+            // Replace <jsxgraph>-node by a <div>-node
             $item->parentNode->replaceChild($dom->appendChild($out), $item);
 
             if ($error !== false) {
@@ -206,11 +195,11 @@ class filter_jsxgraph extends moodle_text_filter {
             }
             $globalcode .= "\n\n";
 
-            // Load code from <jsxgraph>- or [[jsxgraph]]-node
+            // Load code from <jsxgraph>-node
             $jscode = "\n// Specific JavaScript code\n";
             // Integrate specific JavaScript
             $jscode .= $dom->saveHTML($item);
-            // Remove <jsxgraph>- or [[jsxgraph]]-tags
+            // Remove <jsxgraph> tags
             $jscode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $jscode);
             // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped
             $jscode = str_replace("</script>", "<\/script>", $jscode);
