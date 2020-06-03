@@ -7,6 +7,8 @@ Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxg
 JSXGraph is a cross-browser JavaScript library for interactive geometry, function plotting, charting, and data visualization in the web browser.
 JSXGraph is implemented in pure JavaScript and does not rely on any other library. Special care has been taken to optimize the performance.
 
+Have a look at [www.jsxgraph.org](https://jsxgraph.org/).
+
 ##### Features
 - Euclidean and projective Geometry
 - Curve plotting
@@ -120,12 +122,12 @@ As moodle administrator, you can make the following settings:
         <td>In this textbox you can type a general JavaScript code to be loaded before loading specific tag code.</td>
     </tr>
     <tr>
-        <th>div id</th>
-        <td>ID of the division containing JSXGraph.</td>
+        <th>width and height</th>
+        <td>Default dimensions of JSXGraph container. Is used if no information is given in the tag.</td>
     </tr>
     <tr>
-        <th>width and height</th>
-        <td>Dimensions of JSXGraph container.</td>
+        <th>divid</th>
+        <td><b>Deprecated</b><br><small>Prefix for the automatically generated divid of every JSX construction.</small></td>
     </tr>
 </table>
 
@@ -135,7 +137,7 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
 <table>
     <tr>
         <th>width and height</th>
-        <td>Dimensions of JSXGraph container. Overrides the global settings locally. Type only Integers without "px".</td>
+        <td>Dimensions of JSXGraph container. Overrides the global settings locally. You can use any CSS unit here. If no unit but only an integer is specified, "px" is automatically added.</td>
     </tr>
     <tr>
         <th>entities</th>
@@ -146,7 +148,7 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
         <td>Decide whether global JavaScript from admin settings should be loaded before your code. Possible values: <code>"true"</code>, <code>"false"</code>.</td>
     </tr>
     <tr>
-        <th>divid</th>
+        <th>boardid or box</th>
         <td><b>Deprecated</b><br><small>This attribute defines, which id the graph of JSXGraph will have. Please use the id stored in the constant <code>BOARDID</code> within the JavaScript block, especially for the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the examples at <a href="#usage">Usage</a>.</small></td>
     </tr>
 </table>
@@ -170,7 +172,7 @@ After this changes **everyone** can use `MathJax` notation `$$(...)$$` within th
 Look at this example:
 
 ```html
-<jsxgraph width="600" height="600">
+<jsxgraph width="100%" height="600">
     (function() {
         var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-6,6,6,-6], axis:true});
         var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
