@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+// Filter functionality of JSXGraph Moodle filter.
+
 /**
  * JSXGraph is a cross-browser JavaScript library for interactive geometry,
  * function plotting, charting, and data visualization in the web browser.
@@ -23,7 +25,7 @@
  * This is a plugin for Moodle to enable function plotting and dynamic
  * geometry constructions with JSXGraph within a Moodle platform.
  *
- * @package    jsxgraph filter
+ * @package    filter_jsxgraph
  * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
@@ -45,10 +47,14 @@ require_once($CFG->libdir . '/pagelib.php');
 class filter_jsxgraph extends moodle_text_filter {
     /**
      * Recommended version
+     *
+     * @var string
      */
     public static $recommended = '1.00.0';
     /**
      * Path to jsxgraphcore.js
+     *
+     * @var string
      */
     public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.js';
 
@@ -83,7 +89,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $encoding = "UTF-8";
         $setting = $this->get_adminsettings();
 
-        $ref_boardid_title = "BOARDID";
+        $constantNameBOARDID = "BOARDID";
 
         /* 1. STEP ---------------------------
          * Convert HTML-String to a dom object
@@ -102,7 +108,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
         libxml_use_internal_errors(false);
 
-        // Discard white space
+        // Discard white space.
         $dom->preserveWhiteSpace = false;
         $dom->strictErrorChecking = false;
         $dom->recover = true;
@@ -186,14 +192,14 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Define boardid const.
             $generalcode .= "\n/** Define boardid const */\n";
-            $generalcode .= "const $ref_boardid_title = '$divid';\n";
-            $generalcode .= "console.log('board `'+$ref_boardid_title+'` has been integrated');\n";
+            $generalcode .= "const $constantNameBOARDID = '$divid';\n";
+            $generalcode .= "console.log('board `'+$constantNameBOARDID+'` has been integrated');\n";
 
             // Load global JavaScript code from administrator settings.
             if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
                 $globalcode .= "\n// Global JavaScript code of the administrator\n";
                 $globalcode .= $setting['globalJS'];
-                if (substr_compare($setting['globalJS'], ';', $setting['globalJS'] . length - 1) < 0) {
+                if (substr_compare($setting['globalJS'], ';', strlen($setting['globalJS']) - 1) < 0) {
                     $globalcode .= ';';
                 }
             }

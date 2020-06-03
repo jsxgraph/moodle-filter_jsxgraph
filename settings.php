@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+// Global settings of JSXGraph Moodle filter.
+
 /**
  * JSXGraph is a cross-browser JavaScript library for interactive geometry,
  * function plotting, charting, and data visualization in the web browser.
@@ -23,7 +25,7 @@
  * This is a plugin for Moodle to enable function plotting and dynamic
  * geometry constructions with JSXGraph within a Moodle platform.
  *
- * @package    jsxgraph filter
+ * @package    filter_jsxgraph
  * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
@@ -95,6 +97,4 @@ if ($ADMIN->fulltree) {
                                                 get_string('divid', 'filter_jsxgraph'),
                                                 get_string('divid_desc', 'filter_jsxgraph') . $last,
                                                 'box'));
-
-    // echo "<script>window.onload = function() {document.getElementById('admin-divid').getElementsByTagName('input')[0].setAttribute('disabled', true);}</script>";
 }

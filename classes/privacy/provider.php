@@ -23,7 +23,7 @@
  * This is a plugin for Moodle to enable function plotting and dynamic
  * geometry constructions with JSXGraph within a Moodle platform.
  *
- * @package    jsxgraph filter
+ * @package    filter_jsxgraph
  * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
