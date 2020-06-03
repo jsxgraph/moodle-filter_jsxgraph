@@ -1,7 +1,5 @@
 # Moodle JSXGraph plugin
 
-Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
-
 ---
  ### Hint
  
@@ -16,8 +14,6 @@ Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxg
 
 JSXGraph is a cross-browser JavaScript library for interactive geometry, function plotting, charting, and data visualization in the web browser.
 JSXGraph is implemented in pure JavaScript and does not rely on any other library. Special care has been taken to optimize the performance.
-
-Have a look at [www.jsxgraph.org](https://jsxgraph.org/).
 
 ##### Features
 - Euclidean and projective Geometry
@@ -39,7 +35,7 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 
 To install the filter for moodle2 you can follow the steps below:
 
-1. Download the entire `MOODLE_2` branch as a ZIP-compressed folder via the GitHub download button<br>
+1. Download the entire `MOODLE_2` branch as a ZIP-compressed folder via the github download button<br>
    **Do not unpack the ZIP directory!**
 2. In Moodle, navigate to `Site administration -> Plugins -> Install plugins`
 3. Under `Install plugin from ZIP file`, drag and drop the downloaded ZIP directory into input field und click on `Show more...`
@@ -52,7 +48,7 @@ To install the filter for moodle2 you can follow the steps below:
 
 Otherwise, you can also install the filter with the following steps:
 
-1. Download the entire `MOODLE_2` branch as a ZIP-compressed folder via the GitHub download button
+1. Download the entire `MOODLE_2` branch as a ZIP-compressed folder via the github download button
 2. Create a folder `jsxgraph` in the directory `moodle -> filter` of your Moodle installation (be sure to write correctly)
 3. Upload the files and folders contained in the ZIP directory to the directory just created (`screenshots` directory is not needed anymore) 
 4. Open site root of your Moodle installation and follow the steps to install plugin 
@@ -68,7 +64,6 @@ Otherwise, you can also install the filter with the following steps:
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
 	* inserting a `<jsxgraph>` tag with all required parameters
-	* Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. You can specify this ID within the tag (see [here](#jsxgraph-tag-attributes)). Otherwise an ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
    
    Examples: 
 
@@ -79,10 +74,10 @@ Otherwise, you can also install the filter with the following steps:
            var p = brd.create('point', [1,2]);
        })();
    </jsxgraph>
-   
-   <jsxgraph width="600" height="500">
+    
+   <jsxgraph width="600" height="500" box="mybox">
        (function() {
-           var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
+           var brd = JXG.JSXGraph.initBoard('mybox', {boundingbox:[-5,5,5,-5], axis:true});
            var p = brd.create('point', [1,2]);
        })();
    </jsxgraph>
@@ -114,30 +109,26 @@ As moodle administrator, you can make the following settings:
         <td>If this setting is set to <code>true</code>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
     </tr>
     <tr>
-        <th>convert encoding</th>
-        <td>Decide wether the encoding of the text between the JSXGraph tags should be converted to UTF-8 or not.</td>
-    </tr>
-    <tr>
-        <th>global JavaScript</th>
+        <th>Global JavaScript</th>
         <td>In this textbox you can type a general JavaScript code to be loaded before loading specific tag code.</td>
     </tr>
     <tr>
-        <th>width and height</th>
-        <td>Default dimensions of JSXGraph container. Is used if no information is given in the tag.</td>
+        <th>div id</th>
+        <td>ID of the division containing JSXGraph.</td>
     </tr>
     <tr>
-        <th>divid</th>
-        <td><b>Deprecated</b><br><small>Prefix for the automatically generated divid of every JSX construction.</small></td>
+        <th>width and height</th>
+        <td>Dimensions of JSXGraph container.</td>
     </tr>
 </table>
 
 ### `<jsxgraph>` tag attributes
 
-Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="...">` 
+Within the `<jsxgraph>` tag different attributes can be declared: `<jsxgraph width="..." height="..." entities="..." useGlobalJS="..." box="..." board="...">` 
 <table>
     <tr>
         <th>width and height</th>
-        <td>Dimensions of JSXGraph container. Overrides the global settings locally. You can use any CSS unit here. If no unit but only an integer is specified, "px" is automatically added.</td>
+        <td>Dimensions of JSXGraph container. Overrides the global settings locally. Type only Integers without "px".</td>
     </tr>
     <tr>
         <th>entities</th>
@@ -148,8 +139,8 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
         <td>Decide whether global JavaScript from admin settings should be loaded before your code. Possible values: <code>"true"</code>, <code>"false"</code>.</td>
     </tr>
     <tr>
-        <th>boardid or box</th>
-        <td><b>Deprecated</b><br><small>This attribute defines, which id the graph of JSXGraph will have. Please use the id stored in the constant <code>BOARDID</code> within the JavaScript block, especially for the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the examples at <a href="#usage">Usage</a>.</small></td>
+        <th>box</th>
+        <td>This attribute defines, which id the graph of JSXGraph will have. It has to be equal to the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the second example at <a href="#usage">Usage</a>.</td>
     </tr>
 </table>
 
@@ -164,7 +155,7 @@ To use the pre-installed `MathJax` notation within the board, your **Moodle admi
 
 After this changes **everyone** can use `MathJax` notation `$$(...)$$` within the board of JSXGraph as follows:
 
-- Instead of using ` \ ` between `<jsxgraph>` tags you have to escape the backslash by using ` \\ ` <br>
+- Instead of using ` \ ` between `<jsxgraph>`-tags you have to escape the backslash by using ` \\ ` <br>
   e.g. `\frac` --> `\\frac`
 - To prevent unpredictable behavior you should set `parse: false`
 - *optional:* To make the font bigger, use the `fontSize`-attribute
@@ -172,9 +163,9 @@ After this changes **everyone** can use `MathJax` notation `$$(...)$$` within th
 Look at this example:
 
 ```html
-<jsxgraph width="100%" height="600">
+<jsxgraph width="600" height="600" box="box">
     (function() {
-        var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-6,6,6,-6], axis:true});
+        var brd = JXG.JSXGraph.initBoard('box', {boundingbox:[-6,6,6,-6], axis:true});
         var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
         var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
     })();
@@ -185,13 +176,10 @@ Using the `MathJax` filter within the board is supported in `moodle2.x` and `moo
 
 ## Build Plugin (how to release a new version)
 
-This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps below:
+This plugin no longer needs to be explicitly build.
 
-- replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
-- update version tag in `thirdpartylibs.xml`!
-- the value of `$plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
-- Draft a new release in GitHub
-- submit a new version of the filter to the [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph) (maintained by Andreas Walter) 
+To release a **new version of JSXGraph** into the filter, just replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
+In addition, the value of `$plugin->version` should be adjusted in the file `version.php`.
 
 ## Feedback
 
@@ -201,5 +189,4 @@ All bugs, feature requests, feedback, etc., are welcome.
 
 http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-[![ITEMS](img/items_logo_blue.png)](https://itemspro.eu)
-[![Cofunded by the Erasmus+ programme of the European union](img/eu_flag_co_funded_pos_rgb_left_small.jpg)](https://ec.europa.eu/programmes/erasmus-plus/)
+
