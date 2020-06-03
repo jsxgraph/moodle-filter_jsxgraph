@@ -1,10 +1,24 @@
 /**
-     * Version details
-     *
-     * @package    jsxgraph filter
-     * @copyright  2020 Michael Gerhaeuser, Matthias Ehmann, Carsten Miller, Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>, Andreas Walter
-     * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-     */
+ * JSXGraph is a cross-browser JavaScript library for interactive geometry,
+ * function plotting, charting, and data visualization in the web browser.
+ * JSXGraph is implemented in pure JavaScript and does not rely on any other
+ * library. Special care has been taken to optimize the performance.
+ *
+ * This is a plugin for Moodle to enable function plotting and dynamic
+ * geometry constructions with JSXGraph within a Moodle platform.
+ *
+ * This is a version will no longer be developed or improved.
+ * Please use the latest version from master branch for all Moodle versions from 2.9!
+ *
+ * @package    jsxgraph filter
+ * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ *             Matthias Ehmann,
+ *             Michael Gerhaeuser,
+ *             Carsten Miller,
+ *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
+ *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 .jxgbox {
     /* for IE 7 */
