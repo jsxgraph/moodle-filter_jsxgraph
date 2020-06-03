@@ -169,11 +169,9 @@
                     $a = $dom->createAttribute('class');
                     $a->value = 'jxg-error';
                     $t->appendChild($a);
-                    $a = $dom->createElement('b');
-                    $a->textContent = get_string('error', 'filter_jsxgraph');
+                    $a = $dom->createElement('b', get_string('error', 'filter_jsxgraph'));
                     $t->appendChild($a);
-                    $a = $dom->createElement('span');
-                    $a->textContent = $error;
+                    $a = $dom->createElement('span', $error);
                     $t->appendChild($a);
                     $out->appendChild($t);
                     continue;
