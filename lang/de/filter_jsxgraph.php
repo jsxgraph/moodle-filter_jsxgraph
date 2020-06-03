@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// German translation of JSXGraph Moodle filter.
-
 /**
  * JSXGraph is a cross-browser JavaScript library for interactive geometry,
  * function plotting, charting, and data visualization in the web browser.

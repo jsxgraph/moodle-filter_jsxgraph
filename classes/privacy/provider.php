@@ -37,6 +37,11 @@ namespace filter_jsxgraph\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Class provider
+ *
+ * @package filter_jsxgraph\privacy
+ */
 class provider implements \core_privacy\local\metadata\null_provider {
     /**
      * Get the language string identifier with the component's language

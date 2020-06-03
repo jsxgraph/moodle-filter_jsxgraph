@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// Filter functionality of JSXGraph Moodle filter.
-
 /**
  * JSXGraph is a cross-browser JavaScript library for interactive geometry,
  * function plotting, charting, and data visualization in the web browser.
@@ -89,7 +87,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $encoding = "UTF-8";
         $setting = $this->get_adminsettings();
 
-        $constantNameBOARDID = "BOARDID";
+        $constantnameboardid = "BOARDID";
 
         /* 1. STEP ---------------------------
          * Convert HTML-String to a dom object
@@ -192,8 +190,8 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Define boardid const.
             $generalcode .= "\n/** Define boardid const */\n";
-            $generalcode .= "const $constantNameBOARDID = '$divid';\n";
-            $generalcode .= "console.log('board `'+$constantNameBOARDID+'` has been integrated');\n";
+            $generalcode .= "const $constantnameboardid = '$divid';\n";
+            $generalcode .= "console.log('board `'+$constantnameboardid+'` has been integrated');\n";
 
             // Load global JavaScript code from administrator settings.
             if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
