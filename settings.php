@@ -37,6 +37,7 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
     // Add the placeholder to the description of a setting that should be separated from the following setting.
+    // Deprecated.
     $placeholder = '<div class="placeholder" style="height: 50px; padding: 1px 0 25px 0; margin-left: -33%;"><hr></div>';
     $last = '<div class="placeholder" style="height: 50px;"></div>';
 
@@ -47,11 +48,11 @@ if ($ADMIN->fulltree) {
     }
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/docs',
-                                             get_string('docs_header', 'filter_jsxgraph'),
+                                             get_string('header_docs', 'filter_jsxgraph'),
                                              get_string('docs', 'filter_jsxgraph')));
 
-    $settings->add(new admin_setting_heading('filter_jsxgraph/settings',
-                                             get_string('settings_header', 'filter_jsxgraph'),
+    $settings->add(new admin_setting_heading('filter_jsxgraph/jsxversion',
+                                             get_string('header_jsxversion', 'filter_jsxgraph'),
                                              ''));
 
     $settings->add(new admin_setting_configcheckbox('filter_jsxgraph/jsxfromserver',
@@ -61,8 +62,22 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext_with_maxlength('filter_jsxgraph/serverversion',
                                                                get_string('serverversion', 'filter_jsxgraph'),
-                                                               get_string('serverversion_desc', 'filter_jsxgraph') . $placeholder,
+                                                               get_string('serverversion_desc', 'filter_jsxgraph'),
                                                                $recommended, PARAM_TEXT, 6, 6));
+
+    $settings->add(new admin_setting_heading('filter_jsxgraph/libs',
+                                             get_string('header_libs', 'filter_jsxgraph'),
+                                             ''));
+
+    $settings->add(new admin_setting_configselect('filter_jsxgraph/formulasextension',
+                                                  get_string('formulasextension', 'filter_jsxgraph'),
+                                                  get_string('formulasextension_desc', 'filter_jsxgraph'),
+                                                  '1',
+                                                  [get_string('off', 'filter_jsxgraph'), get_string('on', 'filter_jsxgraph')]));
+
+    $settings->add(new admin_setting_heading('filter_jsxgraph/codingbetweentags',
+                                             get_string('header_codingbetweentags', 'filter_jsxgraph'),
+                                             ''));
 
     $settings->add(new admin_setting_configselect('filter_jsxgraph/HTMLentities',
                                                   get_string('HTMLentities', 'filter_jsxgraph'),
@@ -72,14 +87,22 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configselect('filter_jsxgraph/convertencoding',
                                                   get_string('convertencoding', 'filter_jsxgraph'),
-                                                  get_string('convertencoding_desc', 'filter_jsxgraph') . $placeholder,
+                                                  get_string('convertencoding_desc', 'filter_jsxgraph'),
                                                   '1',
                                                   [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
 
+    $settings->add(new admin_setting_heading('filter_jsxgraph/globaljs',
+                                             get_string('header_globaljs', 'filter_jsxgraph'),
+                                             ''));
+
     $settings->add(new admin_setting_configtextarea('filter_jsxgraph/globalJS',
                                                     get_string('globalJS', 'filter_jsxgraph'),
-                                                    get_string('globalJS_desc', 'filter_jsxgraph') . $placeholder,
+                                                    get_string('globalJS_desc', 'filter_jsxgraph'),
                                                     '', PARAM_RAW, 60, 20));
+
+    $settings->add(new admin_setting_heading('filter_jsxgraph/dimensions',
+                                             get_string('header_dimensions', 'filter_jsxgraph'),
+                                             ''));
 
     $settings->add(new admin_setting_configtext('filter_jsxgraph/width',
                                                 get_string('width', 'filter_jsxgraph'),
@@ -88,11 +111,17 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('filter_jsxgraph/height',
                                                 get_string('height', 'filter_jsxgraph'),
-                                                get_string('height_desc', 'filter_jsxgraph') . $placeholder,
+                                                get_string('height_desc', 'filter_jsxgraph'),
                                                 '400', PARAM_INT));
+
+    $settings->add(new admin_setting_heading('filter_jsxgraph/deprecated',
+                                             get_string('header_deprecated', 'filter_jsxgraph'),
+                                             ''));
 
     $settings->add(new admin_setting_configtext('filter_jsxgraph/divid',
                                                 get_string('divid', 'filter_jsxgraph'),
-                                                get_string('divid_desc', 'filter_jsxgraph') . $last,
+                                                get_string('divid_desc', 'filter_jsxgraph'),
                                                 'box'));
+    $settings->add(new admin_setting_heading('filter_jsxgraph/last',
+                                             '', '<br><br>'));
 }
