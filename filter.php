@@ -353,7 +353,7 @@ class filter_jsxgraph extends moodle_text_filter {
         global $PAGE, $CFG;
 
         $libs = [
-            'formulas' => 'formulas_extension/src/jsxquestion.js'
+            'formulas' => 'formulas_extension/JSXQuestion.js'
         ];
 
         if (!array_key_exists($libname, $libs))
