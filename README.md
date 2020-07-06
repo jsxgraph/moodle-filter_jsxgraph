@@ -145,7 +145,7 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
 <table>
     <tr>
         <th><code>title</code> and <code>description</code></th>
-        <td>This information is used for better accessibility. Since JSXGraph version 1.2, the board attributes <code>title</code> and <code>description</code> are used to create elements for <code>aria-labeledby</code> and <code>aria-describedby</code> of the board. Title ans description are set by specification in this tag attributes.</td>
+        <td>This information is used for better accessibility. Since JSXGraph version 1.2, the board attributes <code>title</code> and <code>description</code> are used to create elements for <code>aria-labelledby</code> and <code>aria-describedby</code> of the board. Title ans description are set by specification in this tag attributes.</td>
     </tr>
     <tr>
         <th><code>width</code> and <code>height</code></th>
