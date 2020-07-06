@@ -9,10 +9,6 @@ services:
  - postgresql
  - docker
 
-# If using Behat, then this should be true due to an issue with Travis CI.
-# If not using Behat, recommended to use `sudo: false` as it is faster.
-sudo: false
-
 # Cache NPM's and Composer's caches to speed up build times.
 cache:
  directories:
@@ -46,7 +42,6 @@ before_install:
 # This disables XDebug which should speed up the build.
   - phpenv config-rm xdebug.ini
 # This installs NodeJS which is used by Grunt, etc.
-  - nvm install node
   - nvm install 8.9
   - nvm use 8.9
 # Currently we are inside of the clone of your repository.  We move up two
