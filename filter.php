@@ -55,6 +55,12 @@ class filter_jsxgraph extends moodle_text_filter {
      * @var string
      */
     public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.js';
+    /**
+     * Path to library folders
+     *
+     * @var string
+     */
+    public static $libpath = '/filter/jsxgraph/libs/';
 
     /**
      * Main filter function
@@ -181,6 +187,14 @@ class filter_jsxgraph extends moodle_text_filter {
                 continue;
             }
 
+
+            if ($setting['formulasextension']) {
+                $this->load_library('formulas');
+            } else {
+                if ($tagattribute['ext_formulas'])
+                    $this->load_library('formulas');
+            }
+
             /* 4. STEP ------
              * Construct code
              */
@@ -260,7 +274,7 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     /**
-     * Load JSXGraph code from server
+     * Load JSXGraph code from local or from server
      *
      * @param        $fromserver
      * @param string $serverversion
@@ -330,6 +344,25 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     /**
+     * Load additional library
+     *
+     * @param string $libname
+     *
+     */
+    private function load_library($libname) {
+        global $PAGE, $CFG;
+
+        $libs = [
+            'formulas' => 'formulas_extension/src/jsxquestion.js'
+        ];
+
+        if (!array_key_exists($libname, $libs))
+            return;
+        $url = self::$libpath . $libs[$libname];
+        $PAGE->requires->js(new moodle_url($url));
+    }
+
+    /**
      * Get settings made by administrator
      *
      * @return array settings from administration
@@ -341,6 +374,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmp = [
             'jsxfromserver' => false,
             'serverversion' => self::$recommended,
+            'formulasextension' => true,
             'HTMLentities' => true,
             'convertencoding' => true,
             'globalJS' => '',
@@ -357,6 +391,10 @@ class filter_jsxgraph extends moodle_text_filter {
         $tmpcfg = get_config('filter_jsxgraph', 'serverversion');
         if (isset($tmpcfg)) {
             $tmp['serverversion'] = $tmpcfg;
+        }
+        $tmpcfg = get_config('filter_jsxgraph', 'formulasextension');
+        if (isset($tmpcfg)) {
+            $tmp['formulasextension'] = $this->convert_bool($tmpcfg);
         }
         $tmpcfg = get_config('filter_jsxgraph', 'HTMLentities');
         if (isset($tmpcfg)) {
@@ -397,18 +435,28 @@ class filter_jsxgraph extends moodle_text_filter {
         $attributes = [
             'width' => '',
             'height' => '',
-            'boardid' => '',
-            'box' => '',
             'entities' => '',
-            'useGlobalJS' => ''
+            'useGlobalJS' => '',
+            'ext_formulas' => '',
+            'box' => '',
+            'boardid' => ''
         ];
         $boolattributes = [
             'entities' => true,
-            'useGlobalJS' => true
+            'useGlobalJS' => true,
+            'ext_formulas' => null
         ];
         foreach ($attributes as $attr => $value) {
             if (array_key_exists($attr, $boolattributes)) {
-                $attributes[$attr] = $this->convert_bool($node->getAttribute($attr), $boolattributes[$attr]);
+                if ($node->hasAttribute($attr)) {
+                    if ($node->getAttribute($attr) == '') {
+                        $attributes[$attr] = true;
+                    } else {
+                        $attributes[$attr] = $this->convert_bool($node->getAttribute($attr), $boolattributes[$attr]);
+                    }
+                } else {
+                    $attributes[$attr] = $boolattributes[$attr];
+                }
             } else {
                 $attributes[$attr] = $node->getAttribute($attr);
             }

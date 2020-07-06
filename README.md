@@ -86,6 +86,10 @@ On reopening it later, you will notice the code rather than the `<jsxgraph>` tag
 Using JSXGraph in quiz questions needs a workaround: <br>
 When adding or editing a question, insert the `<jsxgraph>` tag into the `Question tag`-input and choose "HTML format".
 
+### JSXGraph and formulas - a filter extension
+
+To use an JSXGraph board in a formulas question you can use <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">our filter extension for formulas</a>. Please note the <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph/blob/master/README.md" target="_blank">documentation</a> of this extension, especially the installation instructions.
+
 ### JSXGraph and STACK 
 
 This filter is not necessary to use JSXGraph with [STACK](https://moodle.org/plugins/qtype_stack). STACK has its own extension for JSXGraph.
@@ -110,7 +114,11 @@ As moodle administrator, you can make the following settings:
         <td>Type the version number, which should be loaded, when <code>JSXGraph from server</code> is checked.</td>
     </tr>
     <tr>
-        <th>HTMLentities</th>
+        <th>extension for question type <a href="https://moodle.org/plugins/qtype_formulas" target="_blank">formulas</a></th>
+        <td>Here you can determine whether the external library for <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">using JSXGraph in fomulas questions</a> is loaded or not.<br>If you want to use the library in individual tags (and global setting says "deactivated"), set the corresponding attribute to true.</td>
+    </tr>
+    <tr>
+        <th>HTML entities</th>
         <td>If this setting is set to <code>true</code>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
     </tr>
     <tr>
@@ -136,19 +144,23 @@ As moodle administrator, you can make the following settings:
 Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="...">` 
 <table>
     <tr>
-        <th>width and height</th>
+        <th><code>width</code> and <code>height</code></th>
         <td>Dimensions of JSXGraph container. Overrides the global settings locally. You can use any CSS unit here. If no unit but only an integer is specified, "px" is automatically added.</td>
     </tr>
+     <tr>
+        <th><code>ext_formulas</code></th>
+        <td>Determine whether the external library for <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">using JSXGraph in fomulas questions</a> is loaded or not.<br>Possible values: <code>"true"</code>, <code>"false"</code>.</td>
+    </tr>
     <tr>
-        <th>entities</th>
+        <th><code>entities</code></th>
         <td>If HTMLentities like "&", "<", etc. should be supported within the JavaScript code set the attribute to <code>"true"</code>. To override a global <code>true</code> type <code>"false"</code>.</td>
     </tr>
     <tr>
-        <th>useGlobalJS</th>
-        <td>Decide whether global JavaScript from admin settings should be loaded before your code. Possible values: <code>"true"</code>, <code>"false"</code>.</td>
+        <th><code>useGlobalJS</code></th>
+        <td>Decide whether global JavaScript from admin settings should be loaded before your code.<br>Possible values: <code>"true"</code>, <code>"false"</code>.</td>
     </tr>
     <tr>
-        <th>boardid or box</th>
+        <th><code>boardid</code> or <code>box</code></th>
         <td><b>Deprecated</b><br><small>This attribute defines, which id the graph of JSXGraph will have. Please use the id stored in the constant <code>BOARDID</code> within the JavaScript block, especially for the first parameter in <code>JXG.JSXGraph.initBoard(...)</code>. Look at the examples at <a href="#usage">Usage</a>.</small></td>
     </tr>
 </table>

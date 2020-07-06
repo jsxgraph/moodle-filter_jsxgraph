@@ -62,7 +62,7 @@ $string['jsxfromserver_desc'] = 'Select whether the plugin is using the server v
 $string['serverversion'] = 'server version';
 $string['serverversion_desc'] = 'If "<a href="#admin-jsxfromserver">JSXGraph from server</a>" is checked, the version entered here is loaded by the server. Look at <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> to see, which version is loaded from CDN. Type only the version number (0.99.5 and 0.99.6 are not supported).';
 
-$string['formulasextension'] = 'Question type formulas';
+$string['formulasextension'] = 'question type formulas';
 $string['formulasextension_desc'] = 'If this option is activated, another JavaScript library is loaded, which helps to use a JSXGraph board in a question of the type "formulas". (This question type must be installed!)<br>A documentation of the extension can be found in the <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">associated repository at GitHub</a>.';
 
 $string['HTMLentities'] = 'HTML entities';
