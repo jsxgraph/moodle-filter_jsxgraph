@@ -207,6 +207,11 @@ class filter_jsxgraph extends moodle_text_filter {
             $generalcode .= "const $constantnameboardid = '$divid';\n";
             $generalcode .= "console.log('board `'+$constantnameboardid+'` has been integrated');\n";
 
+            $generalcode .= "\n/** Accessibility */\n";
+            $generalcode .= "JXG.Options.board.title = '" . $tagattribute['title'] . "';\n";
+            $generalcode .= "JXG.Options.board.description = '" . $tagattribute['description'] . "';\n";
+            $generalcode .= "\n";
+
             // Load global JavaScript code from administrator settings.
             if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
                 $globalcode .= "\n// Global JavaScript code of the administrator\n";
@@ -239,12 +244,12 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($require) {
                 $codeprefix = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('$divid') != null) { \n";
                 $codepostfix = "}\n });\n";
-                $code = $globalcode . $codeprefix . $jscode . $codepostfix;
             } else {
                 $codeprefix = "\nif (document.getElementById('$divid') != null) {";
                 $codepostfix = "};";
-                $code = $codeprefix . $globalcode . $jscode . $codepostfix;
             }
+            $code = $codeprefix . $globalcode . $jscode . $codepostfix;
+
             $code = "\n//< ![CDATA[\n" . $code . "\n//]]>\n";
             $code =
                 "\n\n// #########################################" .
@@ -433,6 +438,8 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     private function get_tagattributes($node) {
         $attributes = [
+            'title' => '',
+            'description' => '',
             'width' => '',
             'height' => '',
             'entities' => '',
