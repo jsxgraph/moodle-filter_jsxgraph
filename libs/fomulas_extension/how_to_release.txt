@@ -1,0 +1,4 @@
+How to release this extension
+
+- Copy the whole directory to https://github.com/jsxgraph/moodle-filter_jsxgraph/tree/master/libs/fomulas_extension
+- Follow release instructions under https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/how_to_release.txt

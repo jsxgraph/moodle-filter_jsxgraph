@@ -198,6 +198,7 @@ Using the `MathJax` filter within the board is supported in `moodle2.x` and `moo
 This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps below:
 
 - replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
+- if formulas extension hat been updated, replace file libs/fomulas_extension/JSXQuestion.js
 - update version tag in `thirdpartylibs.xml`!
 - the value of `$plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
 - Draft a new release in GitHub
