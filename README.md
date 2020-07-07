@@ -64,17 +64,13 @@ Otherwise, you can also install the filter with the following steps:
 
    ```html
    <jsxgraph width="600" height="500">
-       (function() {
-           var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true});
-           var p = brd.create('point', [1,2]);
-       })();
+       var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true});
+       var p = brd.create('point', [1,2]);
    </jsxgraph>
    
    <jsxgraph width="600" height="500">
-       (function() {
-           var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
-           var p = brd.create('point', [1,2]);
-       })();
+       var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
+       var p = brd.create('point', [1,2]);
    </jsxgraph>
    ```
    
@@ -189,11 +185,9 @@ Look at this example:
 
 ```html
 <jsxgraph width="100%" height="600">
-    (function() {
-        var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-6,6,6,-6], axis:true});
-        var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
-        var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
-    })();
+    var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-6,6,6,-6], axis:true});
+    var t = brd.create('text', [1,4, '$$( \\sqrt{1},\\frac {8}{2} )$$'],{parse: false, fixed: true, fontSize: 20});
+    var s = brd.create('text', [-5,2.5, '$$( 1-6,\\sum_{n=0}^\\infty (3/5)^n )$$'], {parse: false});
 </jsxgraph>
 ```
 
