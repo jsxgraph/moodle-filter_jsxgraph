@@ -1,4 +1,4 @@
-# Moodle JSXGraph filter
+# Moodle JSXGraph filter [![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph)
 
 Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
 
