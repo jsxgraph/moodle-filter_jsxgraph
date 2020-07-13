@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This is a plugin to enable function plotting and dynamic geometry constructions with JSXGraph within a Moodle platform.
+ *
  * JSXGraph is a cross-browser JavaScript library for interactive geometry,
  * function plotting, charting, and data visualization in the web browser.
  * JSXGraph is implemented in pure JavaScript and does not rely on any other
  * library. Special care has been taken to optimize the performance.
- *
- * This is a plugin for Moodle to enable function plotting and dynamic
- * geometry constructions with JSXGraph within a Moodle platform.
  *
  * @package    filter_jsxgraph
  * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
@@ -39,4 +38,4 @@ $plugin->version = 2020060312;          // The current plugin version (Date: YYY
 $plugin->requires = 2015051100;         // Requires this Moodle version.
 $plugin->component = 'filter_jsxgraph'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.1.0';            // JSXGraph version
+$plugin->release = 'v1.1.0';            // JSXGraph version.
