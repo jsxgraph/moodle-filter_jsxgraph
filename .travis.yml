@@ -21,8 +21,8 @@ php:
 env:
  global:
   - MOODLE_BRANCH=master
-  - MOODLE_BRANCH=MOODLE_2
-  - MOODLE_BRANCH=MOODLE_19
+ # - MOODLE_BRANCH=MOODLE_2
+ # - MOODLE_BRANCH=MOODLE_19
   - IGNORE_PATHS=screenshots
  matrix:
   - DB=pgsql
