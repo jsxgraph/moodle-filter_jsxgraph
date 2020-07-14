@@ -40,6 +40,10 @@ require_once($CFG->libdir . '/pagelib.php');
 
 /**
  * Class filter_jsxgraph
+ *
+ * @package    filter_jsxgraph
+ * @copyright  2020 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class filter_jsxgraph extends moodle_text_filter {
     /**
@@ -95,7 +99,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $constantnameboardid = "BOARDID";
 
         /* 1. STEP ---------------------------
-         * Convert HTML-String to a dom object
+         * Convert HTML string to a dom object
          */
 
         // Create a new dom object.
@@ -186,12 +190,12 @@ class filter_jsxgraph extends moodle_text_filter {
                 continue;
             }
 
-
             if ($setting['formulasextension']) {
                 $this->load_library('formulas');
             } else {
-                if ($tagattribute['ext_formulas'])
+                if ($tagattribute['ext_formulas']) {
                     $this->load_library('formulas');
+                }
             }
 
             /* 4. STEP ------
@@ -280,7 +284,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Load JSXGraph code from local or from server
      *
-     * @param        $fromserver
+     * @param bool   $fromserver
      * @param string $serverversion
      *
      * @return string[]
@@ -360,8 +364,9 @@ class filter_jsxgraph extends moodle_text_filter {
             'formulas' => 'formulas_extension/JSXQuestion.js'
         ];
 
-        if (!array_key_exists($libname, $libs))
+        if (!array_key_exists($libname, $libs)) {
             return;
+        }
         $url = self::$libpath . $libs[$libname];
         $PAGE->requires->js(new moodle_url($url));
     }
@@ -431,7 +436,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Determine the attributes
      *
-     * @param $node
+     * @param HTMLnode $node
      *
      * @return string[]
      */
@@ -472,10 +477,10 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     /**
-     * Convert String to bool
+     * Convert string to bool
      *
-     * @param      $string
-     * @param bool $default
+     * @param string $string
+     * @param bool   $default
      *
      * @return bool
      */
@@ -490,12 +495,12 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     /**
-     * Decide between two Strings
+     * Decide between two strings
      *
-     * @param $choice1
-     * @param $choice2
+     * @param string $choice1
+     * @param string $choice2
      *
-     * @return mixed
+     * @return string
      */
     private function string_or($choice1, $choice2) {
         if (!empty($choice1)) {
