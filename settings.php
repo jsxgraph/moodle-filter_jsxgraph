@@ -50,6 +50,10 @@ if ($ADMIN->fulltree) {
                                              get_string('header_docs', 'filter_jsxgraph'),
                                              get_string('docs', 'filter_jsxgraph')));
 
+    $settings->add(new admin_setting_heading('filter_jsxgraph/filterversion',
+                                             get_string('header_filterversion', 'filter_jsxgraph'),
+                                             get_string('filterversion', 'filter_jsxgraph')));
+
     $settings->add(new admin_setting_heading('filter_jsxgraph/jsxversion',
                                              get_string('header_jsxversion', 'filter_jsxgraph'),
                                              ''));
