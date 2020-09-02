@@ -78,11 +78,10 @@ class filter_jsxgraph extends moodle_text_filter {
      * Main filter function
      *
      * @param string $text
-     * @param array  $options
      *
      * @return string
      */
-    public function filter($text, array $options = array()) {
+    public function filter($text) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
         if (!is_int(strpos($text, '<jsxgraph'))) {
             return $text;
@@ -299,7 +298,7 @@ class filter_jsxgraph extends moodle_text_filter {
      * @return string[]
      */
     private function load_jsxgraph($fromserver, $serverversion = "") {
-        global $PAGE, $CFG;
+        global $PAGE;
 
         $result = ['success', 'withREQUIRE'];
 
@@ -367,7 +366,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      */
     private function load_library($libname) {
-        global $PAGE, $CFG;
+        global $PAGE;
 
         $libs = [
             'formulas' => 'formulas_extension/JSXQuestion.js'
@@ -386,8 +385,6 @@ class filter_jsxgraph extends moodle_text_filter {
      * @return array settings from administration
      */
     private function get_adminsettings() {
-        global $PAGE, $CFG;
-
         // Set defaults.
         $tmp = [
             'jsxfromserver' => false,
