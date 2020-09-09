@@ -1,4 +1,5 @@
 # Ignore all test and documentation with “export-ignore”.
+.travis export-ignore
 .gitattributes export-ignore
 .gitmodules export-ignore
 .gitignore export-ignore
