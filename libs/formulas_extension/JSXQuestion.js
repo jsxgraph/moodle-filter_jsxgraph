@@ -28,7 +28,7 @@
  * @param {Boolean}   [allowInputEntry=false] Should the original inputs from formulas be displayed and linked to the construction?
  * @param {Number}    [decimalPrecision=2]    Number of digits to round to.
  */
-var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPrecision = 2) {
+var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPrecision) {
     var that = this,
         topEl;
 
