@@ -48,6 +48,7 @@ script:
  - moodle-plugin-ci savepoints
  - moodle-plugin-ci mustache
  - moodle-plugin-ci grunt
- - moodle-plugin-ci grunt
+ - moodle-plugin-ci phpdocs
  - moodle-plugin-ci phpunit
+ - moodle-plugin-ci javascript
  - moodle-plugin-ci behat --profile chrome --dump

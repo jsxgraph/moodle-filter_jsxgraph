@@ -65,6 +65,11 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     public static $libpath = '/filter/jsxgraph/libs/';
 
+    /**
+     * Get the filter version as a String.
+     *
+     * @return string
+     */
     public static function get_version() {
         $version = get_config('filter_jsxgraph', 'version');
         $version = substr_replace($version, '/', 8, 0);
