@@ -1,0 +1,7 @@
+# Ignore all test and documentation with “export-ignore”.
+.gitattributes export-ignore
+.gitmodules export-ignore
+.gitignore export-ignore
+how_to_release.txt export-ignore
+screenshots/* export-ignore
+libs/*_submodule export-ignore
