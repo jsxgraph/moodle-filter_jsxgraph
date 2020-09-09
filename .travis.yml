@@ -56,5 +56,17 @@ matrix:
 
     - language: javascript
 
+      env:
+        global:
+          - MOODLE_BRANCH=master
+      before_install:
+        - phpenv config-rm xdebug.ini
+        - nvm install 14.2.0
+        - nvm use 14.2.0
+        - cd ../../..
+        - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+        - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+      install:
+        - moodle-plugin-ci install
       script:
         - moodle-plugin-ci eslint
