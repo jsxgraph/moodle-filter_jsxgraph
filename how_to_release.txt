@@ -11,7 +11,6 @@ To release a new version of JSXGraph into the filter follow the steps below:
 - the value of `$plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
 - update `$plugin->release` in the file `version.php`
 - draft a new release in GitHub
-  Attention: Remove empty directory of submodules
 - submit a new version of the filter to the https://moodle.org/plugins/filter_jsxgraph (maintained by Andreas Walter)
 
 For seeing travis prechecks go here: https://travis-ci.org/
