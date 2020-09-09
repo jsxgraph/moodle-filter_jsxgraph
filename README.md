@@ -44,7 +44,9 @@ Otherwise, you can also install the filter with the following steps:
 
 1. Download the entire `master` branch as a ZIP-compressed folder via the github download button
 2. Create a folder `jsxgraph` in the directory `moodle -> filter` of your Moodle installation (be sure to write correctly)
-3. Upload the files and folders contained in the ZIP directory to the directory just created (`screenshots` directory is not needed anymore) 
+3. Upload the files and folders contained in the ZIP directory to the directory just created
+    - `screenshots` directory is not needed anymore
+    - Be sure to remove empty folders ending with `_submodule` in subdirectory `libs`
 4. Open site root of your Moodle installation and follow the steps to install plugin 
 5. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
 
