@@ -55,10 +55,10 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPreci
 
     // Hide the input elements
     if (allowInputEntry) {
-        this.inputs.forEach(el => { el.addEventListener('input', event => {that.update();}); });
-        this.inputs.forEach(el => { el.addEventListener('change', event => {that.update();}); });
+        this.inputs.forEach(function (el) { el.addEventListener('input', function(event) {that.update();}); });
+        this.inputs.forEach(function (el) { el.addEventListener('change', function(event) {that.update();}); });
     } else {
-        this.inputs.forEach(el => { el.style.display = 'none'; });
+        this.inputs.forEach(function (el) { el.style.display = 'none'; });
     }
 
     /**
