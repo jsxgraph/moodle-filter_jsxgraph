@@ -5,7 +5,7 @@
 .gitignore export-ignore
 how_to_release.txt export-ignore
 screenshots/ export-ignore
-libs/*_submodule export-ignore
+libs/submodule_* export-ignore
 libs/*/screenshots export-ignore
 libs/*/development_hint.md export-ignore
 libs/*/how_to_release.txt export-ignore
