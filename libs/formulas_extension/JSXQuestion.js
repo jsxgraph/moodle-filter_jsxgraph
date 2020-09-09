@@ -28,7 +28,7 @@
  * @param {Boolean} [allowInputEntry=false] Should the original inputs from formulas be displayed and linked to the construction?
  * @param {Number} [decimalPrecision=2] Number of digits to round to.
  */
-JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecision) {
+var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecision) {
     var that = this,
         topEl;
 
@@ -58,12 +58,12 @@ JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecision)
     // Hide the input elements
     if (allowInputEntry) {
         this.inputs.forEach(function(el) {
-            el.addEventListener('input', function(event) {
+            el.addEventListener('input', function() {
                 that.update();
             });
         });
         this.inputs.forEach(function(el) {
-            el.addEventListener('change', function(event) {
+            el.addEventListener('change', function() {
                 that.update();
             });
         });
