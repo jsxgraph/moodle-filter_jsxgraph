@@ -20,17 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-"use strict";
+'use strict';
 
 /**
- * @param {String}    boardID           ID of the HTML element containing the JSXGraph board. Has to be set with local const BOARDID.
- * @param {Function}  jsxGraphCode      JavaScript function containing the construction code.
- * @param {Boolean}   allowInputEntry   Should the original inputs from formulas be displayed and linked to the construction?
- * @param {Number}    decimalPrecision  Number of digits to round to.
+ * @param {String}    boardID                 ID of the HTML element containing the JSXGraph board. Has to be set with local const BOARDID.
+ * @param {Function}  jsxGraphCode            JavaScript function containing the construction code.
+ * @param {Boolean}   [allowInputEntry=false] Should the original inputs from formulas be displayed and linked to the construction?
+ * @param {Number}    [decimalPrecision=2]    Number of digits to round to.
  */
-var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry = false, decimalPrecision = 2) {
+var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPrecision = 2) {
     var that = this,
         topEl;
+
+    if (allowInputEntry === undefined || allowInputEntry === null) allowInputEntry = false;
+    if (decimalPrecision === undefined || decimalPrecision === null) decimalPrecision = 2;
 
     /**
      * ID of the board.
@@ -52,8 +55,8 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry = false, deci
 
     // Hide the input elements
     if (allowInputEntry) {
-        this.inputs.forEach(el => { el.addEventListener('input', event => {that.update();}) });
-        this.inputs.forEach(el => { el.addEventListener('change', event => {that.update();}) });
+        this.inputs.forEach(el => { el.addEventListener('input', event => {that.update();}); });
+        this.inputs.forEach(el => { el.addEventListener('change', event => {that.update();}); });
     } else {
         this.inputs.forEach(el => { el.style.display = 'none'; });
     }
