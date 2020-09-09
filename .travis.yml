@@ -1,72 +1,53 @@
-matrix:
-  include:
-    - language: php
+language: php
 
-      addons:
-       postgresql: "9.6"
+addons:
+ postgresql: "9.6"
 
-      services:
-       - mysql
-       - postgresql
-       - docker
+services:
+ - mysql
+ - postgresql
+ - docker
 
-      cache:
-       directories:
-        - $HOME/.composer/cache
-        - $HOME/.npm
+cache:
+ directories:
+  - $HOME/.composer/cache
+  - $HOME/.npm
 
-      php:
-       - 7.4
-       - 7.3
-       - 7.2
+php:
+ - 7.4
+ - 7.3
+ - 7.2
 
-      env:
-       global:
-        - MOODLE_BRANCH=master
-       # - MOODLE_BRANCH=MOODLE_2
-       # - MOODLE_BRANCH=MOODLE_19
-        - IGNORE_PATHS=screenshots
-       matrix:
-        - DB=pgsql
-        - DB=mysqli
+env:
+ global:
+  - MOODLE_BRANCH=master
+ # - MOODLE_BRANCH=MOODLE_2
+ # - MOODLE_BRANCH=MOODLE_19
+  - IGNORE_PATHS=screenshots
+ matrix:
+  - DB=pgsql
+  - DB=mysqli
 
-      before_install:
-       - phpenv config-rm xdebug.ini
-       - nvm install 14.2.0
-       - nvm use 14.2.0
-       - cd ../../..
-       - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
-       - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+before_install:
+ - phpenv config-rm xdebug.ini
+ - nvm install 14.2.0
+ - nvm use 14.2.0
+ - cd ../../..
+ - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+ - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
-      install:
-       - moodle-plugin-ci install
+install:
+ - moodle-plugin-ci install
 
-      script:
-       - moodle-plugin-ci phplint
-       - moodle-plugin-ci phpcpd
-       - moodle-plugin-ci phpmd
-       - moodle-plugin-ci codechecker
-       - moodle-plugin-ci validate
-       - moodle-plugin-ci savepoints
-       - moodle-plugin-ci mustache
-       - moodle-plugin-ci grunt
-       - moodle-plugin-ci phpdoc
-       - moodle-plugin-ci phpunit
-       - moodle-plugin-ci behat --profile chrome --dump
-
-    - language: javascript
-
-      env:
-        global:
-          - MOODLE_BRANCH=master
-      before_install:
-        - phpenv config-rm xdebug.ini
-        - nvm install 14.2.0
-        - nvm use 14.2.0
-        - cd ../../..
-        - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
-        - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-      install:
-        - moodle-plugin-ci install
-      script:
-        - moodle-plugin-ci eslint
+script:
+ - moodle-plugin-ci phplint
+ - moodle-plugin-ci phpcpd
+ - moodle-plugin-ci phpmd
+ - moodle-plugin-ci codechecker
+ - moodle-plugin-ci validate
+ - moodle-plugin-ci savepoints
+ - moodle-plugin-ci mustache
+ - moodle-plugin-ci grunt
+ - moodle-plugin-ci phpdoc
+ - moodle-plugin-ci phpunit
+ - moodle-plugin-ci behat --profile chrome --dump
