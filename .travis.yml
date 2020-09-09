@@ -1,4 +1,4 @@
-language: php javascript
+language: php
 
 addons:
  postgresql: "9.6"
@@ -14,9 +14,9 @@ cache:
   - $HOME/.npm
 
 php:
- - 7.2
- - 7.3
  - 7.4
+ - 7.3
+ - 7.2
 
 env:
  global:
@@ -43,7 +43,7 @@ script:
  - moodle-plugin-ci phplint
  - moodle-plugin-ci phpcpd
  - moodle-plugin-ci phpmd
- - moodle-plugin-ci codechecker --files all
+ - moodle-plugin-ci codechecker
  - moodle-plugin-ci validate
  - moodle-plugin-ci savepoints
  - moodle-plugin-ci mustache
