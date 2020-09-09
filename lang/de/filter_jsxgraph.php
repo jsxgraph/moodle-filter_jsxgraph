@@ -49,7 +49,11 @@ $string['errorNotFound_post'] = ' auf CDN. Der JSXGraph-Core konnte nicht gelade
 $string['header_docs'] = 'Allgemeine Informationen';
 $string['docs'] = 'Vielen Dank, dass sie den JSXGraph-Filter benutzen. Für aktuelle Informationen über JSXGraph besuchen Sie einfach unsere <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">Homepage</a>.<br>Beachten Sie unsere <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detaillierte Filter-Dokumentation auf GitHub</a>.<br>Informationen über die Verwendung von JSXGraph finden sie <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in den docs</a>.<br><br>Nehmen Sie auf dieser Seite <b>globale Einstellungen</b> für den Filter vor. Einige davon lassen sich in Tag-Attributen lokal überschreiben. Siehe hierzu die <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation.</a>';
 $string['header_filterversion'] = 'Filter-Version';
-$string['filterversion'] = 'Sie benutzen derzeit die Version v<i>' . filter_jsxgraph::get_version() . '</i> des JSXGraph-Filters für Moodle.';
+if (class_exists('filter_jsxgraph')) {
+    $string['filterversion'] = 'Sie benutzen derzeit die Version v<i>' . filter_jsxgraph::get_version() . '</i> des JSXGraph-Filters für Moodle.';
+} else {
+    $string['filterversion'] = 'Der JSXGraph-Filter für Moodle wurde soeben installiert.';
+}
 $string['header_jsxversion'] = 'Version der verwendeten JSXGraph-Bibliothek';
 $string['header_libs'] = 'Erweiterungen für den JSXGraph-Filter';
 $string['header_codingbetweentags'] = 'Codierung zwischen den Tags';
