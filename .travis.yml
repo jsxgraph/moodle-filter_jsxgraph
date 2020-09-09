@@ -50,4 +50,5 @@ script:
  - moodle-plugin-ci grunt
  - moodle-plugin-ci phpdoc
  - moodle-plugin-ci phpunit
+ - moodle-plugin-ci eslint
  - moodle-plugin-ci behat --profile chrome --dump
