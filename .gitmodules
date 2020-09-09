@@ -1,0 +1,3 @@
+[submodule "libs/formulas_extension_submodule"]
+	path = libs/formulas_extension_submodule
+	url = https://github.com/jsxgraph/moodleformulas_jsxgraph.git
