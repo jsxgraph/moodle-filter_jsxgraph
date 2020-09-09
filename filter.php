@@ -51,7 +51,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var string
      */
-    public static $recommended = '1.00.0';
+    public static $recommended = '1.1.0';
     /**
      * Path to jsxgraphcore.js
      *
