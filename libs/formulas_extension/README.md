@@ -29,7 +29,7 @@ Follow the installation instructions [here](https://github.com/jsxgraph/moodle-f
 The formulas extension is used within a JSXGraph tag.
 To do this, either the global setting "formulasextension" must be activated in the filter 
 
-![settings](img/settings.png)
+![settings](screenshots/settings.png)
 
 or the tag must contain the attribute `ext_formulas`:
 
@@ -226,17 +226,17 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
 
 Consider the following *formulas* question:
 
-![screen1](img/screen1.png)
+![screen1](screenshots/screen1.png)
 
 The students should drag the red points such that the blue curve has the equation *y = 2x + 10*.
 After having done so, the student clicks on the Check-button to check the correctness of the 
 solution. The correct solution is
 
-![screen2](img/screen2.png)
+![screen2](screenshots/screen2.png)
 
 The above question can be realized with *formulas* by supplying the following data:
 
-![screen 3](img/screen3.png)
+![screen 3](screenshots/screen3.png)
 
 The variable *a* takes a random value out of the set *{2, 3}* and the variable *b* takes a 
 random value out of the set *{10, 20}*. Since the student has to compute *ax+b* for the 
@@ -245,7 +245,7 @@ values *1, 2, 3, 4*, the correct values are precomputed in the global variables
 *[y1, y2, y3, y4]*. If the question does not use JSXGraph there would be four input fields 
 for the answers.
 
-![screen 4](img/screen4.png)
+![screen 4](screenshots/screen4.png)
 
 Without JSXGraph the student would have to type the four numbers of the solution into 
 four input fields. Now this question is enriched with a JSXgraph construction.

@@ -55,8 +55,8 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPreci
 
     // Hide the input elements
     if (allowInputEntry) {
-        this.inputs.forEach(function (el) { el.addEventListener('input', function(event) {that.update();}); });
-        this.inputs.forEach(function (el) { el.addEventListener('change', function(event) {that.update();}); });
+        this.inputs.forEach(function (el) { el.addEventListener('input', function (event) {that.update();}); });
+        this.inputs.forEach(function (el) { el.addEventListener('change', function (event) {that.update();}); });
     } else {
         this.inputs.forEach(function (el) { el.style.display = 'none'; });
     }
@@ -76,13 +76,17 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPreci
     /**
      * Initializes the board, saves it in the attributes of JSXQuestion and returns the board.
      *
-     * @param {Object} attributes              Attributes for function JXG.JSXGraph.initBoard(...).
-     * @param {Object} attributesIfBoxIsGiven  Guarantees backward compatibility with the function JXG.JSXGraph.initBoard(...). The ID that was then passed in the first parameter is ignored!
+     * @param {Object} [attributes={}]              Attributes for function JXG.JSXGraph.initBoard(...).
+     * @param {Object} [attributesIfBoxIsGiven={}]  Guarantees backward compatibility with the function JXG.JSXGraph.initBoard(...). The ID that was then passed in the first parameter is ignored!
      *
      * @returns {JXG.Board}                       JSXGraph board
      */
-    this.initBoard = function (attributes = {}, attributesIfBoxIsGiven = {}) {
+    this.initBoard = function (attributes, attributesIfBoxIsGiven) {
         var board;
+
+        if (attributes === undefined || attributes === null) attributes = {};
+        if (attributesIfBoxIsGiven === undefined || attributesIfBoxIsGiven === null) attributesIfBoxIsGiven = {};
+
         if (typeof attributes === 'string' || attributes instanceof String)
             attributes = attributesIfBoxIsGiven;
 
@@ -150,13 +154,16 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPreci
     /**
      * Get the content of input element of index inputNumber of the formulas question.
      *
-     * @param {Number}   inputNumber   Index of the input form, starting at 0.
-     * @param {Number}   defaultValue  Number that is returned if the value of the input could not be read or is not a number.
+     * @param {Number}   inputNumber       Index of the input form, starting at 0.
+     * @param {Number}   [defaultValue=0]  Number that is returned if the value of the input could not be read or is not a number.
      *
      * @returns {Number} Entry of the formulas input field.
      */
-    this.get = function (inputNumber, defaultValue = 0) {
+    this.get = function (inputNumber, defaultValue) {
         var n;
+
+        if (defaultValue === undefined || defaultValue === null) defaultValue = 0;
+
         if (that.inputs && that.inputs[inputNumber]) {
             n = parseFloat(that.inputs[inputNumber].value);
             if (!isNaN(n))
@@ -168,15 +175,17 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPreci
     /**
      * Fetch all values from the formulas input fields
      *
-     * @param {Number,Array} defaultValues  Default values if the fields are empty.
+     * @param {Number,Array} [defaultValues=0]  Default values if the fields are empty.
      *
      * @returns {Array}      Array containing the entries of all associated formulas input fields.
      */
-    this.getAllValues = function (defaultValues = 0) {
+    this.getAllValues = function (defaultValues) {
         var inputNumber,
             len = that.inputs.length,
             values = [],
             defaultValue;
+
+        if (defaultValues === undefined || defaultValues === null) defaultValues = 0;
 
         if (Array.isArray(defaultValues)) {
             if (defaultValues.length !== len)
