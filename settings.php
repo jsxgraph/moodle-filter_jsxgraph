@@ -47,7 +47,7 @@ if ($ADMIN->fulltree) {
     }
 
     /**
-     * Get the filter version as a String.
+     * Get the filter version as a HTML-String.
      *
      * @return string
      */
