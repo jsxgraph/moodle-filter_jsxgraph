@@ -46,13 +46,32 @@ if ($ADMIN->fulltree) {
         $recommended = filter_jsxgraph::$recommended;
     }
 
+    /**
+     * Get the filter version as a String.
+     *
+     * @return string
+     */
+    function get_jsxfilter_version() {
+        $version = get_config('filter_jsxgraph', 'version');
+        if (substr($version, 8, 2) === '00') {
+            $version = substr($version, 0, 8);
+        } else {
+            $version = substr_replace($version, ' (', 8, 0) . ')';
+        }
+        $version = substr_replace($version, '-', 6, 0);
+        $version = substr_replace($version, '-', 4, 0);
+
+        return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' . $version . '</i></b></div>';
+    }
+
+
     $settings->add(new admin_setting_heading('filter_jsxgraph/docs',
                                              get_string('header_docs', 'filter_jsxgraph'),
                                              get_string('docs', 'filter_jsxgraph')));
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/filterversion',
                                              get_string('header_filterversion', 'filter_jsxgraph'),
-                                             get_string('filterversion', 'filter_jsxgraph')));
+                                             get_string('filterversion', 'filter_jsxgraph') . get_jsxfilter_version()));
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/jsxversion',
                                              get_string('header_jsxversion', 'filter_jsxgraph'),
