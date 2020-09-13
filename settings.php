@@ -46,22 +46,24 @@ if ($ADMIN->fulltree) {
         $recommended = filter_jsxgraph::$recommended;
     }
 
-    /**
-     * Get the filter version as a HTML-String.
-     *
-     * @return string
-     */
-    function get_jsxfilter_version() {
-        $version = get_config('filter_jsxgraph', 'version');
-        if (substr($version, 8, 2) === '00') {
-            $version = substr($version, 0, 8);
-        } else {
-            $version = substr_replace($version, ' (', 8, 0) . ')';
-        }
-        $version = substr_replace($version, '-', 6, 0);
-        $version = substr_replace($version, '-', 4, 0);
+    if (!function_exists('get_jsxfilter_version')) {
+        /**
+         * Get the filter version as a HTML-String.
+         *
+         * @return string
+         */
+        function get_jsxfilter_version() {
+            $version = get_config('filter_jsxgraph', 'version');
+            if (substr($version, 8, 2) === '00') {
+                $version = substr($version, 0, 8);
+            } else {
+                $version = substr_replace($version, ' (', 8, 0) . ')';
+            }
+            $version = substr_replace($version, '-', 6, 0);
+            $version = substr_replace($version, '-', 4, 0);
 
-        return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' . $version . '</i></b></div>';
+            return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' . $version . '</i></b></div>';
+        }
     }
 
 
