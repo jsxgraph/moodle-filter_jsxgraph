@@ -62,7 +62,9 @@ if ($ADMIN->fulltree) {
             $version = substr_replace($version, '-', 6, 0);
             $version = substr_replace($version, '-', 4, 0);
 
-            return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' . $version . '</i></b></div>';
+            return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' .
+                $version .
+                '</i></b></div>';
         }
     }
 
