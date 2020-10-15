@@ -26,8 +26,6 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 You can download the filter here: [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
 A video about the installation process is available on [YouTube](https://www.youtube.com/channel/UCANBFoVoOyW2eNyTvx-VZdQ/videos).
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/AOyfm2sFlmM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 To find out more about the installation, you can also [read on here](#installing-the-filter-step-by-step).
 
 ## Usage
@@ -54,7 +52,6 @@ To find out more about the installation, you can also [read on here](#installing
 ***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
  
 Have a look to this [video](https://www.youtube.com/channel/UCANBFoVoOyW2eNyTvx-VZdQ/videos):
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/AOyfm2sFlmM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
 On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input.
