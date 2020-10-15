@@ -162,4 +162,5 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }

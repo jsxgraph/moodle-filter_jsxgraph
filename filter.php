@@ -474,8 +474,8 @@ class filter_jsxgraph extends moodle_text_filter {
      * @return string[]
      */
     private function get_tagattributes($node) {
-        $_numberofboardsattr = 'numberOfBoards';
-        $_numberofboardsval = 1;
+        $numberofboardsattr = 'numberOfBoards';
+        $numberofboardsval = 1;
         $attributes = [
             'title' => '',
             'description' => '',
@@ -500,8 +500,16 @@ class filter_jsxgraph extends moodle_text_filter {
             'box',
             'boardid',
         ];
-        if (!function_exists('getBoolValue')) {
-            function getBoolValue($attr, $tagval, $node, $boolattributes) {
+        if (!function_exists('get_bool_value')) {
+            /**
+             * @param $attr
+             * @param $tagval
+             * @param $node
+             * @param $boolattributes
+             *
+             * @return bool|mixed
+             */
+            function get_bool_value($attr, $tagval, $node, $boolattributes) {
                 if ($node->hasAttribute($attr)) {
                     if ($tagval == '') {
                         return true;
@@ -514,31 +522,32 @@ class filter_jsxgraph extends moodle_text_filter {
             }
         }
 
-        $_numberofboardsval = $node->getAttribute($_numberofboardsattr) ? : $node->getAttribute(strtolower($_numberofboardsattr)) ? : $_numberofboardsval;
+        $numberofboardsval =
+            $node->getAttribute($numberofboardsattr) ?: $node->getAttribute(strtolower($numberofboardsattr)) ?: $numberofboardsval;
 
         foreach ($attributes as $attr => $value) {
-            $a = $node->getAttribute($attr) ? : $node->getAttribute(strtolower($attr));
+            $a = $node->getAttribute($attr) ?: $node->getAttribute(strtolower($attr));
             if (isset($a) && !empty($a)) {
                 $a = explode(',', $a);
             } else {
                 $a = [''];
             }
             $attributes[$attr] = [];
-            $arrattr = in_array ($attr, $possiblearrayattributes);
+            $arrattr = in_array($attr, $possiblearrayattributes);
 
-            for ($i = 0; $i < $_numberofboardsval; $i++) {
+            for ($i = 0; $i < $numberofboardsval; $i++) {
                 if (!isset($a[$i]) || empty($a[$i]) || !$arrattr) {
                     $attributes[$attr][$i] = $a[0];
                 } else {
                     $attributes[$attr][$i] = $a[$i];
                 }
                 if (array_key_exists($attr, $boolattributes)) {
-                    $attributes[$attr][$i] = getBoolValue($attr, $attributes[$attr][$i], $node, $boolattributes);
+                    $attributes[$attr][$i] = get_bool_value($attr, $attributes[$attr][$i], $node, $boolattributes);
                 }
             }
         }
 
-        $attributes[$_numberofboardsattr] = $_numberofboardsval;
+        $attributes[$numberofboardsattr] = $numberofboardsval;
 
         return $attributes;
     }
