@@ -144,10 +144,17 @@ if ($ADMIN->fulltree) {
                                              get_string('header_deprecated', 'filter_jsxgraph'),
                                              ''));
 
+    $settings->add(new admin_setting_configselect('filter_jsxgraph/usedivid',
+                                                  get_string('usedivid', 'filter_jsxgraph'),
+                                                  get_string('usedivid_desc', 'filter_jsxgraph'),
+                                                  '0',
+                                                  [get_string('no', 'filter_jsxgraph'), get_string('yes', 'filter_jsxgraph')]));
+
     $settings->add(new admin_setting_configtext('filter_jsxgraph/divid',
                                                 get_string('divid', 'filter_jsxgraph'),
                                                 get_string('divid_desc', 'filter_jsxgraph'),
                                                 'box'));
+
     $settings->add(new admin_setting_heading('filter_jsxgraph/last',
                                              '', '<br><br>'));
 }

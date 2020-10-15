@@ -10,11 +10,8 @@ JSXGraph is implemented in pure JavaScript and does not rely on any other librar
 Have a look at [www.jsxgraph.org](https://jsxgraph.org/).
 
 ##### Features
-- Euclidean and projective Geometry
-- Curve plotting
 - Open source
-- High-performance
-- Small footprint
+- High-performance, small footprint
 - No dependencies
 - Multi-touch support
 - Backward compatible down to IE 6
@@ -25,28 +22,13 @@ This is a plugin for [Moodle](http://moodle.org) to enable function plotting and
 Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed [JSXGraph](http://jsxgraph.org) constructions into Moodle online documents, e.g. in contents like page, quiz, link,... .
 
 ## Installation
-### Installation with Moodle routine (by Moodle admin)
 
-To install the filter for moodle2.9+ you can follow the steps below:
+You can download the filter here: [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
+A video about the installation process is available on [YouTube](https://www.youtube.com/channel/UCANBFoVoOyW2eNyTvx-VZdQ/videos).
 
-1. Download the entire `master` branch as a ZIP-compressed folder via the GitHub download button<br>
-   **Do not unpack the ZIP directory!**
-2. In Moodle, navigate to `Site administration -> Plugins -> Install plugins`
-3. Under `Install plugin from ZIP file`, drag and drop the downloaded ZIP directory into input field und click on `Show more...`
-4. Choose the plugin type `Text filter (filter)`
-5. Rename the root directory to `jsxgraph` by filling the input (be sure to write correctly)
-6. Click on `Install plugin from ZIP the file` and follow the instructions
-7. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/AOyfm2sFlmM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### Installation in Moodle directory (by file server admin)
-
-Otherwise, you can also install the filter with the following steps:
-
-1. Download the entire `master` branch as a ZIP-compressed folder via the github download button
-2. Create a folder `jsxgraph` in the directory `moodle -> filter` of your Moodle installation (be sure to write correctly)
-3. Upload the files and folders contained in the ZIP directory to the directory just created
-4. Open site root of your Moodle installation and follow the steps to install plugin 
-5. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
+To find out more about the installation, you can also [read on here](#installing-the-filter-step-by-step).
 
 ## Usage
 
@@ -60,14 +42,9 @@ Otherwise, you can also install the filter with the following steps:
 	* inserting a `<jsxgraph>` tag with all required parameters
 	* Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. You can specify this ID within the tag (see [here](#jsxgraph-tag-attributes)). Otherwise an ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
    
-   Examples: 
+   Example: 
 
    ```html
-   <jsxgraph width="600" height="500">
-       var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true});
-       var p = brd.create('point', [1,2]);
-   </jsxgraph>
-   
    <jsxgraph width="600" height="500">
        var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
        var p = brd.create('point', [1,2]);
@@ -76,16 +53,62 @@ Otherwise, you can also install the filter with the following steps:
    
 ***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
  
-Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
-On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input. 
+Have a look to this [video](https://www.youtube.com/channel/UCANBFoVoOyW2eNyTvx-VZdQ/videos):
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/AOyfm2sFlmM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Using JSXGraph in quiz questions needs a workaround: <br>
-When adding or editing a question, insert the `<jsxgraph>` tag into the `Question tag`-input and choose "HTML format".
+Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
+On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input.
+
+### Using multipe boards in one tag
+
+It is possible to replace a jsxgraph tag with more than one board. To do this, enter a number in the tag attribute `numberOfBoards`. This does the following:
+
+- Instead of `BOARDID`, the unique ids can now be found in `BOARDID0`, `BOARDID1`, `BOARDID2`, ...
+- The attributes `width`, `height`, `title` and `description` can contain several values. These are separated by commas. The first value applies to the first board, the second value to the second, etc. If not enough values are given (especially only one), the first value is used for the other boards.
+
+Here is an example:
+![multiple boards](screenshots/multiple-boards.png)
+
+````html
+<jsxgraph width="500,200" height="500,200" numberOfBoards="2">
+   var board = JXG.JSXGraph.initBoard(BOARDID0, {boundingbox: [-1.33, 1.33, 1.33, -1.33], axis: true, showNavigation:false});
+   var board2 = JXG.JSXGraph.initBoard(BOARDID1, {boundingbox: [-1, 1.33, 7, -1.33], showNavigation:false});
+
+   board.suspendUpdate();
+   var b1c1 = board.create('circle', [[0,0], [1,0]], {fixed:true});
+   var b1p1 = board.create('point', [2, 0], {slideObject: b1c1});
+   var perp = board.create('perpendicular', [board.defaultAxes.x,b1p1],[{strokeColor: '#ff0000', visible: true}, {visible: false}]);
+   var perp2 = board.create('perpendicular',[board.defaultAxes.y,b1p1],[{strokeColor: '#0000ff', visible: true}, {visible: false}]);
+   board.unsuspendUpdate();
+
+   board2.suspendUpdate();
+   var xax2 = board2.create('axis', [[0,0], [1,0]]);
+   board2.create('axis', [[0,0], [0,1]]);
+   board2.create('ticks', [xax2, [Math.PI, 2*Math.PI]], {strokeColor: 'green', strokeWidth: 2});
+   
+   // sine:
+   var b2p1 = board2.create('point', [
+                function(){ return JXG.Math.Geometry.rad([1,0],[0,0],b1p1); }, 
+                function() { return b1p1.Y() }], 
+                {fixed: true, trace: true, color: '#ff0000', name: 'S'});
+   // cosine:
+   var b2p2 = board2.create('point', [
+                function(){ return JXG.Math.Geometry.rad([1,0],[0,0],b1p1); }, 
+                function() { return b1p1.X() }], 
+                {fixed: true, trace: true, color: '#0000ff', name: 'C'});
+   // Dependencies (only necessary if b2p1 or b2p2 is deleted)
+   b1p1.addChild(b2p1);
+   b1p1.addChild(b2p2);
+   board2.unsuspendUpdate();
+
+   board.addChild(board2);
+</jsxgraph>
+````
 
 ### JSXGraph and formulas - a filter extension
 
 To use an JSXGraph board in a formulas question you can use <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">our filter extension for formulas</a>.
-Its files are already contained in this filter (see [here](libs/formulas_extension)).
+Its files are already contained in this filter (see [here](libs/formulas_extension)). You can load them by [adim settigns](#admin-settings) or [tag attributes](#jsxgraph-tag-attributes).
 Please note the [documentation](libs/formulas_extension/README.md) of this extension, especially the installation instructions.
 
 ### JSXGraph and STACK 
@@ -142,6 +165,10 @@ As moodle administrator, you can make the following settings:
 Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgraph width="..." height="..." entities="..." useGlobalJS="...">` 
 <table>
     <tr>
+        <th><code>numberOfBoards</code></th>
+        <td>Here you can enter the number of boards by which the JSXGraph tag will be replaced. A corresponding number of BOARDIDs is generated. See also <a href="#using-multipe-boards-in-one-tag" target="_self">here</a>.<br>Default: <code>1</code>.</td>
+    </tr>
+    <tr>
         <th><code>title</code> and <code>description</code></th>
         <td>This information is used for better accessibility. Since JSXGraph version 1.2, the board attributes <code>title</code> and <code>description</code> are used to create elements for <code>aria-labelledby</code> and <code>aria-describedby</code> of the board. Title ans description are set by specification in this tag attributes.</td>
     </tr>
@@ -195,16 +222,34 @@ Look at this example:
 
 Using the `MathJax` filter within the board is supported in `moodle2.x` and `moodle3.x`. 
 
+## Installing the filter step by step
+
+### Installation with Moodle routine (by Moodle admin)
+
+To install the filter for moodle2.9+ you can follow the steps below:
+
+1. Download the entire `master` branch as a ZIP-compressed folder via the GitHub download button<br>
+   **Do not unpack the ZIP directory!**
+2. In Moodle, navigate to `Site administration -> Plugins -> Install plugins`
+3. Under `Install plugin from ZIP file`, drag and drop the downloaded ZIP directory into input field und click on `Show more...`
+4. Choose the plugin type `Text filter (filter)`
+5. Rename the root directory to `jsxgraph` by filling the input (be sure to write correctly)
+6. Click on `Install plugin from ZIP the file` and follow the instructions
+7. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
+
+### Installation in Moodle directory (by file server admin)
+
+Otherwise, you can also install the filter with the following steps:
+
+1. Download the entire `master` branch as a ZIP-compressed folder via the github download button
+2. Create a folder `jsxgraph` in the directory `moodle -> filter` of your Moodle installation (be sure to write correctly)
+3. Upload the files and folders contained in the ZIP directory to the directory just created
+4. Open site root of your Moodle installation and follow the steps to install plugin 
+5. After installing go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters` and switch the `Active?`-attribute of JSXGraph to `on`
+
 ## Build Plugin (how to release a new version)
 
-This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps below:
-
-- replace the file `jsxgraphcode.js` in branches `master` and `MOODLE_2`.
-- if formulas extension hat been updated, replace file libs/fomulas_extension/JSXQuestion.js
-- update version tag in `thirdpartylibs.xml`!
-- the value of `$plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
-- Draft a new release in GitHub
-- submit a new version of the filter to the [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph) (maintained by Andreas Walter) 
+This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps in: [how_to_release.txt](how_to_release.txt). 
 
 ## Feedback
 

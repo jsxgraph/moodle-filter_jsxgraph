@@ -157,3 +157,9 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 .jxg-error b {
     margin-right: 5px;
 }
+
+.jsxgraph-boards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -81,6 +81,10 @@ $string['width_desc'] = 'Standardbreite des JSXGraph-Containers.';
 $string['height'] = 'Höhe';
 $string['height_desc'] = 'Standardhöhe des JSXGraph-Containers.';
 
+$string['usedivid'] = 'Benutze div-Präfix';
+$string['usedivid_desc'] =
+    'Für bessere Kompatibilität sollten Sie hier "Nein" wählen. Dadurch werden die IDs nicht mit dem Präfix aus "<a href="#admin-divid">divid</a>" und einer Nummer versehen, sondern mit einer eindeutigen ID. <br>Verwenden Sie noch alte Konstruktionen, sollten Sie "Ja" auswählen. Dann wird die veraltete Einstellung "<a href="#admin-divid">divid</a>" weiter verwendet.';
+
 $string['divid'] = 'Dynamische Board-ID';
 $string['divid_desc'] =
     '<b>Veraltet! Sie sollten von nun an die Konstante "<code>BOARDID</code>" innerhalb des <jsxgraph\>-Tags benutzen.</b><br>' .

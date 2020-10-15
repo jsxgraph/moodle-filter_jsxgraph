@@ -149,32 +149,51 @@ class filter_jsxgraph extends moodle_text_filter {
             $item = $taglist->item($i);
             $tagattribute = $this->get_tagattributes($item);
 
-            // Create new div element containing JSXGraph.
             $out = $dom->createElement('div');
-
-            $a = $dom->createAttribute('id');
-            $divid = $this->string_or($tagattribute['boardid'], $tagattribute['box']);
-            $divid = $this->string_or($divid, $setting['divid'] . $i);
-            $a->value = $divid;
-            $out->appendChild($a);
-
             $a = $dom->createAttribute('class');
-            $a->value = 'jxgbox';
+            $a->value = 'jsxgraph-boards';
             $out->appendChild($a);
 
-            $a = $dom->createAttribute('style');
-            $w = $this->string_or($tagattribute['width'], $setting['width']);
-            $h = $this->string_or($tagattribute['height'], $setting['height']);
-            if (is_numeric($w)) {
-                $w .= 'px';
-            }
-            if (is_numeric($h)) {
-                $h .= 'px';
-            }
-            $a->value = 'width:' . $w . '; height:' . $h . '; ';
-            $out->appendChild($a);
+            $divids = [];
 
-            // Replace <jsxgraph>-node by a <div>-node.
+            for ($b = 0; $b < $tagattribute['numberOfBoards']; $b++) {
+                // Create new div element containing JSXGraph.
+                $div = $dom->createElement('div');
+
+                $a = $dom->createAttribute('id');
+                $divid = $this->string_or($tagattribute['boardid'][$b], $tagattribute['box'][$b]);
+                if ($setting['usedivid']) {
+                    $divid = $this->string_or($divid, $setting['divid'] . $i);
+                } else {
+                    $divid = $this->string_or($divid, 'JSXGraph_' . strtoupper(uniqid()));
+                }
+
+                $divids[$b] = $divid;
+
+                $a->value = $divid;
+                $div->appendChild($a);
+
+                $a = $dom->createAttribute('class');
+                $a->value = 'jxgbox';
+                $div->appendChild($a);
+
+                $a = $dom->createAttribute('style');
+                $w = $this->string_or($tagattribute['width'][$b], $setting['width']);
+                $h = $this->string_or($tagattribute['height'][$b], $setting['height']);
+                if (is_numeric($w)) {
+                    $w .= 'px';
+                }
+                if (is_numeric($h)) {
+                    $h .= 'px';
+                }
+                $a->value = 'width:' . $w . '; height:' . $h . '; ';
+                $div->appendChild($a);
+
+                $out->appendChild($div);
+            }
+            $b = 0;
+
+            // Replace <jsxgraph>-node.
             $item->parentNode->replaceChild($dom->appendChild($out), $item);
 
             if ($error !== false) {
@@ -186,14 +205,14 @@ class filter_jsxgraph extends moodle_text_filter {
                 $t->appendChild($a);
                 $a = $dom->createElement('span', $error);
                 $t->appendChild($a);
-                $out->appendChild($t);
+                $out->parentNode->replaceChild($dom->appendChild($t), $out);
                 continue;
             }
 
             if ($setting['formulasextension']) {
                 $this->load_library('formulas');
             } else {
-                if ($tagattribute['ext_formulas']) {
+                if ($tagattribute['ext_formulas'][$b]) {
                     $this->load_library('formulas');
                 }
             }
@@ -207,16 +226,20 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Define boardid const.
             $generalcode .= "\n/** Define boardid const */\n";
-            $generalcode .= "const $constantnameboardid = '$divid';\n";
-            $generalcode .= "console.log('board `'+$constantnameboardid+'` has been integrated');\n";
+            for ($id = 0; $id < $tagattribute['numberOfBoards']; $id++) {
+                $name = $constantnameboardid . $id;
+                $generalcode .= "const $name = '" . $divids[$id] . "';\n";
+                $generalcode .= "console.log('$name = `'+$name+'` has been prepared');\n";
+            }
+            $generalcode .= "const $constantnameboardid = $constantnameboardid" . "0" . ";\n";
 
             $generalcode .= "\n/** Accessibility */\n";
-            $generalcode .= "JXG.Options.board.title = '" . $tagattribute['title'] . "';\n";
-            $generalcode .= "JXG.Options.board.description = '" . $tagattribute['description'] . "';\n";
+            $generalcode .= "JXG.Options.board.title = '" . $tagattribute['title'][$b] . "';\n";
+            $generalcode .= "JXG.Options.board.description = '" . $tagattribute['description'][$b] . "';\n";
             $generalcode .= "\n";
 
             // Load global JavaScript code from administrator settings.
-            if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS']) {
+            if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS'][$b]) {
                 $globalcode .= "\n// Global JavaScript code of the administrator\n";
                 $globalcode .= $setting['globalJS'];
                 if (substr_compare($setting['globalJS'], ';', strlen($setting['globalJS']) - 1) < 0) {
@@ -244,22 +267,27 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Complete the code.
             $code = '';
+            $cond = '';
+            for ($id = 0; $id < $tagattribute['numberOfBoards']; $id++) {
+                $cond .= "document.getElementById('" . $divids[$id] . "') != null &&";
+            }
+            $cond = substr($cond, 0, -3);
             if ($require) {
-                $codeprefix = "require(['jsxgraphcore'], function (JXG) { if (document.getElementById('$divid') != null) { \n";
+                $codeprefix = "require(['jsxgraphcore'], function (JXG) { if ($cond) { \n";
                 $codepostfix = "}\n });\n";
             } else {
-                $codeprefix = "\nif (document.getElementById('$divid') != null) {";
+                $codeprefix = "\nif ($cond) {";
                 $codepostfix = "};";
             }
             $code = $codeprefix . $globalcode . $jscode . $codepostfix;
 
             $code = "\n//< ![CDATA[\n" . $code . "\n//]]>\n";
             $code =
-                "\n\n// #########################################" .
-                "\n// JavaScript code for JSXGraph board '$divid'\n" .
+                "\n\n// ###################################################" .
+                "\n// JavaScript code for JSXGraph board '" . $divids[0] . "' and other\n" .
                 $code .
-                "\n// End Code for JSXGraph board '$divid' " .
-                "\n// #########################################\n\n";
+                "\n// End Code for JSXGraph board '" . $divids[0] . "' and other " .
+                "\n// ###################################################\n\n";
 
             // Place JavaScript code at the end of the page.
             $PAGE->requires->js_init_call($code);
@@ -387,6 +415,7 @@ class filter_jsxgraph extends moodle_text_filter {
             'HTMLentities' => true,
             'convertencoding' => true,
             'globalJS' => '',
+            'usedivid' => false,
             'divid' => 'box',
             'width' => '500',
             'height' => '400'
@@ -417,6 +446,10 @@ class filter_jsxgraph extends moodle_text_filter {
         if (isset($tmpcfg)) {
             $tmp['globalJS'] = trim($tmpcfg);
         }
+        $tmpcfg = get_config('filter_jsxgraph', 'usedivid');
+        if (isset($tmpcfg)) {
+            $tmp['usedivid'] = $this->convert_bool($tmpcfg);
+        }
         $tmpcfg = get_config('filter_jsxgraph', 'divid');
         if (isset($tmpcfg)) {
             $tmp['divid'] = $tmpcfg;
@@ -441,6 +474,8 @@ class filter_jsxgraph extends moodle_text_filter {
      * @return string[]
      */
     private function get_tagattributes($node) {
+        $_numberofboardsattr = 'numberOfBoards';
+        $_numberofboardsval = 1;
         $attributes = [
             'title' => '',
             'description' => '',
@@ -450,28 +485,60 @@ class filter_jsxgraph extends moodle_text_filter {
             'useGlobalJS' => '',
             'ext_formulas' => '',
             'box' => '',
-            'boardid' => ''
+            'boardid' => '',
         ];
         $boolattributes = [
             'entities' => true,
             'useGlobalJS' => true,
-            'ext_formulas' => null
+            'ext_formulas' => null,
         ];
-        foreach ($attributes as $attr => $value) {
-            if (array_key_exists($attr, $boolattributes)) {
+        $possiblearrayattributes = [
+            'title',
+            'description',
+            'width',
+            'height',
+            'box',
+            'boardid',
+        ];
+        if (!function_exists('getBoolValue')) {
+            function getBoolValue($attr, $tagval, $node, $boolattributes) {
                 if ($node->hasAttribute($attr)) {
-                    if ($node->getAttribute($attr) == '') {
-                        $attributes[$attr] = true;
+                    if ($tagval == '') {
+                        return true;
                     } else {
-                        $attributes[$attr] = $this->convert_bool($node->getAttribute($attr), $boolattributes[$attr]);
+                        return $this->convert_bool($tagval, $boolattributes[$attr]);
                     }
                 } else {
-                    $attributes[$attr] = $boolattributes[$attr];
+                    return $boolattributes[$attr];
                 }
-            } else {
-                $attributes[$attr] = $node->getAttribute($attr);
             }
         }
+
+        $_numberofboardsval = $node->getAttribute($_numberofboardsattr) ? : $node->getAttribute(strtolower($_numberofboardsattr)) ? : $_numberofboardsval;
+
+        foreach ($attributes as $attr => $value) {
+            $a = $node->getAttribute($attr) ? : $node->getAttribute(strtolower($attr));
+            if (isset($a) && !empty($a)) {
+                $a = explode(',', $a);
+            } else {
+                $a = [''];
+            }
+            $attributes[$attr] = [];
+            $arrattr = in_array ($attr, $possiblearrayattributes);
+
+            for ($i = 0; $i < $_numberofboardsval; $i++) {
+                if (!isset($a[$i]) || empty($a[$i]) || !$arrattr) {
+                    $attributes[$attr][$i] = $a[0];
+                } else {
+                    $attributes[$attr][$i] = $a[$i];
+                }
+                if (array_key_exists($attr, $boolattributes)) {
+                    $attributes[$attr][$i] = getBoolValue($attr, $attributes[$attr][$i], $node, $boolattributes);
+                }
+            }
+        }
+
+        $attributes[$_numberofboardsattr] = $_numberofboardsval;
 
         return $attributes;
     }

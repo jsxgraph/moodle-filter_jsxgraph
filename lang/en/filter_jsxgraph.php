@@ -81,6 +81,10 @@ $string['width_desc'] = 'Width of JSXGraph container.';
 $string['height'] = 'height';
 $string['height_desc'] = 'Height of JSXGraph container.';
 
+$string['usedivid'] = 'use div prefix';
+$string['usedivid_desc'] =
+    'For better compatibility you should select "No" here. This means that the ids are not made with the prefix "<a href="#admin-divid">divid</a>" and a number but with an unique identifier. <br>If you are still using old constructions, you should select "Yes". Then the deprecated setting "<a href="#admin-divid">divid</a>" will continue to be used.';
+
 $string['divid'] = 'dynamic div id';
 $string['divid_desc'] =
     '<b>Deprecated! You should now use the constant "<code>BOARDID</code>" within the <jsxgraph\> tag.</b><br>' .
