@@ -500,27 +500,6 @@ class filter_jsxgraph extends moodle_text_filter {
             'box',
             'boardid',
         ];
-        if (!function_exists('get_bool_value')) {
-            /**
-             * @param $attr
-             * @param $tagval
-             * @param $node
-             * @param $boolattributes
-             *
-             * @return bool|mixed
-             */
-            function get_bool_value($attr, $tagval, $node, $boolattributes) {
-                if ($node->hasAttribute($attr)) {
-                    if ($tagval == '') {
-                        return true;
-                    } else {
-                        return $this->convert_bool($tagval, $boolattributes[$attr]);
-                    }
-                } else {
-                    return $boolattributes[$attr];
-                }
-            }
-        }
 
         $numberofboardsval =
             $node->getAttribute($numberofboardsattr) ?: $node->getAttribute(strtolower($numberofboardsattr)) ?: $numberofboardsval;
@@ -542,7 +521,7 @@ class filter_jsxgraph extends moodle_text_filter {
                     $attributes[$attr][$i] = $a[$i];
                 }
                 if (array_key_exists($attr, $boolattributes)) {
-                    $attributes[$attr][$i] = get_bool_value($attr, $attributes[$attr][$i], $node, $boolattributes);
+                    $attributes[$attr][$i] = $this->get_bool_value($node, $attr, $attributes[$attr][$i], $boolattributes[$attr]);
                 }
             }
         }
@@ -550,6 +529,28 @@ class filter_jsxgraph extends moodle_text_filter {
         $attributes[$numberofboardsattr] = $numberofboardsval;
 
         return $attributes;
+    }
+
+    /**
+     * Gives the value of $attribute in $node as bool. If the attribute does not exist, $stdval is returned.
+     *
+     * @param HTMLNode    $node
+     * @param string      $attribute
+     * @param string      $givenval
+     * @param bool|string $stdval
+     *
+     * @return bool
+     */
+    private function get_bool_value($node, $attribute, $givenval, $stdval) {
+        if ($node->hasAttribute($attribute)) {
+            if ($givenval == '') {
+                return true;
+            } else {
+                return $this->convert_bool($givenval, $stdval);
+            }
+        } else {
+            return $stdval;
+        }
     }
 
     /**

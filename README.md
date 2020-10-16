@@ -1,4 +1,4 @@
-# Moodle JSXGraph filter [![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph) 
+# JSXGraph Moodle filter [![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph) 
 
 Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
 
@@ -24,7 +24,7 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 ## Installation
 
 You can download the filter here: [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
-A video about the installation process is available on [YouTube](https://www.youtube.com/channel/UCANBFoVoOyW2eNyTvx-VZdQ/videos).
+A video about the installation process is available on [YouTube](https://youtu.be/nQvUKg-qD4g).
 
 To find out more about the installation, you can also [read on here](#installing-the-filter-step-by-step).
 
@@ -51,7 +51,7 @@ To find out more about the installation, you can also [read on here](#installing
    
 ***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
  
-Have a look to this [video](https://www.youtube.com/channel/UCANBFoVoOyW2eNyTvx-VZdQ/videos):
+Have a look to this [video](https://youtu.be/gHsFA1upQLc).
 
 Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
 On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input.
