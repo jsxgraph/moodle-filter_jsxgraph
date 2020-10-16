@@ -25,8 +25,8 @@ env:
  # - MOODLE_BRANCH=MOODLE_19
   - IGNORE_PATHS=screenshots
  matrix:
-  - DB=pgsql
   - DB=mysqli
+  - DB=pgsql
 
 before_install:
  - phpenv config-rm xdebug.ini
