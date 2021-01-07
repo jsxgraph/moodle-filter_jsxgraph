@@ -58,6 +58,30 @@ To use a JSXGraph board in a formulas question, first create a question in this 
       ```
       More information on using the JSXQuestion class can be found below.
     * Within the function `jsxGraphCode` the object of the class JSXQuestion can be accessed via the parameter `question` and its variables and methods can be used. An overview of this can be found below.
+    
+### Insert more than one board into a question
+
+As in a normal Moodle site, you can also use several boards in a formulas question. The JSXQuestion class even offers a number of helpful methods for this case.
+
+To use multiple boards, you can proceed in the same way as above with one board. In contrast to point 5, you must note the following:
+
+- Always hand over all boards that were declared in the tag. The best way to do this is to use the `BOARDIDS` array. E.g.:
+  ```html
+  <jsxgraph width="500" height="500" numberOfBoards="2" ext_formulas>
+      var jsxGraphCode = function (question) { ... };
+      new JSXQuestion(BOARDIDS, jsxGraphCode);
+  </jsxgraph>
+  ```
+  
+- As attributes and methods for JSXQuestion you should now use the following in your code:
+    * In the attribute `BOARDID` (= `firstBOARDID`) only the ID of the **first** board is saved. `BOARDIDS` contains all IDs as an array.
+    * The attribute `board` (= `firstBoard`) also only contains the reference to the **first** board. Use the `boards` array instead.
+    * The method `initBoards` initializes **all** given boards, just like the old` initBoard`. The only difference is that `initBoard` only returns the first board,` initBoards` all as an array.
+    
+        **Attention! Use the `initBoards` method of the` JSXQuestion` class instead of `JXG.JSXGraph.initBoard`, because with our method all attributes are automatically set to the correct value in the JSXQuestion object. How to assign different attributes to the individual boards can be read under [Methods](#methods).**
+    
+    * All other attributes and methods can be used normally.
+    * We aditionally offer the functions `addChildsAsc` and `addChildsDesc` to link the boards (see [Methods](#methods)).
 
 ### Using the class JSXQuestion
 
@@ -68,12 +92,13 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
 <table>
     <tr>
         <td>
-            <i>{String}</i>&nbsp;<b>boardID</b>
+            <i>{String&nbsp;|&nbsp;String[&nbsp;]}</i>&nbsp;<b>boardID</b>
         </td>
         <td>
             ID of the HTML element containing the JSXGraph board. 
             The board can be addressed within a tag using the constant <code>BOARDID</code>. 
             Therefore this parameter has to be set to <code>BOARDID</code>.
+            If more than one board is used, the array <code>BOARDIDS</code> must be given.
         </td>
     </tr>
     <tr>
@@ -112,15 +137,41 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
 <table>
     <tr>
         <td>
-            <i>{String}</i>&nbsp;<b>BOARDID</b>
+            <i>{String[&nbsp;]}</i>&nbsp;<b>BOARDIDS</b>
         </td>
         <td>
-            ID of the board.
+            IDs of the involved boards in an array.
         </td>
     </tr>
     <tr>
         <td>
-            <i>{Array}</i>&nbsp;<b>inputs</b>
+            <i>{String}</i>&nbsp;<b>firstBOARDID</b><br>
+            <i>{String}</i>&nbsp;<b>BOARDID</b>&nbsp;(deprecated)
+        </td>
+        <td>
+            ID of the <b>first</b> board.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>boards</b>
+        </td>
+        <td>
+            Array with the stored JSXGraph boards.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <i>{JXG.Board}</i>&nbsp;<b>firstBoard</b><br>
+            <i>{JXG.Board}</i>&nbsp;<b>board</b>&nbsp;(deprecated)
+        </td>
+        <td>
+            Stored <b>first</b> JSXGraph board.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <i>{HTMLElement[&nbsp;]}</i>&nbsp;<b>inputs</b>
         </td>
         <td>
             Stores the input tags from the formulas question.
@@ -128,17 +179,7 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
     </tr>
     <tr>
         <td>
-            <i>{JXG.Board}</i>&nbsp;<b>board</b><br>
-            <i>{JXG.Board}</i>&nbsp;<b>brd</b>&nbsp;(deprecated)
-        </td>
-        <td>
-            Stored JSXGraph board. 
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <i>{Boolean}</i>&nbsp;<b>isSolved</b><br>
-            <i>{Boolean}</i>&nbsp;<b>solved</b>&nbsp;(deprecated)
+            <i>{Boolean}</i>&nbsp;<b>isSolved</b>
         </td>
         <td>
             Indicator if the question has been solved.
@@ -151,20 +192,59 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
 <table>
     <tr>
         <td>
-            <i>{JXG.Board}</i>&nbsp;<b>initBoard(attributes)</b>
+            <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>initBoards(attributes)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>attributes</b>
+            </small>
         </td>
         <td>
-            Initializes the board, saves it in the attributes of JSXQuestion and returns it.
+            Initializes the board(s), saves it/them in the attributes of JSXQuestion and returns an array of boards.
             For this, the object in <code>attributes</code> is forwarded to the function 
             <code>JXG.JSXGraph.initBoard(...)</code>. The string passed during initialization
             is used as the id for the board. If two parameters are specified (as in the 
             specification of <code>JXG.JSXGraph.initBoard(...)</code>), the first parameter
-            is ignored.
+            is ignored.<br>
+            <code>attributes</code> can also be an array of attribute objects.
+            If there are given fewer attributes than there are boards, the first attributes are used as standard.
         </td>
     </tr>
     <tr>
         <td>
-            <i>{void}</i>&nbsp;<b>bindInput(inputNumber,&nbsp;valueFunction)</b>
+            <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>initBoard(attributes)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>attributes</b>
+            </small>
+        </td>
+        <td>
+            Alias for function <code>initBoards</code>. Returns only the first board.<br>
+             <i>For backward compatibility.</i>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <i>{void}</i>&nbsp;<b>addChildsAsc()</b>
+        </td>
+        <td>
+            Calls the function <code>addChild</code> ascending for each board.
+            After this function <code>boards[0]</code> is child of <code>boards[1]</code>, <code>boards[1]</code> is child of <code>boards[2]</code> etc.
+        </td>
+    </tr>
+    <tr>
+            <td>
+                <i>{void}</i>&nbsp;<b>addChildsDesc()</b>
+            </td>
+            <td>
+                Calls the function <code>addChild</code> descending for each board.
+                After this function <code>boards[0]</code> is parent of <code>boards[1]</code>, <code>boards[1]</code> is parent of <code>boards[2]</code> etc.
+            </td>
+        </tr>
+    <tr>
+        <td>
+            <i>{void}</i>&nbsp;<b>bindInput(inputNumber,&nbsp;valueFunction)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>inputNumber</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Function}</i>&nbsp;<b>valueFunction</b>
+            </small>
         </td>
         <td>
             Links the board to the inputs. If a change has been made in the board, the 
@@ -174,7 +254,11 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
     </tr>
     <tr>
         <td>
-            <i>{void}</i>&nbsp;<b>set(inputNumber,&nbsp;value)</b>
+            <i>{void}</i>&nbsp;<b>set(inputNumber,&nbsp;value)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>inputNumber</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>value</b>
+            </small>
         </td>
         <td>
             Fill input element of index <code>inputNumber</code> of the formulas question 
@@ -183,7 +267,10 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
     </tr>
     <tr>
         <td>
-            <i>{void}</i>&nbsp;<b>setAllValues(values)</b>
+            <i>{void}</i>&nbsp;<b>setAllValues(values)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number[&nbsp;]}</i>&nbsp;<b>values</b>
+            </small>
         </td>
         <td>
             Set values for all formulas input fields. The array <code>values</code> 
@@ -192,7 +279,11 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
     </tr>
     <tr>
         <td>
-            <i>{Number}</i>&nbsp;<b>get(inputNumber,&nbsp;defaultValue)</b>
+            <i>{Number}</i>&nbsp;<b>get(inputNumber,&nbsp;defaultValue)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>inputNumber</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>defaultValue</b>
+            </small>
         </td>
         <td>
             Get the content of input element of index <code>inputNumber</code> of the
@@ -202,7 +293,10 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
     </tr>
     <tr>
         <td>
-            <i>{void}</i>&nbsp;<b>getAllValues(defaultValues)</b>
+            <i>{void}</i>&nbsp;<b>getAllValues(defaultValues)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number&nbsp;|&nbsp;Number[&nbsp;]}</i>&nbsp;<b>defaultValues</b>
+            </small>
         </td>
         <td>
             Fetch all values from the formulas input fields. If the value of the input 
@@ -285,8 +379,6 @@ This can be done by adding the following code into the field "Part's text" in Pa
         // The polygonal chain, aka. polyline, through the four points
         board.create('polygonalchain', p, {borders: {strokeWidth: 3}});
 
-        board.update();
-
         // Whenever the construction is altered the values of the points are sent to formulas.
         question.bindInput(0, () => { return p[0].Y(); });
         question.bindInput(1, () => { return p[1].Y(); });
@@ -303,6 +395,12 @@ This can be done by adding the following code into the field "Part's text" in Pa
 ## Feedback
 
 All bugs, feature requests, feedback, etc., are welcome.
+
+## Contributors
+
+The project is based on work by [Tim Kos](https://github.com/timkos) and [Marc Bernart](https://github.com/marcbern-at).
+At the moment it is developed by [Andreas Walter](https://did.inf.uni-bayreuth.de/?Mitarbeiter_Didaktik_der_Informatik___Andreas_Walter).
+
 
 ## License
 
