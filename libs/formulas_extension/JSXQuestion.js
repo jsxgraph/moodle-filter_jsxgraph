@@ -20,10 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-'use strict';
 
-var JXG = JXG || {};
-window.JXG = JXG;
+/**
+ * This is a plugin to enable function plotting and dynamic geometry constructions with JSXGraph
+ * within a formulas question of Moodle platform.
+ *
+ * JSXGraph is a cross-browser JavaScript library for interactive geometry,
+ * function plotting, charting, and data visualization in the web browser.
+ * JSXGraph is implemented in pure JavaScript and does not rely on any other
+ * library. Special care has been taken to optimize the performance.
+ *
+ * @package    filter_jsxgraph
+ * @copyright  2021 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
+ *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
+ *             based on work by Tim Kos and Marc Bernart
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+"use strict";
 
 /**
  * @param {String|String[]} boardID ID of the HTML element containing the JSXGraph board. Has to be set with local const BOARDID0.
@@ -284,7 +299,7 @@ var JSXQuestion = function (boardID, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @param {Number|Number[]} [defaultValues=0] Default values if the fields are empty.
      *
-     * @returns {Array} Array containing the entries of all associated formulas input fields.
+     * @returns {Number[]} Array containing the entries of all associated formulas input fields.
      */
     this.getAllValues = function (defaultValues) {
         var inputNumber,
