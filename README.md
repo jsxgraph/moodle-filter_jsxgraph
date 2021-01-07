@@ -106,7 +106,7 @@ Here is an example:
 ### JSXGraph and formulas - a filter extension
 
 To use an JSXGraph board in a formulas question you can use <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">our filter extension for formulas</a>.
-Its files are already contained in this filter (see [here](libs/formulas_extension)). You can load them by [adim settigns](#admin-settings) or [tag attributes](#jsxgraph-tag-attributes).
+Its files are already contained in this filter (see [here](libs/formulas_extension)). You can load them by [admin settings](#admin-settings) or [tag attributes](#jsxgraph-tag-attributes).
 Please note the [documentation](libs/formulas_extension/README.md) of this extension, especially the installation instructions.
 
 ### JSXGraph and STACK 
