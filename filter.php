@@ -97,6 +97,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $setting = $this->get_adminsettings();
 
         $constantnameboardid = "BOARDID";
+        $constantnameboardids = "BOARDIDS";
 
         /* 1. STEP ---------------------------
          * Convert HTML string to a dom object
@@ -226,12 +227,13 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Define boardid const.
             $generalcode .= "\n/** Define boardid const */\n";
-            for ($id = 0; $id < $tagattribute['numberOfBoards']; $id++) {
-                $name = $constantnameboardid . $id;
-                $generalcode .= "const $name = '" . $divids[$id] . "';\n";
+            for ($j = 0; $j < $tagattribute['numberOfBoards']; $j++) {
+                $name = $constantnameboardid . $j;
+                $generalcode .= "const $name = '" . $divids[$j] . "';\n";
                 $generalcode .= "console.log('$name = `'+$name+'` has been prepared');\n";
             }
             $generalcode .= "const $constantnameboardid = $constantnameboardid" . "0" . ";\n";
+            $generalcode .= "const $constantnameboardids = ['" . implode("', '", $divids) . "'];\n";
 
             $generalcode .= "\n/** Accessibility */\n";
             $generalcode .= "JXG.Options.board.title = '" . $tagattribute['title'][$b] . "';\n";

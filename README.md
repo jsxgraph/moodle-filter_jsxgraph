@@ -38,7 +38,7 @@ To find out more about the installation, you can also [read on here](#installing
 2. Write content. At the position the construction should appear, create a construction by:
 	* switching to the code input, i.e. to "HTML source editor"
 	* inserting a `<jsxgraph>` tag with all required parameters
-	* Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. You can specify this ID within the tag (see [here](#jsxgraph-tag-attributes)). Otherwise an ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
+	* Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. This ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
    
    Example: 
 
@@ -61,6 +61,7 @@ On reopening it later, you will notice the code rather than the `<jsxgraph>` tag
 It is possible to replace a jsxgraph tag with more than one board. To do this, enter a number in the tag attribute `numberOfBoards`. This does the following:
 
 - Instead of `BOARDID`, the unique ids can now be found in `BOARDID0`, `BOARDID1`, `BOARDID2`, ...
+- All IDs are stored in an array `BOARDIDS` additionally. It looks like: `BOARDIDS = [BOARDID0, BOARDID1, BOARDID2, ...]`
 - The attributes `width`, `height`, `title` and `description` can contain several values. These are separated by commas. The first value applies to the first board, the second value to the second, etc. If not enough values are given (especially only one), the first value is used for the other boards.
 
 Here is an example:
