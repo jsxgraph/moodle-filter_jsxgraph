@@ -199,7 +199,7 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
     this.addChildsAsc = function() {
         var i;
 
-        for (i = that.boards.length - 1; i > 1; i--) {
+        for (i = that.boards.length - 1; i > 0; i--) {
             that.boards[i].addChild(that.boards[i - 1]);
         }
     };
