@@ -13,6 +13,6 @@ To release a new version of JSXGraph into the filter follow the steps below:
 - draft a new release in GitHub
 - submit a new version of the filter to the https://moodle.org/plugins/filter_jsxgraph (maintained by Andreas Walter)
 
-For seeing travis prechecks go here: https://travis-ci.org/
+For seeing travis prechecks go here: https://travis-ci.com/
 
 Moodle Plugin CI: https://blackboard-open-source.github.io/moodle-plugin-ci/
