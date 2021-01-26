@@ -3,7 +3,7 @@
 /.gitattributes export-ignore
 /.gitmodules export-ignore
 /.gitignore export-ignore
-/how_to_release.txt export-ignore
+/how_to_release.md export-ignore
 /img export-ignore
 /screenshots export-ignore
 /libs/submodule_* export-ignore

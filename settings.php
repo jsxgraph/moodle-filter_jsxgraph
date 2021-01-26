@@ -40,10 +40,9 @@ if ($ADMIN->fulltree) {
     $placeholder = '<div class="placeholder" style="height: 50px; padding: 1px 0 25px 0; margin-left: -33%;"><hr></div>';
     $last = '<div class="placeholder" style="height: 50px;"></div>';
 
-    // Use first supported version if class has not been loaded yet.
-    $recommended = '1.1.0';
-    if (class_exists('filter_jsxgraph')) {
-        $recommended = filter_jsxgraph::$recommended;
+    $recommended = get_config('filter_jsxgraph', 'recommendedJSX');
+    if (!$recommended) {
+        $recommended = '1.1.0';
     }
 
     if (!function_exists('get_jsxfilter_version')) {
@@ -53,6 +52,7 @@ if ($ADMIN->fulltree) {
          * @return string
          */
         function get_jsxfilter_version() {
+            $release = get_config('filter_jsxgraph', 'release');
             $version = get_config('filter_jsxgraph', 'version');
             if (substr($version, 8, 2) === '00') {
                 $version = substr($version, 0, 8);
@@ -62,9 +62,32 @@ if ($ADMIN->fulltree) {
             $version = substr_replace($version, '-', 6, 0);
             $version = substr_replace($version, '-', 4, 0);
 
-            return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' .
-                $version .
-                '</i></b></div>';
+            return '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;">' .
+                ($release !== "" ?
+                    '<i><b>' . $release . '</b><br><small>' . $version . '</small></i>' :
+                    '<b><i>' . $version . '</i></b>'
+                ) .
+                '</div>';
+        }
+    }
+
+    if (!function_exists('get_delivered_version')) {
+        /**
+         * Get the delivered JSXGraph version as a HTML-String.
+         *
+         * @return string
+         */
+        function get_delivered_version_with_prefix() {
+            $delivered = get_config('filter_jsxgraph', 'deliveredJSX');
+
+            if (!$delivered) {
+                return '';
+            } else {
+                return get_string('deliveredversion', 'filter_jsxgraph') .
+                    '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>v' .
+                    $delivered .
+                    '</i></b></div>';
+            }
         }
     }
 
@@ -73,9 +96,10 @@ if ($ADMIN->fulltree) {
                                              get_string('header_docs', 'filter_jsxgraph'),
                                              get_string('docs', 'filter_jsxgraph')));
 
-    $settings->add(new admin_setting_heading('filter_jsxgraph/filterversion',
-                                             get_string('header_filterversion', 'filter_jsxgraph'),
-                                             get_string('filterversion', 'filter_jsxgraph') . get_jsxfilter_version()));
+    $settings->add(new admin_setting_heading('filter_jsxgraph/versions',
+                                             get_string('header_versions', 'filter_jsxgraph'),
+                                             get_string('filterversion', 'filter_jsxgraph') . get_jsxfilter_version() .
+                                             get_delivered_version_with_prefix()));
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/jsxversion',
                                              get_string('header_jsxversion', 'filter_jsxgraph'),

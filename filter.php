@@ -47,12 +47,6 @@ require_once($CFG->libdir . '/pagelib.php');
  */
 class filter_jsxgraph extends moodle_text_filter {
     /**
-     * Recommended version
-     *
-     * @var string
-     */
-    public static $recommended = '1.1.0';
-    /**
      * Path to jsxgraphcore.js
      *
      * @var string
@@ -409,10 +403,15 @@ class filter_jsxgraph extends moodle_text_filter {
     private function get_adminsettings() {
         global $PAGE, $CFG;
 
+        $recommended = get_config('filter_jsxgraph', 'recommendedJSX');
+        if (!$recommended) {
+            $recommended = '1.1.0';
+        }
+
         // Set defaults.
         $tmp = [
             'jsxfromserver' => false,
-            'serverversion' => self::$recommended,
+            'serverversion' => $recommended,
             'formulasextension' => true,
             'HTMLentities' => true,
             'convertencoding' => true,
