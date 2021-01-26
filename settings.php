@@ -71,7 +71,7 @@ if ($ADMIN->fulltree) {
         }
     }
 
-    if (!function_exists('get_delivered_version')) {
+    if (!function_exists('get_delivered_version_with_prefix')) {
         /**
          * Get the delivered JSXGraph version as a HTML-String.
          *
