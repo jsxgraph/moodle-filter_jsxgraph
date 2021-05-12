@@ -162,7 +162,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('filter_jsxgraph/height',
                                                 get_string('height', 'filter_jsxgraph'),
                                                 get_string('height_desc', 'filter_jsxgraph'),
-                                                '400', PARAM_INT));
+                                                '500', PARAM_INT));
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/deprecated',
                                              get_string('header_deprecated', 'filter_jsxgraph'),

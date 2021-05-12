@@ -419,7 +419,7 @@ class filter_jsxgraph extends moodle_text_filter {
             'usedivid' => false,
             'divid' => 'box',
             'width' => '500',
-            'height' => '400'
+            'height' => '500'
         ];
 
         // Read and save settings.

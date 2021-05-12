@@ -353,7 +353,7 @@ This can be done by adding the following code into the field "Part's text" in Pa
 
         // Import the initial y-coordinates of the four points from formulas
         var t1, t2, t3, t4;
-        [t1, t2, t3, t4] = question.getAllValues(4, 0);
+        [t1, t2, t3, t4] = question.getAllValues(4);
 
         // Initialize the construction
         var board = question.initBoard({
@@ -399,7 +399,7 @@ All bugs, feature requests, feedback, etc., are welcome.
 ## Contributors
 
 The project is based on work by [Tim Kos](https://github.com/timkos) and [Marc Bernart](https://github.com/marcbern-at).
-At the moment it is developed by [Andreas Walter](https://did.inf.uni-bayreuth.de/?Mitarbeiter_Didaktik_der_Informatik___Andreas_Walter).
+At the moment it is developed by [The Center of Mobile Learning with Digital Technology](http://mobile-learning.uni-bayreuth.de/) (contact: Alfred Wassermann and Andreas Walter).
 
 
 ## License
