@@ -87,12 +87,12 @@ To use multiple boards, you can proceed in the same way as above with one board.
 
 #### Initialization
 
-The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimalPrecision)` of class JSXQuestion takes the following parameters:
+The constructor `new JSXQuestion(boardIDs, jsxGraphCode, allowInputEntry, decimalPrecision)` of class JSXQuestion takes the following parameters:
 
 <table>
     <tr>
         <td>
-            <i>{String&nbsp;|&nbsp;String[&nbsp;]}</i>&nbsp;<b>boardID</b>
+            <i>{String&nbsp;|&nbsp;String[&nbsp;]}</i>&nbsp;<b>boardIDs</b>
         </td>
         <td>
             ID of the HTML element containing the JSXGraph board. 
@@ -192,6 +192,18 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
 <table>
     <tr>
         <td>
+            <i>{JXG.Board}</i>&nbsp;<b>initAndAddBoard(id, attributes)</b><br><br><small>
+            <b>Parameters:</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{String}</i>&nbsp;<b>id</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object}</i>&nbsp;<b>attributes</b>
+            </small>
+        </td>
+        <td>
+            Initializes and adds one board to the boards array. the <code>id</code> must be part of the <code>BOARDIDS</code> array. The resulting board, which is also returned, is added to boards at this index where <code>id</code> is in the array <code>BOARDIDS</code>. If a board already exists for this <code>id</code>, it will be deleted.
+        </td>
+    </tr>
+    <tr>
+        <td>
             <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>initBoards(attributes)</b><br><br><small>
             <b>Parameters:</b><br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>attributes</b>
@@ -200,23 +212,24 @@ The constructor `new JSXQuestion(boardID, jsxGraphCode, allowInputEntry, decimal
         <td>
             Initializes the board(s), saves it/them in the attributes of JSXQuestion and returns an array of boards.
             For this, the object in <code>attributes</code> is forwarded to the function 
-            <code>JXG.JSXGraph.initBoard(...)</code>. The string passed during initialization
+            <code>JXG.JSXGraph.initBoard(...)</code>. The string passed during initialization of JSXQuestion object
             is used as the id for the board. If two parameters are specified (as in the 
             specification of <code>JXG.JSXGraph.initBoard(...)</code>), the first parameter
             is ignored.<br>
             <code>attributes</code> can also be an array of attribute objects.
-            If there are given fewer attributes than there are boards, the first attributes are used as standard.
+            If there are given fewer attributes than there are boards, the first attributes are used as standard.<br> The attribute <code>boards</code> is cleared and new initialized in this method.
         </td>
     </tr>
     <tr>
         <td>
-            <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>initBoard(attributes)</b><br><br><small>
+            <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>initBoard(firstParam, secondParam)</b><br><br><small>
             <b>Parameters:</b><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>attributes</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{String&nbsp;|&nbsp;Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>firstParam</b><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>secondParam</b>
             </small>
         </td>
         <td>
-            Alias for function <code>initBoards</code>. Returns only the first board.<br>
+            If <code>firstParam</code> is an string or an single (attributes-) object, this function call is forwarded to <code>initAndAddBoard</code>. Otherwise this function is an alias for <code>initBoards</code>.<br>
              <i>For backward compatibility.</i>
         </td>
     </tr>
@@ -353,20 +366,20 @@ This can be done by adding the following code into the field "Part's text" in Pa
 
         // Import the initial y-coordinates of the four points from formulas
         var t1, t2, t3, t4;
-        [t1, t2, t3, t4] = question.getAllValues(4);
+        [t1, t2, t3, t4] = question.getAllValues();
 
         // Initialize the construction
-        var board = question.initBoard({
+        var board = question.initBoard(BOARDID, {
                 axis:true,
-                boundingbox: [-.5, 35, 5.5, -5],
+                boundingbox: [-0.5, 35, 5.5, -5],
                 showCopyright: true,
                 showNavigation: true
             });
         // Four invisible, vertical lines
-        var line1 = board.create('segment', [[1,-10], [1,100]], {visible:false}),
-            line2 = board.create('segment', [[2,-10], [2,100]], {visible:false}),
-            line3 = board.create('segment', [[3,-10], [3,100]], {visible:false}),
-            line4 = board.create('segment', [[4,-10], [4,100]], {visible:false});
+        var line1 = board.create('segment', [[1,-5], [1,35]], {visible:false}),
+            line2 = board.create('segment', [[2,-5], [2,35]], {visible:false}),
+            line3 = board.create('segment', [[3,-5], [3,35]], {visible:false}),
+            line4 = board.create('segment', [[4,-5], [4,35]], {visible:false});
 
         // The four points fixated to the lines, called 'gliders'.
         var point_attr = {fixed: question.isSolved, snapToGrid: true, withLabel: false},
@@ -387,7 +400,7 @@ This can be done by adding the following code into the field "Part's text" in Pa
     };
 
     // Execute the JavaScript code.
-    new JSXQuestion(BOARDID, jsxCode);
+    new JSXQuestion(BOARDID, jsxCode, /* if you want to see inputs: */ true);
 
 </jsxgraph>
 ```

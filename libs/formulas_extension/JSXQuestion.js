@@ -44,13 +44,13 @@
 var JXG = JXG || {};
 
 /**
- * @param {String|String[]} boardID ID of the HTML element containing the JSXGraph board. Has to be set with local const BOARDID0.
- *                                  If more than one board is used, an array of BOARDIDS must be given.
+ * @param {String|String[]} boardIDs ID of the HTML element containing the JSXGraph board. Has to be set with local const BOARDID0.
+ *                                   If more than one board is used, an array of BOARDIDS must be given.
  * @param {Function} jsxGraphCode JavaScript function containing the construction code.
  * @param {Boolean} [allowInputEntry=false] Should the original inputs from formulas be displayed and linked to the construction?
  * @param {Number} [decimalPrecision=2] Number of digits to round to.
  */
-var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecision) {
+var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPrecision) {
     var that = this,
         topEl;
 
@@ -65,10 +65,10 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
      * Array with the IDs of the boards.
      * @type {String[]}
      */
-    this.BOARDIDS = boardID;
+    this.BOARDIDS = boardIDs;
 
-    if (!JXG.isArray(boardID)) {
-        this.BOARDIDS = [boardID];
+    if (!JXG.isArray(boardIDs)) {
+        this.BOARDIDS = [boardIDs];
     }
 
     /**
@@ -89,11 +89,11 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
      * @deprecated
      * @type {HTMLElement}
      */
-    this.elm = document.getElementById(this.BOARDID);
+    this.elm = document.getElementById(this.firstBOARDID);
 
     // Get the first ancestor of the board having class ".formulaspart" (should be a div).
     // ATTENTION!!! The class used here depends on formulas and can make the extension useless when updating formulas!
-    topEl = document.getElementById(this.firstBOARDID).closest('.formulaspart');
+    topEl = this.elm.closest('.formulaspart');
 
     /**
      * Stores the input tags from the formulas question.
@@ -103,16 +103,17 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
 
     // Hide the input elements
     if (allowInputEntry) {
-        /*this.inputs.forEach(function(el) {
-            el.addEventListener('input', function() {
-                that.update();
-            });
-        });*/
         this.inputs.forEach(function(el) {
-            el.addEventListener('change', function(e) {
+            el.addEventListener('input', function() {
+                console.log('Test');
                 if (!that.board.inUpdate) {
-                    console.log('-----------------------------------------------');
-                    console.log('aus dem change-Event: ', e.target.value);
+                    that.update();
+                }
+            });
+        });
+        this.inputs.forEach(function(el) {
+            el.addEventListener('change', function() {
+                if (!that.board.inUpdate) {
                     that.update();
                 }
             });
@@ -192,19 +193,26 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
     }
 
     /**
-     * Alias for function initBoards. Returns only the first board (for backward compatibility).
+     * Alias for function initBoards and initAndAddBoard. Returns only the first board (for backward compatibility).
      * @see JSXQuestion.initBoards
+     * @see JSXQuestion.initAndAddBoard
      *
-     * @param {Object|Object[]} [attributes={}]             Attributes for function JXG.JSXGraph.initBoard(...).
-     *                                                      Can also be an array. Otherwise each board gets the same attributes.
-     * @param {Object|Object[]} [attributesIfBoxIsGiven={}] Guarantees compatibility with the function JXG.JSXGraph.initBoard(...).
-     *                                                      The ID that was then passed in the first parameter is ignored!
-     *                                                      Can also be an array. Otherwise each board gets the same attributes.
+     * @param {String|Object|Object[]} firstParam   Attributes for function JXG.JSXGraph.initBoard(...).
+     *                                              Can also be an array. Otherwise each board gets the same attributes.
+     * @param {Object|Object[]} secondParam         Guarantees compatibility with the function JXG.JSXGraph.initBoard(...).
+     *                                              The ID that was then passed in the first parameter is ignored!
+     *                                              Can also be an array. Otherwise each board gets the same attributes.
      *
-     * @returns {JXG.Board}                                 JSXGraph board
+     * @returns {JXG.Board}                         JSXGraph board
      */
-    this.initBoard = function(attributes, attributesIfBoxIsGiven) {
-        return that.initBoards(attributes, attributesIfBoxIsGiven)[0];
+    this.initBoard = function(firstParam, secondParam) {
+        if(JXG.isString(firstParam)) { /* firstParam is id */
+            return that.initAndAddBoard(firstParam, secondParam);
+        } else /* firstParam are attributes */ if(!JXG.isArray(firstParam)) {
+            return that.initAndAddBoard(that.BOARDIDS[that.boards.length], firstParam);
+        } else {
+            return that.initBoards(firstParam, secondParam)[0];
+        }
     };
 
     /**
@@ -227,7 +235,7 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
         if (attributesIfBoxIsGiven === undefined || attributesIfBoxIsGiven === null) {
             attributesIfBoxIsGiven = {};
         }
-        if (typeof attributes === 'string' || attributes instanceof String) { // Backward compatibility!
+        if (JXG.isString(attributes)) { // Backward compatibility!
             attributes = attributesIfBoxIsGiven;
         }
 
@@ -235,6 +243,11 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
             attributes = [attributes];
         }
         // From here attributes is an array.
+
+        for (i = 0; i < that.boards.length; i++) {
+            JXG.JSXGraph.freeBoard(that.boards[i]);
+        }
+        that.boards = [];
 
         for (i = 0; i < that.BOARDIDS.length; i++) {
             attr = attributes[i] || attributes[0]; // First attributes are default.
@@ -248,34 +261,29 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
     /**
      * Initialize and add one board to the boards array. Returns the just added board.
      *
-     * @param {Object|Object[]} [attributes={}]             Attributes for function JXG.JSXGraph.initBoard(...).
-     * @param {Object|Object[]} [attributesIfBoxIsGiven={}] Guarantees compatibility with the function JXG.JSXGraph.initBoard(...).
-     *                                                      The ID that was then passed in the first parameter is ignored!
+     * @param {String} id              Id of the board.
+     * @param {Object} [attributes={}] Attributes for function JXG.JSXGraph.initBoard(...).
      *
-     * @returns {JXG.Board}                                 JSXGraph board
+     * @returns {JXG.Board}            JSXGraph board
      */
-    this.initAndAddBoard = function(attributes, attributesIfBoxIsGiven) {
-        var board,
-            i = that.boards.length;
+    this.initAndAddBoard = function(id, attributes) {
+        var index = that.BOARDIDS.indexOf(id);
 
-        if (that.BOARDIDS.length >= that.boards.length) {
-            console.error('You cannot add another board. There is already a board for each BOARDID.', that.BOARDIDS, that.boards);
+        if (index === -1) {
+            console.error('The id "' + id + '" was not passed in Initialization of JSXQuestion.', that.BOARDIDS);
             return null;
         }
 
         if (attributes === undefined || attributes === null) {
             attributes = {};
         }
-        if (attributesIfBoxIsGiven === undefined || attributesIfBoxIsGiven === null) {
-            attributesIfBoxIsGiven = {};
-        }
-        if (typeof attributes === 'string' || attributes instanceof String) { // Backward compatibility!
-            attributes = attributesIfBoxIsGiven;
+
+        if(JXG.exists(that.boards[index])) {
+            JXG.JSXGraph.freeBoard(that.boards[index]);
         }
 
-        board = JXG.JSXGraph.initBoard(that.BOARDIDS[i], attributes);
-        that.boards.push(board);
-        return that.boards[i];
+        that.boards[index] = JXG.JSXGraph.initBoard(that.BOARDIDS[index], attributes);
+        return that.boards[index];
     };
 
     /**
@@ -312,8 +320,7 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
     this.bindInput = function(inputNumber, valueFunction) {
         var i;
         for (i = 0; i < that.boards.length; i++) {
-            that.boards[i].on('up', function(e) {
-                console.log(e);
+            that.boards[i].on('up', function() {
                 that.set(inputNumber, valueFunction());
             });
             that.boards[i].update();
@@ -426,10 +433,10 @@ var JSXQuestion = function(boardID, jsxGraphCode, allowInputEntry, decimalPrecis
      */
     this.reload = this.update = function() {
         var i;
-        jsxGraphCode(that);
         for (i = 0; i < that.boards.length; i++) {
             that.boards[i].update();
         }
+        jsxGraphCode(that);
     };
 
     // Execute the JSXGraph JavaScript code.
