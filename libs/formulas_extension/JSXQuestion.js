@@ -125,7 +125,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
     }
 
     if (Object.defineProperties) {
-        let boards = [];
+        var boards = [];
 
         Object.defineProperties(this, {
             boards: {
