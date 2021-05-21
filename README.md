@@ -1,4 +1,4 @@
-# JSXGraph Moodle filter [![Build Status](https://travis-ci.com/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.com/jsxgraph/moodle-filter_jsxgraph) 
+# JSXGraph Moodle filter [![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph) 
 
 Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
 
@@ -255,9 +255,9 @@ All bugs, feature requests, feedback, etc., are welcome.
 
 ## Travis support
 
-[![Build Status](https://travis-ci.com/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.com/jsxgraph/moodle-filter_jsxgraph)
+[![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph)
 
-https://travis-ci.com/jsxgraph/moodle-filter_jsxgraph
+https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph
 
 ## License
 
