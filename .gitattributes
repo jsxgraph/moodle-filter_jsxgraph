@@ -4,6 +4,8 @@
 /.gitmodules export-ignore
 /.gitignore export-ignore
 /how_to_release.md export-ignore
+/*.less export-ignore
+/jsxgraph.css export-ignore
 /img export-ignore
 /screenshots export-ignore
 /libs/submodule_* export-ignore

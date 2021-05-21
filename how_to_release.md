@@ -4,8 +4,8 @@ You can find instructions to build the latest version of jsxgraphcore.js here: h
 
 To release a new version of JSXGraph into the filter follow the steps below:
 
-- replace the file `jsxgraphcore.js` in branches `master` and `MOODLE_2` of https://github.com/jsxgraph/moodle-filter_jsxgraph.
-- if formulas extension hat been updated, replace file libs/fomulas_extension/JSXQuestion.js
+- replace the files `jsxgraphcore.js` ans `jsxgraph.css` in branch `master` of https://github.com/jsxgraph/moodle-filter_jsxgraph.
+- if formulas extension hat been updated, replace directory `libs/fomulas_extension`
 - update version tag in `thirdpartylibs.xml`!
 - update strings for `recommendedJSX` and `deliveredJSX` in `version.php`
 - the value of `plugin->version` should be updated in the file `version.php` to the current date (`YYYYMMDD00`)
