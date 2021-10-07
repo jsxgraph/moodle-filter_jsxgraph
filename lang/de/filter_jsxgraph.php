@@ -77,11 +77,72 @@ $string['convertencoding_desc'] = 'Einstellung, ob die Codierung des Texts zwisc
 $string['globalJS'] = 'Globales JavaScript';
 $string['globalJS_desc'] = 'Definieren Sie hier einen allgemein gültigen JavaScript-Code, der in jedem JSXGraph-Tag vor dem darin enthalteten Code geladen wird. Um Sonderzeichen wie beispielsweise "<" zu nutzen, verwenden Sie die entsprechende HTMLentity.';
 
-$string['width'] = 'Breite';
-$string['width_desc'] = 'Standardbreite des JSXGraph-Containers.';
+$string['dimensions'] =
+    '<p>Hier können Sie die Standard-Dimensionen für Ihre Boards definieren. Bitte beachten Sie, dass lokale Tag-Attribute nur Teile der hier definierten Werte überschreiben und es dadurch zu unvorhergesehenen Überschneidungen kommen kann. Benutzen Sie diese Einstellungen deshalb mit Bedacht!</p>' .
+    '<p><b>Um die Responsivität von Boards nutzen zu können, dürfen nicht Höhe und Breite gleichzeitig angegeben werden. Stattdessen sollten Sie width und aspect-ratio verwenden,</b> denn bei gegebener Höhe und Breite wird das Seitenverhältnis ignoriert.</p>' .
+    '<p>Es gibt die folgenden Fälle:</p>' .
+    '<table class="table table-bordered table-sm table-striped">' .
+    '<thead class="table-dark">' .
+    '<tr>' .
+    '     <td>#</td>' .
+    '     <td>gegebene Werte</td>' .
+    '     <td>Verhalten</td>' .
+    '</tr>' .
+    '</thead>' .
+    '<tbody>' .
+    '<tr>' .
+    '     <td>1</td>' .
+    '     <td>width und height in irgendeiner Kombination (max-/...)</td>' .
+    '     <td>Die Dimensionen werden auf das <code>div</code> des Boards angewandt, wobei das Layout sich an der CSS-Spezifikation orientiert. Beachten Sie die Fußnoten (a) und (b). Aspect-ratio wird in diesem Fall ignoriert. Beachten Sie außerdem die Anmerkung (c).</td>' .
+    '</tr>' .
+    '<tr>' .
+    '     <td>2</td>' .
+    '     <td>aspect-ratio und (max-)width</td>' .
+    '     <td>Die Breite des Boards wird durch den Wert von width festgelegt. Die Höhe wird entsprechend dem gegebenen Seitenverhältnis reguliert.</td>' .
+    '</tr>' .
+    '<tr>' .
+    '     <td>3</td>' .
+    '     <td>aspect-ratio und (max-)height</td>' .
+    '     <td>Die Höhe des Boards wird durch den Wert von height festgelegt. Die Breite wird entsprechend dem gegebenen Seitenverhältnis reguliert. Dieser Fall wird auf Browsern, die die CSS-Eigenschaft aspect-ratio nicht unterstützen, nicht funktionieren, da der CSS-Trick (siehe (a)) hier nicht anwendbar ist.</td>' .
+    '</tr>' .
+    '<tr>' .
+    '     <td>4</td>' .
+    '     <td>nur aspect-ratio</td>' .
+    '     <td>Hier wird die <a href="#admin-fallbackwidth">Fallback-Breite</a> benutzt, sodass anschließend Fall 2 Anwendung findet.</td>' .
+    '</tr>' .
+    '<tr>' .
+    '     <td>5</td>' .
+    '     <td>nichts</td>' .
+    '     <td>Aspect-ratio wird mit dem Wert aus <a href="#admin-fallbackaspectratio">Fallback-Seitenverhältnis</a> versehen. Anschließend wird Fall 4 angewandt.</td>' .
+    '</tr>' .
+    '</tbody>' .
+    '</table>' .
+    '<p class="mb-0"><b>Anmerkungen:</b></p>' .
+    '<p><b>(a)</b> Achtung: Das <code>div</code> verwendet das Attribut "aspect-ratio", das nicht von jedem Browser unterstützt wird. In diesem fAll wird ein Trick angewandt: das Board wird mit einem <code>div</code> umgeben und mit padding-bottom versehen. Dieser Trick funktioniert nur, wenn Seitenverhältnis und <i>(max-)width</i> gegeben sind, nicht in Kombination mit height! Eine Übersicht, in welchem Browser dieser Trick nicht notwendig ist, liefert <a href="https://caniuse.com/mdn-css_properties_aspect-ratio." target="_blank">caniuse.com</a></p>' .
+    '<p><b>(b)</b> WEnn der trick nicht verwendet wird, besteht das Board nur aus einem <code>div</code> mit der id <code>BOARDID</code>. Der Wert aus dem Tag-Attribut wrapper-class wird ignoriert. Beim Trick wird dieses <code>div</code> von einem weiteren <code>div</code> mit der id <code>BOARDID</code>-wrapper umgeben. Dieser "Wrapper" enthält die Dimensionen des Boards, während die Größe des Boards selbst relativ zum umgebenden <code>div</code> reguliert ist.</p>' .
+    '<p><b>(c)</b> Falls nur die Breite gegeben ist, die Höhe bleibt <code>0</code> (ähnlich zu einem <code>div</code>, das kienen Inhalt und nur eine Breite hat). Sie müssen also ein Seitenverhältnis oder eine Höhe für das Board definieren!</p>' .
+    '<p>&nbsp;</p>';
 
-$string['height'] = 'Höhe';
-$string['height_desc'] = 'Standardhöhe des JSXGraph-Containers.';
+$string['aspectratio'] = 'Seitenverhältnis';
+$string['aspectratio_desc'] = 'Format z.B. "1 / 1"';
+
+$string['fixwidth'] = 'Breite';
+$string['fixwidth_desc'] = 'Wir empfehlen, hier einen relativen Wert zu verwenden, z.B. 100%.';
+
+$string['fixheight'] = 'Höhe';
+$string['fixheight_desc'] = 'Wir empfehlen, dieses Feld leer zu lassen und stattdessen Höhe und Seitenverhältnis zu verwenden.';
+
+$string['maxwidth'] = 'Maximale Breite';
+$string['maxwidth_desc'] = '';
+
+$string['maxheight'] = 'Maximale Höhe';
+$string['maxheight_desc'] = '';
+
+$string['fallbackaspectratio'] = 'Fallback-Seitenverhältnis';
+$string['fallbackaspectratio_desc'] = 'Siehe Beschreibung der Standard-Dimensionen.';
+
+$string['fallbackwidth'] = 'Fallback-Breite';
+$string['fallbackwidth_desc'] = 'Siehe Beschreibung der Standard-Dimensionen.';
 
 $string['usedivid'] = 'Benutze div-Präfix';
 $string['usedivid_desc'] =

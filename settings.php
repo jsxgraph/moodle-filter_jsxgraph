@@ -152,17 +152,42 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/dimensions',
                                              get_string('header_dimensions', 'filter_jsxgraph'),
-                                             ''));
+                                             get_string('dimensions', 'filter_jsxgraph')));
 
-    $settings->add(new admin_setting_configtext('filter_jsxgraph/width',
-                                                get_string('width', 'filter_jsxgraph'),
-                                                get_string('width_desc', 'filter_jsxgraph'),
-                                                '500', PARAM_INT));
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/aspectratio',
+                                                get_string('aspectratio', 'filter_jsxgraph'),
+                                                get_string('aspectratio_desc', 'filter_jsxgraph'),
+                                                '', PARAM_TEXT));
 
-    $settings->add(new admin_setting_configtext('filter_jsxgraph/height',
-                                                get_string('height', 'filter_jsxgraph'),
-                                                get_string('height_desc', 'filter_jsxgraph'),
-                                                '500', PARAM_INT));
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/fixwidth',
+                                                get_string('fixwidth', 'filter_jsxgraph'),
+                                                get_string('fixwidth_desc', 'filter_jsxgraph'),
+                                                get_config('filter_jsxgraph', 'width') ?? '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/fixheight',
+                                                get_string('fixheight', 'filter_jsxgraph'),
+                                                get_string('fixheight_desc', 'filter_jsxgraph'),
+                                                get_config('filter_jsxgraph', 'height') ?? '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/maxwidth',
+                                                get_string('maxwidth', 'filter_jsxgraph'),
+                                                get_string('maxwidth_desc', 'filter_jsxgraph'),
+                                                '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/maxheight',
+                                                get_string('maxheight', 'filter_jsxgraph'),
+                                                get_string('maxheight_desc', 'filter_jsxgraph'),
+                                                '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/fallbackaspectratio',
+                                                get_string('fallbackaspectratio', 'filter_jsxgraph'),
+                                                get_string('fallbackaspectratio_desc', 'filter_jsxgraph'),
+                                                '1 / 1', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('filter_jsxgraph/fallbackwidth',
+                                                get_string('fallbackwidth', 'filter_jsxgraph'),
+                                                get_string('fallbackwidth_desc', 'filter_jsxgraph'),
+                                                '100%', PARAM_TEXT));
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/deprecated',
                                              get_string('header_deprecated', 'filter_jsxgraph'),
