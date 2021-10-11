@@ -75,11 +75,11 @@ $string['convertencoding'] = 'convert encoding';
 $string['convertencoding_desc'] = 'Decide whether the encoding of the text between the JSXGraph tags should be converted to UTF-8 or not.';
 
 $string['globalJS'] = 'global JavaScript';
-$string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in each JSXGraph tag before the code contained in it. To type special characters like "<" use HTMLentities.';
+$string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in each JSXGraph tag before the code contained in it. To type special characters like "<" use <code>JXG.Math.lt(...)</code>.';
 
 $string['dimensions'] =
     '<p>Here you can define standard dimensions for your boards. Please be aware, that local tag attributes override only parts of them, so be careful.</p>' .
-    '<p><b>To use the responsiveness of the boards, you have to change settings from given width and height to given width and aspect-ratio, </b> because if there are given width and height, aspect-ratio is ignored.</p>' .
+    '<p><b>To use the responsiveness of the boards, you have to change settings from given <code>width</code> and <code>height</code> to given <code>width</code> and <code>aspect-ratio</code>, </b> because if there are given <code>width</code> and <code>height</code>, <code>aspect-ratio</code> is ignored.</p>' .
     '<p>There are the following use-cases:</p>' .
     '<table class="table table-bordered table-sm table-striped">' .
     '<thead class="table-dark">' .
@@ -92,45 +92,45 @@ $string['dimensions'] =
     '<tbody>' .
     '<tr>' .
     '     <td>1</td>' .
-    '     <td>width and height in any combination (max-/...)</td>' .
-    '     <td>The dimensions are applied to the boards <code>div</code>. Layout is like in the css specification defined. See notes (a) and (b). Aspect-ratio is ignored in this case. Please note also (c).</td>' .
+    '     <td><code>width</code> and <code>height</code> in any combination (max-/...)</td>' .
+    '     <td>The dimensions are applied to the boards <code>div</code>. Layout is like in the css specification defined. See notes (a) and (b). <code>aspect-ratio</code> is ignored in this case. Please note also (c).</td>' .
     '</tr>' .
     '<tr>' .
     '     <td>2</td>' .
-    '     <td>aspect-ratio and (max-)width</td>' .
-    '     <td>The boards width ist fix according its value. The height is automatically regulated following the given aspect-ratio.</td>' .
+    '     <td><code>aspect-ratio</code> and <code>(max-)width</code></td>' .
+    '     <td>The boards width ist fix according its value. The height is automatically regulated following the given <code>aspect-ratio</code>.</td>' .
     '</tr>' .
     '<tr>' .
     '     <td>3</td>' .
-    '     <td>aspect-ratio and (max-)height</td>' .
-    '     <td>The boards height ist fix according its value. The width is automatically regulated following the given aspect-ratio. This case doesn\'t work on browsers which doesn\'t support aspect-ratio. The css trick (see (a)) can not help here.</td>' .
+    '     <td><code>aspect-ratio</code> and <code>(max-)height</code></td>' .
+    '     <td>The boards height ist fix according its value. The width is automatically regulated following the given <code>aspect-ratio</code>. This case doesn\'t work on browsers which doesn\'t support <code>aspect-ratio</code>. The css trick (see (a)) can not help here.</td>' .
     '</tr>' .
     '<tr>' .
     '     <td>4</td>' .
-    '     <td>only aspect-ratio</td>' .
+    '     <td>only <code>aspect-ratio</code></td>' .
     '     <td>The <a href="#admin-fallbackwidth">fallback width</a> is used. Apart from that see case 2.</td>' .
     '</tr>' .
     '<tr>' .
     '     <td>5</td>' .
     '     <td>nothing</td>' .
-    '     <td>Aspect-ratio is set to <a href="#admin-fallbackaspectratio">fallback aspect-ratio</a> and then see case 4.</td>' .
+    '     <td><code>aspect-ratio</code> is set to <a href="#admin-fallbackaspectratio">fallback aspect-ratio</a> and then see case 4.</td>' .
     '</tr>' .
     '</tbody>' .
     '</table>' .
     '<p class="mb-0"><b>Notes:</b></p>' .
-    '<p><b>(a)</b> Pay attention: the <code>div</code> uses the css attribute "aspect-ratio" which is not supported by every browser. If the browser does not support this, a trick with a wrapping <code>div</code> and padding-bottom is applied. This trick only works, if aspect-ratio and (max-)width are given, not in combination with (max-)height! For an overview of browsers which support aspect-ratio see <a href="https://caniuse.com/mdn-css_properties_aspect-ratio." target="_blank">caniuse.com</a></p>' .
-    '<p><b>(b)</b> If the css trick is not needed, the result is only the <code>div</code> with id <code>BOARDID</code> for the board. The value of tag attribute wrapper-class is ignored. In the trick the <code>div</code> is wrapped by a <code>div</code> with id <code>BOARDID</code>-wrapper. This wrapper contains the main dimensions and the board-<code>div</code> gets only relative dimensions according to the case, e.g. width: 100%.</p>' .
-    '<p><b>(c)</b> If only width is given, the height will be <code>0</code> like in css. You have to define an aspect-ratio or height to display the board!</p>' .
+    '<p><b>(a)</b> Pay attention: the <code>div</code> uses the css attribute <code>aspect-ratio</code> which is not supported by every browser. If the browser does not support this, a trick with a wrapping <code>div</code> and <code>padding-bottom</code> is applied. This trick only works, if <code>aspect-ratio</code> and <code>(max-)width</code> are given, not in combination with <code>(max-)height</code>! For an overview of browsers which support <code>aspect-ratio</code> see <a href="https://caniuse.com/mdn-css_properties_aspect-ratio." target="_blank">caniuse.com</a></p>' .
+    '<p><b>(b)</b> If the css trick is not needed, the result is only the <code>div</code> with id <code>BOARDID</code> for the board. The value of tag attribute <code>wrapper-class</code> is ignored. In the trick the <code>div</code> is wrapped by a <code>div</code> with id <code>BOARDID</code>-wrapper. This wrapper contains the main dimensions and the board-<code>div</code> gets only relative dimensions according to the case, e.g. <code>width: 100%</code>.</p>' .
+    '<p><b>(c)</b> If only <code>width</code> is given, the height will be <code>0</code> like in css. You have to define an aspect-ratio or height to display the board!</p>' .
     '<p>&nbsp;</p>';
 
 $string['aspectratio'] = 'aspect-ratio';
-$string['aspectratio_desc'] = 'Format e.g. "1 / 1"';
+$string['aspectratio_desc'] = 'Format e.g. <code>1 / 1</code>';
 
 $string['fixwidth'] = 'width';
-$string['fixwidth_desc'] = 'We recommend to use here an relative value e.g. 100%.';
+$string['fixwidth_desc'] = 'We recommend to use here an relative value e.g. <code>100%.</code>';
 
 $string['fixheight'] = 'height';
-$string['fixheight_desc'] = 'We recommend to leave this empty and use aspect-ratio and width instead.';
+$string['fixheight_desc'] = 'We recommend to leave this empty and use <a href="#admin-aspectratio">aspect-ratio</a> and <a href="#admin-width">width</a> instead.';
 
 $string['maxwidth'] = 'max-width';
 $string['maxwidth_desc'] = '';
@@ -148,7 +148,7 @@ $string['usedivid'] = 'use div prefix';
 $string['usedivid_desc'] =
     'For better compatibility you should select "No" here. This means that the ids are not made with the prefix "<a href="#admin-divid">divid</a>" and a number but with an unique identifier. <br>If you are still using old constructions, you should select "Yes". Then the deprecated setting "<a href="#admin-divid">divid</a>" will continue to be used.';
 
-$string['divid'] = 'dynamic div id';
+$string['divid'] = 'fixed id prefix';
 $string['divid_desc'] =
     '<b>Deprecated! You should now use the constant "<code>BOARDID</code>" within the <jsxgraph\> tag.</b><br>' .
     '<small>Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. If this ID is specified in the JSXGraph tag (see <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">documentation</a>), it can be used in the complete JavaScript included.<br>' .

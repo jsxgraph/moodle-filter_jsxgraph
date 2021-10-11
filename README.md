@@ -30,7 +30,7 @@ To find out more about the installation, you can also [read on here](#installing
 
 ## Usage
 
-1. In a Moodle course you can add an board to different types of content, i.e.:
+1. In a Moodle course you can add a board to different types of content, i.e.:
    - `Add an activity or resource -> Page`
    - `Add an activity or resource -> Link`
    - `Add an activity or resource -> Quiz`
@@ -43,11 +43,13 @@ To find out more about the installation, you can also [read on here](#installing
    Example: 
 
    ```html
-   <jsxgraph width="600" height="500">
+   <jsxgraph width="500" aspect-ratio="1/1">
        var brd = JXG.JSXGraph.initBoard(BOARDID, {boundingbox:[-5,5,5,-5], axis:true});
        var p = brd.create('point', [1,2]);
    </jsxgraph>
    ```
+   
+Get many examples for constructions at [jsxgraph.org/share](https://jsxgraph.org/share). There you can export them to the JSXGraph Moodle filter format.
    
 ***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
  
@@ -58,7 +60,7 @@ On reopening it later, you will notice the code rather than the `<jsxgraph>` tag
 
 ### Using multipe boards in one tag
 
-It is possible to replace a jsxgraph tag with more than one board. To do this, enter a number in the tag attribute `numberOfBoards`. This does the following:
+It is possible to replace a `<jsxgraph>` tag with more than one board. To do this, enter a number in the tag attribute `numberOfBoards`. This does the following:
 
 - Instead of `BOARDID`, the unique ids can now be found in `BOARDID0`, `BOARDID1`, `BOARDID2`, ...
 - All IDs are stored in an array `BOARDIDS` additionally. It looks like: `BOARDIDS = [BOARDID0, BOARDID1, BOARDID2, ...]`
@@ -68,7 +70,7 @@ Here is an example:
 ![multiple boards](screenshots/multiple-boards.png)
 
 ````html
-<jsxgraph width="500,200" height="500,200" numberOfBoards="2">
+<jsxgraph width="500,200" ascpect-ratio="1/1" numberOfBoards="2">
    var board = JXG.JSXGraph.initBoard(BOARDID0, {boundingbox: [-1.33, 1.33, 1.33, -1.33], axis: true, showNavigation:false});
    var board2 = JXG.JSXGraph.initBoard(BOARDID1, {boundingbox: [-1, 1.33, 7, -1.33], showNavigation:false});
 
@@ -116,10 +118,76 @@ Please refer
 [STACK Documentation](https://stack2.maths.ed.ac.uk/demo2018/question/type/stack/doc/doc.php/Authoring/JSXGraph.md) and
 [GitHub](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Authoring/JSXGraph.md).
 
-<i>Note that this STACK extension is not developed or managed by the JSXGraph developing team.</i>
+<i>Note that this STACK extension is not developed, updated or managed by the JSXGraph developing team.</i>
 
 
 ## Attributes and settings
+
+### Dimensions
+
+In the global settings and in your `<jsxgraph>` tag you can specify several dimensions for the board:
+
+- aspect-ratio
+- width
+- height
+- max-width
+- max-height
+
+To use the responsiveness of the boards, you have to use `width` and `aspect-ratio`. If `width` and `height` are given, `aspect-ratio` is ignored.
+
+#####use-cases
+
+<table>
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>given</td>
+            <td>behavior</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td><code>width</code> and <code>height</code> in any combination (max-/...)</td>
+            <td>
+                The dimensions are applied to the boards <code>div</code>. Layout is like in the css specification defined. See notes (a) and (b). <code>aspect-ratio</code> is ignored in this case. Please note also (c).
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code>aspect-ratio</code> and <code>(max-)width</code></td>
+            <td>
+                The boards width ist fix according its value. The height is automatically regulated following the given <code>aspect-ratio</code>.
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code>aspect-ratio</code> and <code>(max-)height</code></td>
+            <td>
+                The boards height ist fix according its value. The width is automatically regulated following the given <code>aspect-ratio</code>. This case doesn\'t work on browsers which doesn\'t support <code>aspect-ratio</code>. The css trick (see (a)) can not help here.
+            </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>only <code>aspect-ratio</code></td>
+            <td>The `fallback width` from admin settings is used. Apart from that see case 2.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>nothing</td>
+            <td><code>aspect-ratio</code> is set to `fallback aspect-ratio` from admin settings and then see case 4.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+#####notes:
+**(a)** Pay attention: the `div` uses the css attribute `aspect-ratio` which is not supported by every browser. If the browser does not support this, a trick with a wrapping `div` and `padding-bottom` is applied. This trick only works, if `aspect-ratio` and `(max-)width` are given, not in combination with `(max-)height`! For an overview of browsers which support `aspect-ratio` see <a href="https://caniuse.com/mdn-css_properties_aspect-ratio." target="_blank">caniuse.com</a>
+
+**(b)** If the css trick is not needed, the result is only the `div` with id `BOARDID` for the board. The value of tag attribute `wrapper-class` is ignored. In the trick the `div` is wrapped by a `div` with id `BOARDID`-wrapper. This wrapper contains the main dimensions and the board-`div` gets only relative dimensions according to the case, e.g. `width: 100%`.
+
+**(c)** If only `width` is given, the height will be `0` like in css. You have to define an aspect-ratio or height to display the board!
+
 ### Admin settings
 
 As moodle administrator, you can make the following settings:
@@ -149,8 +217,12 @@ As moodle administrator, you can make the following settings:
         <td>In this textbox you can type a general JavaScript code to be loaded before loading specific tag code.</td>
     </tr>
     <tr>
-        <th>width and height</th>
-        <td>Default dimensions of JSXGraph container. Is used if no information is given in the tag.</td>
+        <th>width<br>height<br>aspect-ratio<br>max-width<br>max-height</th>
+        <td>Default dimensions of JSXGraph container. See <a href="#dimensions">dimensions</a>. Is used if no information is given in the tag.</td>
+    </tr>
+    <tr>
+        <th>fallback width<br>fallback aspect-ratio</th>
+        <td>This values are relevant if no dimension or only an aspect-ratio is given. See <a href="#dimensions">dimensions</a> for more information.</td>
     </tr>
     <tr>
         <th>divid</th>
@@ -171,8 +243,20 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
         <td>This information is used for better accessibility. Since JSXGraph version 1.2, the board attributes <code>title</code> and <code>description</code> are used to create elements for <code>aria-labelledby</code> and <code>aria-describedby</code> of the board. Title ans description are set by specification in this tag attributes.</td>
     </tr>
     <tr>
-        <th><code>width</code> and <code>height</code></th>
-        <td>Dimensions of JSXGraph container. Overrides the global settings locally. You can use any CSS unit here. If no unit but only an integer is specified, "px" is automatically added.</td>
+        <th><code>width</code><br><code>height</code><br><code>aspect-ratio</code><br><code>max-width</code><br><code>max-height</code></th>
+        <td>Dimensions of JSXGraph container. Overrides the global settings locally. You can use any CSS unit here. If no unit but only an integer is specified, "px" is automatically added. See chapter <a href="#dimensions">dimensions</a> for more information.</td>
+    </tr>
+    <tr>
+        <th><code>class</code></th>
+        <td>Here you can specify css classes for the boards <code>&lt;div&gt;</code>.Please have a look at <a href="#dimensions">dimensions</a> for understanding the HTML tree construction.</td>
+    </tr>
+     <tr>
+        <th><code>wrapper-class</code></th>
+        <td>Depending on the clients browser and the given dimensions a <code>&lt;div&gt;</code> is wrapping the board. Here you can specify its css classes. It may be that this value is ignored. Please have a look at <a href="#dimensions">dimensions</a>.</td>
+    </tr>
+     <tr>
+        <th><code>force-wrapper</code></th>
+        <td>Depending on the clients browser and the given dimensions a <code>&lt;div&gt;</code> is wrapping the board. Here you can force adding this <code>&lt;div&gt;</code>.</td>
     </tr>
      <tr>
         <th><code>ext_formulas</code></th>

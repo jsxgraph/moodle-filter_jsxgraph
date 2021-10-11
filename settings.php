@@ -37,8 +37,9 @@ defined('MOODLE_INTERNAL') || die();
 if ($ADMIN->fulltree) {
     // Add the placeholder to the description of a setting that should be separated from the following setting.
     // Deprecated.
-    $placeholder = '<div class="placeholder" style="height: 50px; padding: 1px 0 25px 0; margin-left: -33%;"><hr></div>';
-    $last = '<div class="placeholder" style="height: 50px;"></div>';
+    $styles = '<style type="text/css">' .
+        ' code { padding: .2em .4em; margin: 0; font-size: 85%; background-color: rgba(175,184,193,0.2); color: #212529; border-radius: 6px; } ' .
+        '</style>';
 
     $recommended = get_config('filter_jsxgraph', 'recommendedJSX');
     if (!$recommended) {
@@ -91,6 +92,8 @@ if ($ADMIN->fulltree) {
         }
     }
 
+
+    $settings->add(new admin_setting_heading('filter_jsxgraph/styles', '', $styles));
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/docs',
                                              get_string('header_docs', 'filter_jsxgraph'),
