@@ -135,7 +135,7 @@ In the global settings and in your `<jsxgraph>` tag you can specify several dime
 
 To use the responsiveness of the boards, you have to use `width` and `aspect-ratio`. If `width` and `height` are given, `aspect-ratio` is ignored.
 
-####use-cases
+_***Use-cases:***_
 
 <table>
     <thead>
@@ -181,7 +181,8 @@ To use the responsiveness of the boards, you have to use `width` and `aspect-rat
     </tbody>
 </table>
 
-####notes:
+_***Notes:***_
+
 **(a)** Pay attention: the `div` uses the css attribute `aspect-ratio` which is not supported by every browser. If the browser does not support this, a trick with a wrapping `div` and `padding-bottom` is applied. This trick only works, if `aspect-ratio` and `(max-)width` are given, not in combination with `(max-)height`! For an overview of browsers which support `aspect-ratio` see <a href="https://caniuse.com/mdn-css_properties_aspect-ratio" target="_blank">caniuse.com</a>
 
 **(b)** If the css trick is not needed, the result is only the `div` with id `BOARDID` for the board. The value of tag attribute `wrapper-class` is ignored. In the trick the `div` is wrapped by a `div` with id `BOARDID`-wrapper. This wrapper contains the main dimensions and the board-`div` gets only relative dimensions according to the case, e.g. `width: 100%`.
