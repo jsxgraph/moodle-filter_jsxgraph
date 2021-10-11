@@ -80,48 +80,7 @@ $string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in e
 $string['dimensions'] =
     '<p>Here you can define standard dimensions for your boards. Please be aware, that local tag attributes override only parts of them, so be careful.</p>' .
     '<p><b>To use the responsiveness of the boards, you have to change settings from given <code>width</code> and <code>height</code> to given <code>width</code> and <code>aspect-ratio</code>, </b> because if there are given <code>width</code> and <code>height</code>, <code>aspect-ratio</code> is ignored.</p>' .
-    '<p>There are the following use-cases:</p>' .
-    '<table class="table table-bordered table-sm table-striped">' .
-    '<thead class="table-dark">' .
-    '<tr>' .
-    '     <td>#</td>' .
-    '     <td>given</td>' .
-    '     <td>behavior</td>' .
-    '</tr>' .
-    '</thead>' .
-    '<tbody>' .
-    '<tr>' .
-    '     <td>1</td>' .
-    '     <td><code>width</code> and <code>height</code> in any combination (max-/...)</td>' .
-    '     <td>The dimensions are applied to the boards <code>div</code>. Layout is like in the css specification defined. See notes (a) and (b). <code>aspect-ratio</code> is ignored in this case. Please note also (c).</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>2</td>' .
-    '     <td><code>aspect-ratio</code> and <code>(max-)width</code></td>' .
-    '     <td>The boards width ist fix according its value. The height is automatically regulated following the given <code>aspect-ratio</code>.</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>3</td>' .
-    '     <td><code>aspect-ratio</code> and <code>(max-)height</code></td>' .
-    '     <td>The boards height ist fix according its value. The width is automatically regulated following the given <code>aspect-ratio</code>. This case doesn\'t work on browsers which doesn\'t support <code>aspect-ratio</code>. The css trick (see (a)) can not help here.</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>4</td>' .
-    '     <td>only <code>aspect-ratio</code></td>' .
-    '     <td>The <a href="#admin-fallbackwidth">fallback width</a> is used. Apart from that see case 2.</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>5</td>' .
-    '     <td>nothing</td>' .
-    '     <td><code>aspect-ratio</code> is set to <a href="#admin-fallbackaspectratio">fallback aspect-ratio</a> and then see case 4.</td>' .
-    '</tr>' .
-    '</tbody>' .
-    '</table>' .
-    '<p class="mb-0"><b>Notes:</b></p>' .
-    '<p><b>(a)</b> Pay attention: the <code>div</code> uses the css attribute <code>aspect-ratio</code> which is not supported by every browser. If the browser does not support this, a trick with a wrapping <code>div</code> and <code>padding-bottom</code> is applied. This trick only works, if <code>aspect-ratio</code> and <code>(max-)width</code> are given, not in combination with <code>(max-)height</code>! For an overview of browsers which support <code>aspect-ratio</code> see <a href="https://caniuse.com/mdn-css_properties_aspect-ratio." target="_blank">caniuse.com</a></p>' .
-    '<p><b>(b)</b> If the css trick is not needed, the result is only the <code>div</code> with id <code>BOARDID</code> for the board. The value of tag attribute <code>wrapper-class</code> is ignored. In the trick the <code>div</code> is wrapped by a <code>div</code> with id <code>BOARDID</code>-wrapper. This wrapper contains the main dimensions and the board-<code>div</code> gets only relative dimensions according to the case, e.g. <code>width: 100%</code>.</p>' .
-    '<p><b>(c)</b> If only <code>width</code> is given, the height will be <code>0</code> like in css. You have to define an aspect-ratio or height to display the board!</p>' .
-    '<p>&nbsp;</p>';
+    '<p>For more information and each use-case have a look at <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph#dimensions" target="_blank">the filter documentation</a>.</p>';
 
 $string['aspectratio'] = 'aspect-ratio';
 $string['aspectratio_desc'] = 'Format e.g. <code>1 / 1</code>';

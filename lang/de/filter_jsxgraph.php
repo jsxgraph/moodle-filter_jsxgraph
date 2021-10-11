@@ -80,48 +80,7 @@ $string['globalJS_desc'] = 'Definieren Sie hier einen allgemein gültigen JavaSc
 $string['dimensions'] =
     '<p>Hier können Sie die Standard-Dimensionen für Ihre Boards definieren. Bitte beachten Sie, dass lokale Tag-Attribute nur Teile der hier definierten Werte überschreiben und es dadurch zu unvorhergesehenen Überschneidungen kommen kann. Benutzen Sie diese Einstellungen deshalb mit Bedacht!</p>' .
     '<p><b>Um die Responsivität von Boards nutzen zu können, dürfen nicht Höhe und Breite gleichzeitig angegeben werden. Stattdessen sollten Sie <code>width</code> und <code>aspect-ratio</code> verwenden,</b> denn bei gegebener Höhe und Breite wird das Seitenverhältnis ignoriert.</p>' .
-    '<p>Es gibt die folgenden Fälle:</p>' .
-    '<table class="table table-bordered table-sm table-striped">' .
-    '<thead class="table-dark">' .
-    '<tr>' .
-    '     <td>#</td>' .
-    '     <td>gegebene Werte</td>' .
-    '     <td>Verhalten</td>' .
-    '</tr>' .
-    '</thead>' .
-    '<tbody>' .
-    '<tr>' .
-    '     <td>1</td>' .
-    '     <td><code>width</code> und <code>height</code> in irgendeiner Kombination (max-/...)</td>' .
-    '     <td>Die Dimensionen werden auf das <code>div</code> des Boards angewandt, wobei das Layout sich an der CSS-Spezifikation orientiert. Beachten Sie die Fußnoten (a) und (b). <code>aspect-ratio</code> wird in diesem Fall ignoriert. Beachten Sie außerdem die Anmerkung (c).</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>2</td>' .
-    '     <td><code>aspect-ratio</code> und <code>(max-)width</code></td>' .
-    '     <td>Die Breite des Boards wird durch den Wert von <code>width</code> festgelegt. Die Höhe wird entsprechend dem gegebenen Seitenverhältnis reguliert.</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>3</td>' .
-    '     <td><code>aspect-ratio</code> und <code>(max-)height</code></td>' .
-    '     <td>Die Höhe des Boards wird durch den Wert von <code>height</code> festgelegt. Die Breite wird entsprechend dem gegebenen Seitenverhältnis reguliert. Dieser Fall wird auf Browsern, die die CSS-Eigenschaft <code>aspect-ratio</code> nicht unterstützen, nicht funktionieren, da der CSS-Trick (siehe (a)) hier nicht anwendbar ist.</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>4</td>' .
-    '     <td>nur <code>aspect-ratio</code></td>' .
-    '     <td>Hier wird die <a href="#admin-fallbackwidth">Fallback-Breite</a> benutzt, sodass anschließend Fall 2 Anwendung findet.</td>' .
-    '</tr>' .
-    '<tr>' .
-    '     <td>5</td>' .
-    '     <td>nichts</td>' .
-    '     <td><code>aspect-ratio</code> wird mit dem Wert aus <a href="#admin-fallbackaspectratio">Fallback-Seitenverhältnis</a> versehen. Anschließend wird Fall 4 angewandt.</td>' .
-    '</tr>' .
-    '</tbody>' .
-    '</table>' .
-    '<p class="mb-0"><b>Anmerkungen:</b></p>' .
-    '<p><b>(a)</b> Achtung: Das <code>div</code> verwendet das Attribut <code>aspect-ratio</code>, das nicht von jedem Browser unterstützt wird. In diesem Fall wird ein Trick angewandt: das Board wird mit einem <code>div</code> umgeben und mit <code>padding-bottom</code> versehen. Dieser Trick funktioniert nur, wenn Seitenverhältnis und <code>(max-)width</code> gegeben sind, nicht in Kombination mit <code>height</code>! Eine Übersicht, in welchem Browser dieser Trick nicht notwendig ist, liefert <a href="https://caniuse.com/mdn-css_properties_aspect-ratio." target="_blank">caniuse.com</a></p>' .
-    '<p><b>(b)</b> Wenn der Trick nicht verwendet wird, besteht das Board nur aus einem <code>div</code> mit der id <code>BOARDID</code>. Der Wert aus dem Tag-Attribut <code>wrapper-class</code> wird ignoriert. Beim Trick wird dieses <code>div</code> von einem weiteren <code>div</code> mit der id <code>BOARDID</code>-wrapper umgeben. Dieser "Wrapper" enthält die Dimensionen des Boards, während die Größe des Boards selbst relativ zum umgebenden <code>div</code> reguliert ist.</p>' .
-    '<p><b>(c)</b> Falls nur die Breite gegeben ist, die Höhe bleibt <code>0</code> (ähnlich zu einem <code>div</code>, das keinen Inhalt und nur eine Breite hat). Sie müssen also ein Seitenverhältnis oder eine Höhe für das Board definieren!</p>' .
-    '<p>&nbsp;</p>';
+    '<p>Für mehr Informationen und verschiedene Anwendungsfälle nutzen Sie bitte die <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph#dimensions" target="_blank">Dokumentation des Filters</a>.</p>';
 
 $string['aspectratio'] = 'Seitenverhältnis';
 $string['aspectratio_desc'] = 'Format z.B. <code>1 / 1</code>';
