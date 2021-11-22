@@ -79,7 +79,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Replace <jsxgraph ...> tag
      *
-     * @param string $tag  The tag name
+     * @param string $tag The tag name
      * @param string $html The HTML string
      *
      * @return string text between tags
@@ -153,7 +153,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
             for ($b = 0; $b < $tagattribute['numberOfBoards']; $b++) {
 
-                // Create div id
+                // Create div id.
                 $divid = $this->string_or($tagattribute['boardid'][$b], $tagattribute['box'][$b]);
                 if ($setting['usedivid']) {
                     $divid = $this->string_or($divid, $setting['divid'] . $i);
@@ -179,8 +179,6 @@ class filter_jsxgraph extends moodle_text_filter {
                     $setting['fallbackaspectratio'],
                     $setting['fallbackwidth']
                 );
-
-                //$div .= "<pre>" . print_r($dims, true) . "</pre>";
 
                 $divdom = new DOMDocument;
                 libxml_use_internal_errors(true);
@@ -330,9 +328,9 @@ class filter_jsxgraph extends moodle_text_filter {
      *  |      |                                 |  browsers which doesn't support aspect-ratio. The css trick (see (a)) can      |
      *  |      |                                 |  not help here.                                                                |
      *  ---------------------------------------------------------------------------------------------------------------------------
-     *  |   4  |  only aspect-ratio              |  The $default_width is used. Apart from that see case 2.                       |
+     *  |   4  |  only aspect-ratio              |  The $defaultwidth is used. Apart from that see case 2.                       |
      *  ---------------------------------------------------------------------------------------------------------------------------
-     *  |   5  |  nothing                        |  Aspect-ratio is set to $default_aspect_ratio and then see case 4.             |
+     *  |   5  |  nothing                        |  Aspect-ratio is set to $defaultaspectratio and then see case 4.             |
      *  ===========================================================================================================================
      *
      * Notes:
@@ -340,16 +338,16 @@ class filter_jsxgraph extends moodle_text_filter {
      *      does not support this, a trick with a wrapping <div> and padding-bottom is applied. This trick only works, if
      *      aspect-ratio and (min-/max-)width are given, not in combination with (min-/max-)height! For an overview of browsers
      *      which support aspect-ratio see @link https://caniuse.com/mdn-css_properties_aspect-ratio.
-     *  (b) If the css trick is not needed, the result is only the <div> with id $id for the board. The value of $wrapper_classes
+     *  (b) If the css trick is not needed, the result is only the <div> with id $id for the board. The value of $wrapperclasses
      *      is ignored.
      *      In the trick the div is wrapped by a <div> with id $id + '-wrapper'. This wrapper contains the main dimensions and the
      *      board-<div> gets only relative dimensions according to the case, e.g. width: 100%.
-     *      You can force adding an wrapper by setting $force_wrapper to true.
+     *      You can force adding an wrapper by setting $forcewrapper to true.
      *  (c) If only width is given, the height will be 0 like in css. You have to define an aspect-ratio or height to display the
      *      board!
      *
      * @param string  $id
-     * @param object  $dimensions           with possible attributes
+     * @param object  $dimensions with possible attributes
      *                                      aspect-ratio  (the ratio of width / height)
      *                                      width         (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      height        (px, rem, vh, ...; if only a number is given, its interpreted as px)
@@ -357,29 +355,45 @@ class filter_jsxgraph extends moodle_text_filter {
      *                                      min-width     (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      max-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
      *                                      min-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
-     * @param string  $classes              Additional css classes for the board.
-     * @param string  $wrapper_classes      Additional css classes for the boards container.
+     * @param string  $classes Additional css classes for the board.
+     * @param string  $wrapperclasses Additional css classes for the boards container.
      *                                      (If it is needed. In the other case this is merged with $classes.)
-     * @param boolean $force_wrapper        Default: false.
-     * @param string  $default_aspect_ratio Default: "1 / 1".
-     * @param string  $default_width        Default: "100%".
-     * @param boolean $pervent_js_dim_reg   Default: false.
+     * @param boolean $forcewrapper Default: false.
+     * @param string  $defaultaspectratio Default: "1 / 1".
+     * @param string  $defaultwidth Default: "100%".
+     * @param boolean $perventjsdimreg Default: false.
      *
      * @return string                       The <div> for the board.
      */
     private function get_board_html(
-        $id, $dimensions = [], $classes = "", $wrapper_classes = "", $force_wrapper = false,
-        $default_aspect_ratio = "1 / 1", $default_width = "100%",
-        $pervent_js_dim_reg = false
+        $id, $dimensions = [], $classes = "", $wrapperclasses = "", $forcewrapper = false,
+        $defaultaspectratio = "1 / 1", $defaultwidth = "100%",
+        $perventjsdimreg = false
     ) {
 
         if (!function_exists("empty_or_0_or_default")) {
+            /**
+             * Returns true if variable is empty, 0 or equal to $default.
+             *
+             * @param mixed $var Some variable
+             * @param null  $default Default value
+             *
+             * @return bool
+             */
             function empty_or_0_or_default($var, $default = null) {
                 return empty($var) || $var === 0 || $var === '0' || $var === '0px' || $var === $default;
             }
         }
 
         if (!function_exists("css_norm")) {
+            /**
+             * Returns a css value or $default,
+             *
+             * @param mixed  $var Some variable
+             * @param string $default Default value
+             *
+             * @return string
+             */
             function css_norm($var, $default = '') {
                 if (substr('' . $var, 0, 1) === '0') {
                     $var = 0;
@@ -389,31 +403,35 @@ class filter_jsxgraph extends moodle_text_filter {
                     $var .= 'px';
                 }
 
-                return $var;
+                return "" . $var;
             }
         }
 
-        $_ALLOWED_DIMS = ["aspect-ratio", "width", "height", "max-width", "max-height"];
-        $_AR = "aspect-ratio";
-        $_ALL_EXCEPT_AR = ["width", "height", "max-width", "max-height"];
-        $_WIDTHS = ["width", "max-width"];
+        // Constants.
+
+        $alloweddims = ["aspect-ratio", "width", "height", "max-width", "max-height"];
+        $ar = "aspect-ratio";
+        $alloweddimsexceptar = ["width", "height", "max-width", "max-height"];
+        $widths = ["width", "max-width"];
+
+        // Tmp vars.
 
         $styles = "";
-        $wrapper_styles = "";
+        $wrapperstyles = "";
 
         $tmp = true;
-        foreach ($_ALL_EXCEPT_AR as $attr) {
+        foreach ($alloweddimsexceptar as $attr) {
             $tmp = $tmp && empty_or_0_or_default($dimensions[$attr]);
         }
-        if ($tmp && empty_or_0_or_default($dimensions[$_AR])
+        if ($tmp && empty_or_0_or_default($dimensions[$ar])
         ) {
-            $dimensions[$_AR] = $default_aspect_ratio;
-            $dimensions["width"] = $default_width;
+            $dimensions[$ar] = $defaultaspectratio;
+            $dimensions["width"] = $defaultwidth;
         }
 
         // At this point there is at least an aspect-ratio.
 
-        foreach ($_ALLOWED_DIMS as $attr) {
+        foreach ($alloweddims as $attr) {
             if (!empty_or_0_or_default($dimensions[$attr])) {
                 $styles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
             }
@@ -423,11 +441,11 @@ class filter_jsxgraph extends moodle_text_filter {
         $classes = !empty($classes) ? ' ' . $classes : '';
         $board = '<div id="' . $id . '" class="jxgbox' . $classes . '" style="' . $styles . '"></div>';
 
-        if (!$pervent_js_dim_reg) {
+        if (!$perventjsdimreg) {
 
-            foreach ($_WIDTHS as $attr) {
+            foreach ($widths as $attr) {
                 if (!empty_or_0_or_default($dimensions[$attr])) {
-                    $wrapper_styles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
+                    $wrapperstyles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
                 }
             }
 
@@ -437,42 +455,42 @@ class filter_jsxgraph extends moodle_text_filter {
         let addWrapper = function (boardid, classes = [], styles = "") {
             let board = document.getElementById(boardid),
                 wrapper, wrapperid = boardid + "-wrapper";
-            
+
             wrapper = document.createElement("div");
             wrapper.id = wrapperid;
             wrapper.classList.add("jxgbox-wrapper");
-            
+
             for (let c of classes)
                 wrapper.classList.add(c);
-                
+
             wrapper.style = styles;
-                
+
             board.parentNode.insertBefore(wrapper, board.nextSibling);
             wrapper.appendChild(board);
         }
-        
-        const FORCE_WRAPPER = false || ' . ($force_wrapper ? 'true' : 'false') . ';
-        
+
+        const FORCE_WRAPPER = false || ' . ($forcewrapper ? 'true' : 'false') . ';
+
         let boardid = "' . $id . '",
-            wrapper_classes = "' . $wrapper_classes . '".split(" "),
-            wrapper_styles = "' . $wrapper_styles . '",
+            wrapper_classes = "' . $wrapperclasses . '".split(" "),
+            wrapper_styles = "' . $wrapperstyles . '",
             board = document.getElementById(boardid),
             ar, ar_h, ar_w, padding_bottom;
-            
+
         if (!CSS.supports("aspect-ratio", "1 / 1") && board.style["aspect-ratio"] !== "") {
-            
+
             ar = board.style["aspect-ratio"].split("/", 3);
             ar_w = ar[0].trim();
             ar_h = ar[1].trim();
             padding_bottom = ar_h / ar_w * 100;
-            
+
             if (wrapper_styles !== "")
                 addWrapper(boardid, wrapper_classes, wrapper_styles);
-            
+
             board.style = "height: 0; padding-bottom: " + padding_bottom + "%; /*" + board.style + "*/";
-            
+
         } else if (FORCE_WRAPPER) {
-            
+
             wrapper_styles = "";
             if (board.style.width.indexOf("%") > -1) {
                 wrapper_styles += "width: " + board.style.width + "; "
@@ -690,10 +708,10 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         $numberofboardsval =
-            $node->getAttribute($numberofboardsattr) ?: $node->getAttribute(strtolower($numberofboardsattr)) ?: $numberofboardsval;
+            $node->getAttribute($numberofboardsattr) ? : $node->getAttribute(strtolower($numberofboardsattr)) ? : $numberofboardsval;
 
         foreach ($attributes as $attr => $value) {
-            $a = $node->getAttribute($attr) ?: $node->getAttribute(strtolower($attr));
+            $a = $node->getAttribute($attr) ? : $node->getAttribute(strtolower($attr));
             if (isset($a) && !empty($a)) {
                 $a = explode(',', $a);
             } else {

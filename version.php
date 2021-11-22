@@ -34,16 +34,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2021101100;          // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2021112101;// 2021112200;          // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2015051100;         // Requires this Moodle version.
 $plugin->supported = [29, 311];         // Moodle versions.
 $plugin->component = 'filter_jsxgraph'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.3.2';            // JSXGraph + filter version.
+$plugin->release = 'v1.4.0-1';          // JSXGraph + filter version.
 
 try {
     set_config('release', $plugin->release, 'filter_jsxgraph');
-    set_config('recommendedJSX', '1.3.2', 'filter_jsxgraph');
-    set_config('deliveredJSX', '1.3.2', 'filter_jsxgraph');
+    set_config('recommendedJSX', '1.4.0', 'filter_jsxgraph');
+    set_config('deliveredJSX', '1.4.0', 'filter_jsxgraph');
 } catch (Exception $e) {
+    // Exception is not handled because it is not necessary.
+    // This has to be here for code prechecks.
+    echo '';
 }

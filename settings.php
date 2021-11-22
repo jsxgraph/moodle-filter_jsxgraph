@@ -38,7 +38,14 @@ if ($ADMIN->fulltree) {
     // Add the placeholder to the description of a setting that should be separated from the following setting.
     // Deprecated.
     $styles = '<style type="text/css">' .
-        ' code { padding: .2em .4em; margin: 0; font-size: 85%; background-color: rgba(175,184,193,0.2); color: #212529; border-radius: 6px; } ' .
+        ' code { ' .
+        '    padding: .2em .4em;' .
+        '    margin: 0;' .
+        '    font-size: 85%;' .
+        '    background-color: rgba(175,184,193,0.2);' .
+        '    color: #212529;' .
+        '    border-radius: 6px;' .
+        ' }' .
         '</style>';
 
     $recommended = get_config('filter_jsxgraph', 'recommendedJSX');
