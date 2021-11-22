@@ -50,7 +50,7 @@ var JXG = JXG || {};
  * @param {Boolean} [allowInputEntry=false] Should the original inputs from formulas be displayed and linked to the construction?
  * @param {Number} [decimalPrecision=2] Number of digits to round to.
  */
-var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPrecision) {
+var JSXQuestion = function (boardIDs, jsxGraphCode, allowInputEntry, decimalPrecision) {
     var that = this,
         topEl;
 
@@ -103,23 +103,22 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
 
     // Hide the input elements
     if (allowInputEntry) {
-        this.inputs.forEach(function(el) {
-            el.addEventListener('input', function() {
-                console.log('Test');
+        this.inputs.forEach(function (el) {
+            el.addEventListener('input', function () {
                 if (!that.board.inUpdate) {
                     that.update();
                 }
             });
         });
-        this.inputs.forEach(function(el) {
-            el.addEventListener('change', function() {
+        this.inputs.forEach(function (el) {
+            el.addEventListener('change', function () {
                 if (!that.board.inUpdate) {
                     that.update();
                 }
             });
         });
     } else {
-        this.inputs.forEach(function(el) {
+        this.inputs.forEach(function (el) {
             el.style.display = 'none';
         });
     }
@@ -129,9 +128,11 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
 
         Object.defineProperties(this, {
             boards: {
-                default: [],
-                get: function() {return boards;},
-                set: function(value) {
+                'default': [],
+                get: function () {
+                    return boards;
+                },
+                set: function (value) {
                     if (JXG.isArray(value)) {
                         boards = value;
                     } else {
@@ -141,25 +142,31 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
             },
 
             firstBoard: {
-                default: null,
-                get: function() {return boards[0];},
-                set: function(value) {
+                'default': null,
+                get: function () {
+                    return boards[0];
+                },
+                set: function (value) {
                     boards = [value];
                 },
             },
 
             board: {
-                default: null,
-                get: function() {return boards[0];},
-                set: function(value) {
+                'default': null,
+                get: function () {
+                    return boards[0];
+                },
+                set: function (value) {
                     boards = [value];
                 },
             },
 
             brd: {
-                default: null,
-                get: function() {return boards[0];},
-                set: function(value) {
+                'default': null,
+                get: function () {
+                    return boards[0];
+                },
+                set: function (value) {
                     boards = [value];
                 },
             },
@@ -205,10 +212,10 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @returns {JXG.Board}                         JSXGraph board
      */
-    this.initBoard = function(firstParam, secondParam) {
-        if(JXG.isString(firstParam)) { /* firstParam is id */
+    this.initBoard = function (firstParam, secondParam) {
+        if (JXG.isString(firstParam)) { /* Parameter firstParam is id. */
             return that.initAndAddBoard(firstParam, secondParam);
-        } else /* firstParam are attributes */ if(!JXG.isArray(firstParam)) {
+        } else /* Parameter firstParam are attributes. */ if (!JXG.isArray(firstParam)) {
             return that.initAndAddBoard(that.BOARDIDS[that.boards.length], firstParam);
         } else {
             return that.initBoards(firstParam, secondParam)[0];
@@ -226,7 +233,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @returns {JXG.Board[]}                               JSXGraph board
      */
-    this.initBoards = function(attributes, attributesIfBoxIsGiven) {
+    this.initBoards = function (attributes, attributesIfBoxIsGiven) {
         var board, attr, i;
 
         if (attributes === undefined || attributes === null) {
@@ -266,19 +273,18 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @returns {JXG.Board}            JSXGraph board
      */
-    this.initAndAddBoard = function(id, attributes) {
+    this.initAndAddBoard = function (id, attributes) {
         var index = that.BOARDIDS.indexOf(id);
 
         if (index === -1) {
-            console.error('The id "' + id + '" was not passed in Initialization of JSXQuestion.', that.BOARDIDS);
-            return null;
+            throw 'The id "' + id + '" was not passed in Initialization of JSXQuestion.';
         }
 
         if (attributes === undefined || attributes === null) {
             attributes = {};
         }
 
-        if(JXG.exists(that.boards[index])) {
+        if (JXG.exists(that.boards[index])) {
             JXG.JSXGraph.freeBoard(that.boards[index]);
         }
 
@@ -290,7 +296,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      * Calls the function addChild ascending for each board.
      * After this function boards[0] is child of boards[1], boards[1] is child of boards[2] etc.
      */
-    this.addChildsAsc = function() {
+    this.addChildsAsc = function () {
         var i;
 
         for (i = that.boards.length - 1; i > 0; i--) {
@@ -302,7 +308,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      * Calls the function addChild descending for each board.
      * After this function boards[0] is parent of boards[1], boards[1] is parent of boards[2] etc.
      */
-    this.addChildsDesc = function() {
+    this.addChildsDesc = function () {
         var i;
 
         for (i = 0; i < that.boards.length - 1; i++) {
@@ -317,10 +323,10 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      * @param {Number} inputNumber
      * @param {Function} valueFunction
      */
-    this.bindInput = function(inputNumber, valueFunction) {
+    this.bindInput = function (inputNumber, valueFunction) {
         var i;
         for (i = 0; i < that.boards.length; i++) {
-            that.boards[i].on('up', function() {
+            that.boards[i].on('up', function () {
                 that.set(inputNumber, valueFunction());
             });
             that.boards[i].update();
@@ -347,7 +353,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      * @param {Number} inputNumber Index of the input element, starting at 0.
      * @param {Number} value  Number to be set.
      */
-    this.set = function(inputNumber, value) {
+    this.set = function (inputNumber, value) {
         if (!that.isSolved && that.inputs && that.inputs[inputNumber]) {
             that.inputs[inputNumber].value = Math.round(value * Math.pow(10, decimalPrecision)) / Math.pow(10, decimalPrecision);
         }
@@ -358,7 +364,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @param {Number[]} values Array containing the numbers to be set.
      */
-    this.setAllValues = function(values) {
+    this.setAllValues = function (values) {
         var inputNumber,
             len = values.length;
 
@@ -375,7 +381,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @returns {Number} Entry of the formulas input field.
      */
-    this.get = function(inputNumber, defaultValue) {
+    this.get = function (inputNumber, defaultValue) {
         var n;
 
         if (defaultValue === undefined || defaultValue === null) {
@@ -398,7 +404,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      *
      * @returns {Number[]} Array containing the entries of all associated formulas input fields.
      */
-    this.getAllValues = function(defaultValues) {
+    this.getAllValues = function (defaultValues) {
         var inputNumber,
             len = that.inputs.length,
             values = [],
@@ -431,7 +437,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
     /**
      * Reload the construction.
      */
-    this.reload = this.update = function() {
+    this.reload = this.update = function () {
         var i;
         for (i = 0; i < that.boards.length; i++) {
             that.boards[i].update();
@@ -443,7 +449,7 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
     this.update();
 };
 
-JSXQuestion.toString = function() {
+JSXQuestion.toString = function () {
     return JSXQuestion.name;
 };
 
@@ -454,7 +460,7 @@ if (!Element.prototype.matches) {
 }
 
 if (!Element.prototype.closest) {
-    Element.prototype.closest = function(s) {
+    Element.prototype.closest = function (s) {
         var el = this;
 
         do {
