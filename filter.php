@@ -337,7 +337,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *  (a) Pay attention: the <div> uses the css attribute "aspect-ratio" which is not supported by every browser. If the browser
      *      does not support this, a trick with a wrapping <div> and padding-bottom is applied. This trick only works, if
      *      aspect-ratio and (min-/max-)width are given, not in combination with (min-/max-)height! For an overview of browsers
-     *      which support aspect-ratio see @link https://caniuse.com/mdn-css_properties_aspect-ratio.
+     *      which support aspect-ratio see {@link https://caniuse.com/mdn-css_properties_aspect-ratio.}
      *  (b) If the css trick is not needed, the result is only the <div> with id $id for the board. The value of $wrapperclasses
      *      is ignored.
      *      In the trick the div is wrapped by a <div> with id $id + '-wrapper'. This wrapper contains the main dimensions and the
@@ -408,30 +408,28 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // Constants.
-
-        $alloweddims = ["aspect-ratio", "width", "height", "max-width", "max-height"];
-        $ar = "aspect-ratio";
-        $alloweddimsexceptar = ["width", "height", "max-width", "max-height"];
-        $widths = ["width", "max-width"];
+        define('ALLOWED_DIMS', ["aspect-ratio", "width", "height", "max-width", "max-height"]);
+        define('AR', "aspect-ratio");
+        define('ALLOWED_DIMS_EXCEPT_AR', ["width", "height", "max-width", "max-height"]);
+        define('WIDTHS', ["width", "max-width"]);
 
         // Tmp vars.
-
         $styles = "";
         $wrapperstyles = "";
 
         $tmp = true;
-        foreach ($alloweddimsexceptar as $attr) {
+        foreach (ALLOWED_DIMS_EXCEPT_AR as $attr) {
             $tmp = $tmp && empty_or_0_or_default($dimensions[$attr]);
         }
-        if ($tmp && empty_or_0_or_default($dimensions[$ar])
+        if ($tmp && empty_or_0_or_default($dimensions[AR])
         ) {
-            $dimensions[$ar] = $defaultaspectratio;
+            $dimensions[AR] = $defaultaspectratio;
             $dimensions["width"] = $defaultwidth;
         }
 
         // At this point there is at least an aspect-ratio.
 
-        foreach ($alloweddims as $attr) {
+        foreach (ALLOWED_DIMS as $attr) {
             if (!empty_or_0_or_default($dimensions[$attr])) {
                 $styles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
             }
@@ -443,7 +441,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         if (!$perventjsdimreg) {
 
-            foreach ($widths as $attr) {
+            foreach (WIDTHS as $attr) {
                 if (!empty_or_0_or_default($dimensions[$attr])) {
                     $wrapperstyles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
                 }

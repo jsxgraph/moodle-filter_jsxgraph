@@ -5,10 +5,8 @@ You can find instructions to build the latest version of jsxgraphcore.js here: h
 To release a new version of JSXGraph into the filter follow the steps below:
 
 - replace the files `jsxgraphcore.js` and `jsxgraph.css` in branch `master` of https://github.com/jsxgraph/moodle-filter_jsxgraph.
-    - Remove unexpected shorthand "background" after "background-color" (declaration-block-no-shorthand-property-overrides).
 - Recompile [`styles.less`](styles.less).
-- Reformat [`styles.less`](styles.less).
-    - indentation of 4 spaces!
+- Reformat [`styles.less`](styles.less) (indentation of 4 spaces).
 - if formulas extension hat been updated, replace directory `libs/fomulas_extension`
 - update version tag in [`thirdpartylibs.xml`](thirdpartylibs.xml)!
 - update strings for `recommendedJSX` and `deliveredJSX` in [`version.php`](version.php)
