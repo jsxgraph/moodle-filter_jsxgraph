@@ -33,7 +33,6 @@
  */
 
 namespace filter_jsxgraph\privacy;
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Privacy Subsystem for tool_courseimport implementing null_provider.
