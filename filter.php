@@ -706,7 +706,8 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         $numberofboardsval =
-            $node->getAttribute($numberofboardsattr) ? : $node->getAttribute(strtolower($numberofboardsattr)) ? : $numberofboardsval;
+            $node->getAttribute($numberofboardsattr) ? :
+                $node->getAttribute(strtolower($numberofboardsattr)) ? : $numberofboardsval;
 
         foreach ($attributes as $attr => $value) {
             $a = $node->getAttribute($attr) ? : $node->getAttribute(strtolower($attr));
