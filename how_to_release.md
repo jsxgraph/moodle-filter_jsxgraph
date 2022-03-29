@@ -1,4 +1,4 @@
-# Description of releasing a new JSXGraph Moodle filter version
+# Steps for releasing a new JSXGraph Moodle filter version
 
 You can find instructions to build the latest version of jsxgraphcore.js here: https://github.com/jsxgraph/jsxgraph#build-jsxgraph
 

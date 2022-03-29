@@ -31,10 +31,10 @@
  * library. Special care has been taken to optimize the performance.
  *
  * @package    filter_jsxgraph
- * @copyright  2021 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2022 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
  *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
- *             based on work by Tim Kos and Marc Bernart
+ *             based on work by Tim Kos and Marc Bernat
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
