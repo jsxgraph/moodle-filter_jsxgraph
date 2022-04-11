@@ -39,14 +39,4 @@ $plugin->requires = 2015051100;         // Requires this Moodle version.
 $plugin->supported = [29, 311];         // Moodle versions.
 $plugin->component = 'filter_jsxgraph'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.4.2';            // JSXGraph + filter version.
-
-try {
-    set_config('release', $plugin->release, 'filter_jsxgraph');
-    set_config('recommendedJSX', '1.4.2', 'filter_jsxgraph');
-    set_config('deliveredJSX', '1.4.2', 'filter_jsxgraph');
-} catch (Exception $e) {
-    // Exception is not handled because it is not necessary.
-    // This has to be here for code prechecks.
-    echo '';
-}
+$plugin->release = 'v1.4.2';          // JSXGraph + filter version.
