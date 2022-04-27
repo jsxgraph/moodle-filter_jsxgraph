@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of JSXGraph Moodle Filter.
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,13 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This is a plugin to enable function plotting and dynamic geometry constructions with JSXGraph within a Moodle platform.
+ *
+ * JSXGraph is a cross-browser JavaScript library for interactive geometry,
+ * function plotting, charting, and data visualization in the web browser.
+ * JSXGraph is implemented in pure JavaScript and does not rely on any other
+ * library. Special care has been taken to optimize the performance.
+ *
  * Upgrade Script for filter_jsxgraph
  *
  * @package    filter_jsxgraph
- * @copyright  2022, ISB Bayern
- * @author     Peter Mayer, peter.mayer@isb.bayern.de
+ * @copyright  2022 ISB Bayern
+ *             Peter Mayer <peter.mayer@isb.bayern.de>
+ * and
+ *             JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ *             Matthias Ehmann,
+ *             Michael Gerhaeuser,
+ *             Carsten Miller,
+ *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
+ *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 function xmldb_filter_jsxgraph_upgrade($oldversion) {
 
     $release = 'v1.4.3'; // This value should be the same as in version.php!
