@@ -9,10 +9,10 @@ To release a new version of JSXGraph into the filter follow the steps below:
 - Reformat [`styles.css`](styles.css) (indentation of 4 spaces).
 - If formulas extension hat been updated, replace directory `libs/fomulas_extension`.
 - Update version tag in [`thirdpartylibs.xml`](thirdpartylibs.xml)!
-- Update strings for `recommendedJSX` and `deliveredJSX` in [`version.php`](version.php).
+- Update strings for `recommendedJSX` and `deliveredJSX` in [`db/upgrade.php`](db/upgrade.php).
+- Update `plugin->release` in the files [`db/upgrade.php`](db/upgrade.php) and [`version.php`](version.php).
+- The value of `plugin->version` should be updated in [`version.php`](version.php) to the current date (`YYYYMMDD00`).
 - Check in your local Moodle installation if everything works fine.
-- The value of `plugin->version` should be updated in the file [`version.php`](version.php) to the current date (`YYYYMMDD00`).
-- Update `plugin->release` in the file [`version.php`](version.php).
 - Draft a new release in GitHub.
 - Submit a new version of the filter to the https://moodle.org/plugins/filter_jsxgraph (maintained by Andreas Walter). 
   Use the release notes from GitHub. 
