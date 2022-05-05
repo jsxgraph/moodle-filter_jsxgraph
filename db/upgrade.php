@@ -37,16 +37,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * xmldb_filter_jsxgraph_upgrade
+ *
+ * @param int $oldversion the version we are upgrading from
+ * @return bool result
+ */
 function xmldb_filter_jsxgraph_upgrade($oldversion) {
 
     $release = 'v1.4.3'; // This value should be the same as in version.php!
-    $recommendedJSX = '1.4.3';
-    $deliveredJSX = '1.4.3';
+    $recommendedjsx = '1.4.3';
+    $deliveredjsx = '1.4.3';
 
     try {
         set_config('release', $release, 'filter_jsxgraph');
-        set_config('recommendedJSX', $recommendedJSX, 'filter_jsxgraph');
-        set_config('deliveredJSX', $deliveredJSX, 'filter_jsxgraph');
+        set_config('recommendedJSX', $recommendedjsx, 'filter_jsxgraph');
+        set_config('deliveredJSX', $deliveredjsx, 'filter_jsxgraph');
     } catch (Exception $e) {
         // Exception is not handled because it is not necessary.
         // This has to be here for code prechecks.
