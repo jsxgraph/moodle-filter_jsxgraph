@@ -325,11 +325,13 @@ var JSXQuestion = function(boardIDs, jsxGraphCode, allowInputEntry, decimalPreci
      */
     this.bindInput = function(inputNumber, valueFunction) {
         var i;
+
         for (i = 0; i < that.boards.length; i++) {
             that.boards[i].on('up', function() {
                 that.set(inputNumber, valueFunction());
             });
             that.boards[i].update();
+            that.boards[i].triggerEventHandlers(['up'], []);
         }
     };
 

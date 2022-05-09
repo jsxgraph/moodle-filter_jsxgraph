@@ -195,18 +195,20 @@ The constructor `new JSXQuestion(boardIDs, jsxGraphCode, allowInputEntry, decima
             <i>{JXG.Board}</i>&nbsp;<b>initAndAddBoard(id, attributes)</b><br><br><small>
             <b>Parameters:</b><br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{String}</i>&nbsp;<b>id</b><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object}</i>&nbsp;<b>attributes</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object}</i>&nbsp;<b>attributes</b>&nbsp;[<i>default: {}</i>]
             </small>
         </td>
         <td>
-            Initializes and adds one board to the boards array. the <code>id</code> must be part of the <code>BOARDIDS</code> array. The resulting board, which is also returned, is added to boards at this index where <code>id</code> is in the array <code>BOARDIDS</code>. If a board already exists for this <code>id</code>, it will be deleted.
+            Initializes and adds one board to the boards array. The <code>id</code> must be part of the <code>BOARDIDS</code> array. 
+            The resulting board, which is also returned, is added to boards at this index where <code>id</code> is in the array <code>BOARDIDS</code>.
+            If a board already exists for this <code>id</code>, it will be deleted.
         </td>
     </tr>
     <tr>
         <td>
             <i>{JXG.Board[&nbsp;]}</i>&nbsp;<b>initBoards(attributes)</b><br><br><small>
             <b>Parameters:</b><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>attributes</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Object&nbsp;|&nbsp;Object[&nbsp;]}</i>&nbsp;<b>attributes</b>&nbsp;[<i>default: {}</i>]
             </small>
         </td>
         <td>
@@ -295,7 +297,7 @@ The constructor `new JSXQuestion(boardIDs, jsxGraphCode, allowInputEntry, decima
             <i>{Number}</i>&nbsp;<b>get(inputNumber,&nbsp;defaultValue)</b><br><br><small>
             <b>Parameters:</b><br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>inputNumber</b><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>defaultValue</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number}</i>&nbsp;<b>defaultValue</b>&nbsp;[<i>default: 0</i>]
             </small>
         </td>
         <td>
@@ -308,7 +310,7 @@ The constructor `new JSXQuestion(boardIDs, jsxGraphCode, allowInputEntry, decima
         <td>
             <i>{void}</i>&nbsp;<b>getAllValues(defaultValues)</b><br><br><small>
             <b>Parameters:</b><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number&nbsp;|&nbsp;Number[&nbsp;]}</i>&nbsp;<b>defaultValues</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>{Number&nbsp;|&nbsp;Number[&nbsp;]}</i>&nbsp;<b>defaultValues</b>&nbsp;[<i>default: 0</i>]
             </small>
         </td>
         <td>
