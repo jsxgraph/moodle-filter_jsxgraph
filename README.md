@@ -303,7 +303,7 @@ Look at this example:
 </jsxgraph>
 ```
 
-Using the `MathJax` filter within the board is supported in `moodle2.x` and `moodle3.x`. 
+Using the `MathJax` filter within the board is supported in `moodle2.x` and up. 
 
 ## Installing the filter step by step
 
