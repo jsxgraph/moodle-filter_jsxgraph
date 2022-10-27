@@ -51,13 +51,17 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var string
      */
-    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.js';
+    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.mjs';
     /**
      * Path to library folders
      *
      * @var string
      */
     public static $libpath = '/filter/jsxgraph/libs/';
+
+    private const REQUIRE_WITHOUT   = 0;
+    private const REQUIRE_WITH_KEY  = 1;
+    private const REQUIRE_WITH_PATH = 2;
 
     /**
      * Main filter function
@@ -120,7 +124,7 @@ class filter_jsxgraph extends moodle_text_filter {
          */
 
         $taglist = $dom->getElementsByTagname($tag);
-        $require = false;
+        $require = self::REQUIRE_WITHOUT;
         $error = false;
 
         if (!empty($taglist)) {
@@ -131,7 +135,7 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($tmp[0] === 'error') {
                 $error = $tmp[1];
             } else {
-                $require = $tmp[1] === 'withREQUIRE';
+                $require = $tmp[1];
             }
         }
 
@@ -269,12 +273,20 @@ class filter_jsxgraph extends moodle_text_filter {
                 $cond .= "document.getElementById('" . $divids[$id] . "') != null &&";
             }
             $cond = substr($cond, 0, -3);
-            if ($require) {
-                $codeprefix = "require(['jsxgraphcore'], function (JXG) { if ($cond) { \n";
-                $codepostfix = "}\n });\n";
-            } else {
-                $codeprefix = "\nif ($cond) {";
-                $codepostfix = "};";
+
+            switch ($require) {
+                case self::REQUIRE_WITH_KEY:
+                    $codeprefix = "require(['jsxgraphcore'], function (JXG) { \n if ($cond) { \n";
+                    $codepostfix = "}\n });\n";
+                    break;
+                case self::REQUIRE_WITH_PATH:
+                    $codeprefix = "import JXG from '" . "../../filter/jsxgraph/jsxgraphcore.js" . "'; \nif ($cond) {";
+                    $codepostfix = "};";
+                    break;
+                case self::REQUIRE_WITHOUT:
+                default:
+                    $codeprefix = "\nif ($cond) {";
+                    $codepostfix = "};";
             }
             $code = $codeprefix . $globalcode . $jscode . $codepostfix;
 
@@ -287,7 +299,13 @@ class filter_jsxgraph extends moodle_text_filter {
                 "\n// ###################################################\n\n";
 
             // Place JavaScript code at the end of the page.
-            $PAGE->requires->js_init_call($code);
+            // $PAGE->requires->js_init_call($code);
+
+            $t = $dom->createElement('script', $code);
+            $a = $dom->createAttribute('type');
+            $a->value = 'module';
+            $t->appendChild($a);
+            $dom->appendChild($t);
         }
 
         /* 5. STEP ----------------------
@@ -521,7 +539,8 @@ class filter_jsxgraph extends moodle_text_filter {
     private function load_jsxgraph($fromserver, $serverversion = "") {
         global $PAGE, $CFG;
 
-        $result = ['success', 'withREQUIRE'];
+        // defaults:
+        $result = ['success', self::REQUIRE_WITH_PATH];
 
         $url = self::$jsxcore;
 
@@ -569,13 +588,19 @@ class filter_jsxgraph extends moodle_text_filter {
             }
             array_push($version, $tmp);
             if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
-                $result[1] = 'withoutREQUIRE';
+                $result[1] = self::REQUIRE_WITHOUT;
+            } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
+                $result[1] = self::REQUIRE_WITH_PATH;
             } else {
-                $result[1] = 'withREQUIRE';
+                $result[1] = self::REQUIRE_WITH_KEY;
             }
         }
 
-        $PAGE->requires->js(new moodle_url($url));
+        //        echo new moodle_url($url);
+
+        $url = '/filter/jsxgraph/jsxgraphcore.mjs';
+
+      //  $PAGE->requires->js(new moodle_url($url), false);
 
         return $result;
     }
@@ -590,7 +615,7 @@ class filter_jsxgraph extends moodle_text_filter {
         global $PAGE, $CFG;
 
         $libs = [
-            'formulas' => 'formulas_extension/JSXQuestion.js'
+            //     'formulas' => 'formulas_extension/JSXQuestion.js'
         ];
 
         if (!array_key_exists($libname, $libs)) {
