@@ -51,17 +51,13 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var string
      */
-    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.mjs';
+    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.js';
     /**
      * Path to library folders
      *
      * @var string
      */
     public static $libpath = '/filter/jsxgraph/libs/';
-
-    private const REQUIRE_WITHOUT   = 0;
-    private const REQUIRE_WITH_KEY  = 1;
-    private const REQUIRE_WITH_PATH = 2;
 
     /**
      * Main filter function
@@ -124,7 +120,7 @@ class filter_jsxgraph extends moodle_text_filter {
          */
 
         $taglist = $dom->getElementsByTagname($tag);
-        $require = self::REQUIRE_WITHOUT;
+        $require = false;
         $error = false;
 
         if (!empty($taglist)) {
@@ -135,7 +131,7 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($tmp[0] === 'error') {
                 $error = $tmp[1];
             } else {
-                $require = $tmp[1];
+                $require = $tmp[1] === 'withREQUIRE';
             }
         }
 
@@ -273,14 +269,9 @@ class filter_jsxgraph extends moodle_text_filter {
                 $cond .= "document.getElementById('" . $divids[$id] . "') != null &&";
             }
             $cond = substr($cond, 0, -3);
-            if ($require === self::REQUIRE_WITH_KEY) {
-                $codeprefix = "require(['jsxgraphcore'], function (JXG) { \n if ($cond) { \n";
+            if ($require) {
+                $codeprefix = "require(['jsxgraphcore'], function (JXG) { if ($cond) { \n";
                 $codepostfix = "}\n });\n";
-            } elseif($require === self::REQUIRE_WITH_PATH) {
-                $codeprefix = "import JXG from '" . "../../filter/jsxgraph/jsxgraphcore.js" . "'; \nif ($cond) {";
-                $codepostfix = "};";
-            } elseif (self::REQUIRE_WITHOUT) {
-                // Do nothing.
             } else {
                 $codeprefix = "\nif ($cond) {";
                 $codepostfix = "};";
@@ -296,12 +287,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 "\n// ###################################################\n\n";
 
             // Place JavaScript code at the end of the page.
-
-            $t = $dom->createElement('script', $code);
-            $a = $dom->createAttribute('type');
-            $a->value = 'module';
-            $t->appendChild($a);
-            $dom->appendChild($t);
+            $PAGE->requires->js_init_call($code);
         }
 
         /* 5. STEP ----------------------
@@ -535,8 +521,7 @@ class filter_jsxgraph extends moodle_text_filter {
     private function load_jsxgraph($fromserver, $serverversion = "") {
         global $PAGE, $CFG;
 
-        // defaults:
-        $result = ['success', self::REQUIRE_WITH_PATH];
+        $result = ['success', 'withREQUIRE'];
 
         $url = self::$jsxcore;
 
@@ -556,12 +541,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
                     return $result;
                 default:
-                    echo $serverversion;
                     $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
             }
 
             // Check if the entered version exists on the server.
-            if ($tmp = fopen($url, 'r')) {
+            if ($tmp = fopen($url, 'r') === false) {
                 $result[0] = 'error';
                 $result[1] =
                     get_string('errorNotFound_pre', 'filter_jsxgraph') .
@@ -585,15 +569,13 @@ class filter_jsxgraph extends moodle_text_filter {
             }
             array_push($version, $tmp);
             if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
-                $result[1] = self::REQUIRE_WITHOUT;
-            } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
-                $result[1] = self::REQUIRE_WITH_PATH;
+                $result[1] = 'withoutREQUIRE';
             } else {
-                $result[1] = self::REQUIRE_WITH_KEY;
+                $result[1] = 'withREQUIRE';
             }
         }
 
-        $url = '/filter/jsxgraph/jsxgraphcore.mjs';
+        $PAGE->requires->js(new moodle_url($url));
 
         return $result;
     }
