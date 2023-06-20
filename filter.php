@@ -280,8 +280,14 @@ class filter_jsxgraph extends moodle_text_filter {
                     $codepostfix = "}\n });\n";
                     break;
                 case self::REQUIRE_WITH_PATH:
-                    $codeprefix = "import JXG from '" . "../../filter/jsxgraph/jsxgraphcore.js" . "'; \nif ($cond) {";
-                    $codepostfix = "};";
+                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.5.0.js');
+                    $codeprefix = "require(['" . $jsx_url . "'], function (JXG) { \nif ($cond) {";
+                    $codepostfix = "}\n });\n";
+                    /*
+                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore.js');
+                    $codeprefix = "import JXG from '$jsx_url';  \nconsole.log('Hi', JXG); \nif ($cond) { ";
+                    $codepostfix = "\n }\n";
+                     */
                     break;
                 case self::REQUIRE_WITHOUT:
                 default:
@@ -439,8 +445,7 @@ class filter_jsxgraph extends moodle_text_filter {
         foreach (ALLOWED_DIMS_EXCEPT_AR as $attr) {
             $tmp = $tmp && empty_or_0_or_default($dimensions[$attr]);
         }
-        if ($tmp && empty_or_0_or_default($dimensions[AR])
-        ) {
+        if ($tmp && empty_or_0_or_default($dimensions[AR])) {
             $dimensions[AR] = $defaultaspectratio;
             $dimensions["width"] = $defaultwidth;
         }
@@ -466,7 +471,7 @@ class filter_jsxgraph extends moodle_text_filter {
             }
 
             $js = "\n" .
-                '<script type="text/javascript">
+                '<script type="module">
     (function() {
         let addWrapper = function (boardid, classes = [], styles = "") {
             let board = document.getElementById(boardid),
@@ -596,11 +601,9 @@ class filter_jsxgraph extends moodle_text_filter {
             }
         }
 
-        //        echo new moodle_url($url);
+        // $PAGE->requires->js(new moodle_url($url));
 
         $url = '/filter/jsxgraph/jsxgraphcore.mjs';
-
-      //  $PAGE->requires->js(new moodle_url($url), false);
 
         return $result;
     }
@@ -615,7 +618,7 @@ class filter_jsxgraph extends moodle_text_filter {
         global $PAGE, $CFG;
 
         $libs = [
-            //     'formulas' => 'formulas_extension/JSXQuestion.js'
+            'formulas' => 'formulas_extension/JSXQuestion.js'
         ];
 
         if (!array_key_exists($libname, $libs)) {
