@@ -51,7 +51,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var string
      */
-    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.mjs';
+    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.js';
     /**
      * Path to library folders
      *
@@ -305,8 +305,6 @@ class filter_jsxgraph extends moodle_text_filter {
                 "\n// ###################################################\n\n";
 
             // Place JavaScript code at the end of the page.
-            // $PAGE->requires->js_init_call($code);
-
             $t = $dom->createElement('script', $code);
             $a = $dom->createAttribute('type');
             $a->value = 'module';
