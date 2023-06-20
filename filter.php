@@ -443,8 +443,7 @@ class filter_jsxgraph extends moodle_text_filter {
         foreach (ALLOWED_DIMS_EXCEPT_AR as $attr) {
             $tmp = $tmp && empty_or_0_or_default($dimensions[$attr]);
         }
-        if ($tmp && empty_or_0_or_default($dimensions[AR])
-        ) {
+        if ($tmp && empty_or_0_or_default($dimensions[AR])) {
             $dimensions[AR] = $defaultaspectratio;
             $dimensions["width"] = $defaultwidth;
         }
