@@ -284,7 +284,7 @@ class filter_jsxgraph extends moodle_text_filter {
                     $codeprefix = "require(['" . $jsx_url . "'], function (JXG) { \nif ($cond) {";
                     $codepostfix = "}\n });\n";
                     /*
-                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore.js');
+                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.5.0.mjs');
                     $codeprefix = "import JXG from '$jsx_url';  \nconsole.log('Hi', JXG); \nif ($cond) { ";
                     $codepostfix = "\n }\n";
                      */
