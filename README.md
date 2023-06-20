@@ -70,7 +70,7 @@ Here is an example:
 ![multiple boards](screenshots/multiple-boards.png)
 
 ````html
-<jsxgraph width="500,200" ascpect-ratio="1/1" numberOfBoards="2">
+<jsxgraph width="500,200" aspect-ratio="1/1" numberOfBoards="2">
    var board = JXG.JSXGraph.initBoard(BOARDID0, {boundingbox: [-1.33, 1.33, 1.33, -1.33], axis: true, showNavigation:false});
    var board2 = JXG.JSXGraph.initBoard(BOARDID1, {boundingbox: [-1, 1.33, 7, -1.33], showNavigation:false});
 
