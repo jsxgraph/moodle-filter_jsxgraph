@@ -324,7 +324,22 @@ class filter_jsxgraph extends moodle_text_filter {
             $t->appendChild($a);
             $dom->appendChild($t);
             */
+            /*
             $PAGE->requires->js_init_call($code);
+            */
+            $t = $dom->createElement('script', '');
+            $a = $dom->createAttribute('type');
+            $a->value = 'text/javascript';
+            $t->appendChild($a);
+            $a = $dom->createAttribute('src');
+            $a->value = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
+            $t->appendChild($a);
+            $dom->appendChild($t);
+            $t = $dom->createElement('script', $code);
+            $a = $dom->createAttribute('type');
+            $a->value = 'text/javascript';
+            $t->appendChild($a);
+            $dom->appendChild($t);
         }
 
         /* 5. STEP ----------------------
@@ -618,7 +633,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
 
-        $PAGE->requires->js(new moodle_url($url));
+       // $PAGE->requires->js(new moodle_url($url));
 
         return $result;
     }
