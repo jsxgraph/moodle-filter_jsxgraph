@@ -274,20 +274,31 @@ class filter_jsxgraph extends moodle_text_filter {
             }
             $cond = substr($cond, 0, -3);
 
+            // POI
             switch ($require) {
                 case self::REQUIRE_WITH_KEY:
                     $codeprefix = "require(['jsxgraphcore'], function (JXG) { \n if ($cond) { \n";
                     $codepostfix = "}\n });\n";
                     break;
                 case self::REQUIRE_WITH_PATH:
-                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.5.0.js');
+                    /*
+                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
                     $codeprefix = "require(['" . $jsx_url . "'], function (JXG) { \nif ($cond) {";
                     $codepostfix = "}\n });\n";
+                    */
                     /*
                     $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.5.0.mjs');
                     $codeprefix = "import JXG from '$jsx_url';  \nconsole.log('Hi', JXG); \nif ($cond) { ";
                     $codepostfix = "\n }\n";
                      */
+                    /*
+                    $codeprefix = "require(['jsxgraphcore'], function (JXG) { if ($cond) { \n";
+                    $codepostfix = "}\n });\n";
+                    */
+
+                    $codeprefix = "\nif ($cond) {";
+                    $codepostfix = "};";
+
                     break;
                 case self::REQUIRE_WITHOUT:
                 default:
@@ -305,11 +316,15 @@ class filter_jsxgraph extends moodle_text_filter {
                 "\n// ###################################################\n\n";
 
             // Place JavaScript code at the end of the page.
+            // POI
+            /*
             $t = $dom->createElement('script', $code);
             $a = $dom->createAttribute('type');
             $a->value = 'module';
             $t->appendChild($a);
             $dom->appendChild($t);
+            */
+            $PAGE->requires->js_init_call($code);
         }
 
         /* 5. STEP ----------------------
@@ -469,7 +484,7 @@ class filter_jsxgraph extends moodle_text_filter {
             }
 
             $js = "\n" .
-                '<script type="module">
+                '<script type="text/javascript">
     (function() {
         let addWrapper = function (boardid, classes = [], styles = "") {
             let board = document.getElementById(boardid),
@@ -599,9 +614,11 @@ class filter_jsxgraph extends moodle_text_filter {
             }
         }
 
-        // $PAGE->requires->js(new moodle_url($url));
+        // POI
 
-        $url = '/filter/jsxgraph/jsxgraphcore.mjs';
+        $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
+
+        $PAGE->requires->js(new moodle_url($url));
 
         return $result;
     }
