@@ -23,7 +23,7 @@
  * library. Special care has been taken to optimize the performance.
  *
  * @package    filter_jsxgraph
- * @copyright  2022 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,
@@ -42,7 +42,7 @@ require_once($CFG->libdir . '/pagelib.php');
  * Class filter_jsxgraph
  *
  * @package    filter_jsxgraph
- * @copyright  2022 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class filter_jsxgraph extends moodle_text_filter {

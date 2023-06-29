@@ -23,7 +23,7 @@
  * library. Special care has been taken to optimize the performance.
  *
  * @package    filter_jsxgraph
- * @copyright  2022 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,

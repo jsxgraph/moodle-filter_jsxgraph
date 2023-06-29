@@ -25,15 +25,14 @@
  * Upgrade Script for filter_jsxgraph
  *
  * @package    filter_jsxgraph
- * @copyright  2022 ISB Bayern
- *             Peter Mayer <peter.mayer@isb.bayern.de>
- * and
- *             JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,
  *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
  *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
+ * and
+ *             ISB Bayern, Peter Mayer <peter.mayer@isb.bayern.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

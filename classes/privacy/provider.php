@@ -23,7 +23,7 @@
  * library. Special care has been taken to optimize the performance.
  *
  * @package    filter_jsxgraph
- * @copyright  2022 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  *             Matthias Ehmann,
  *             Michael Gerhaeuser,
  *             Carsten Miller,
@@ -38,7 +38,7 @@ namespace filter_jsxgraph\privacy;
  * Privacy Subsystem for tool_courseimport implementing null_provider.
  *
  * @package    filter_jsxgraph
- * @copyright  2022 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
+ * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {
