@@ -291,7 +291,7 @@ class filter_jsxgraph extends moodle_text_filter {
         /////////////////
 
         // POI
-        if ($this->VERSION_MOODLE["needs_unnamed_require"]) {
+        if ($this->VERSION_MOODLE["is_newer_version"]) {
 
             if ($this->VERSION_JSX["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
@@ -351,7 +351,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Build from the inside out.
 
         // POI
-        if ($this->VERSION_MOODLE["needs_unnamed_require"]) {
+        if ($this->VERSION_MOODLE["is_newer_version"]) {
 
             if ($this->VERSION_JSX["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
@@ -467,7 +467,7 @@ class filter_jsxgraph extends moodle_text_filter {
         global $PAGE;
 
         // POI
-        if ($this->VERSION_MOODLE["needs_unnamed_require"]) {
+        if ($this->VERSION_MOODLE["is_newer_version"]) {
 
             if ($this->VERSION_JSX["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
@@ -515,7 +515,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->VERSION_MOODLE = [
             "version" => get_config('moodle', 'version'),
             "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
-            "needs_unnamed_require" => get_config('moodle', 'version') >= 2021051700,
+            "is_newer_version" => get_config('moodle', 'version') >= 2021051700,
         ];
 
         if (!$this->VERSION_MOODLE["is_supported"]) {
@@ -750,7 +750,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $url = self::PATH_FOR_LIBS . $libs[$libname];
 
         // POI
-        if ($this->VERSION_MOODLE["needs_unnamed_require"]) {
+        if ($this->VERSION_MOODLE["is_newer_version"]) {
 
             $t = $this->DOM->createElement('script', '');
             $a = $this->DOM->createAttribute('type');

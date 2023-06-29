@@ -328,7 +328,7 @@ Otherwise, you can also install the filter with the following steps:
 
 ## Build Plugin (how to release a new version)
 
-This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps in: [how_to_release.txt](how_to_release.txt). 
+This plugin no longer needs to be explicitly build. To release a **new version of JSXGraph** into the filter follow the steps in: [RELEASE.txt](RELEASE.txt). 
 
 ## Feedback
 
