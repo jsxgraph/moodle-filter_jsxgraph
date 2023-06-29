@@ -47,21 +47,35 @@ require_once($CFG->libdir . '/pagelib.php');
  */
 class filter_jsxgraph extends moodle_text_filter {
     /**
-     * Path to jsxgraphcore.js
+     * Path to jsxgraphcores
      *
      * @var string
      */
-    public static $jsxcore = '/filter/jsxgraph/jsxgraphcore.js';
+    public const PATH_FOR_CORES = '/amd/build/';
     /**
      * Path to library folders
      *
      * @var string
      */
-    public static $libpath = '/filter/jsxgraph/libs/';
+    public const PATH_FOR_LIBS = '/filter/jsxgraph/libs/';
 
     private const REQUIRE_WITHOUT   = 0;
     private const REQUIRE_WITH_KEY  = 1;
     private const REQUIRE_WITH_PATH = 2;
+
+    private const TAG = "jsxgraph";
+
+    private const BOARDID_CONST  = "BOARDID";
+    private const BOARDIDS_CONST = "BOARDIDS";
+
+    private const ENCODING = "UTF-8";
+
+    private $DOM            = null;
+    private $TAGLIST        = null;
+    private $SETTINGS       = null;
+    private $IDS            = [];
+    private $VERSION_JSX    = null;
+    private $VERSION_MOODLE = null;
 
     /**
      * Main filter function
@@ -73,11 +87,382 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     public function filter($text, array $options = array()) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
-        if (!is_int(strpos($text, '<jsxgraph'))) {
+        if (!is_int(strpos($text, '<' . self::TAG))) {
             return $text;
         }
 
-        return $this->get_text_between_tags("jsxgraph", $text);
+        // 0. STEP: Do some initial stuff.
+        //////////////////////////////////
+
+        $this->SETTINGS = $this->get_adminsettings();
+        $this->set_versions($this->SETTINGS['versionJSXGraph']);
+        if (!isset($this->VERSION_JSX) || !isset($this->VERSION_MOODLE)) {
+            return $text;
+        }
+
+        // 1. STEP: Convert HTML string to a dom object.
+        ////////////////////////////////////////////////
+
+        // Create a new dom object.
+        $this->DOM = new domDocument('1.0', self::ENCODING);
+        $this->DOM->formatOutput = true;
+
+        // Load the html into the object.
+        libxml_use_internal_errors(true);
+        if ($this->SETTINGS["convertencoding"]) {
+            $this->DOM->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
+        } else {
+            $this->DOM->loadHTML($text);
+        }
+        libxml_use_internal_errors(false);
+
+        // Discard white space.
+        $this->DOM->preserveWhiteSpace = false;
+        $this->DOM->strictErrorChecking = false;
+        $this->DOM->recover = true;
+
+        // 2. STEP: Get tag elements.
+        /////////////////////////////
+
+        $this->TAGLIST = $this->DOM->getElementsByTagname(self::TAG);
+        $require = self::REQUIRE_WITHOUT;
+        $error = false;
+
+        // 3.+4. STEP: Load library (if needed) and iterate backwards through the jsxgraph tags.
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+        if (!empty($this->TAGLIST)) {
+            $this->load_jsxgraph();
+
+            for ($i = $this->TAGLIST->length - 1; $i > -1; $i--) {
+                $node = $this->TAGLIST->item($i);
+                $this->IDS = [];
+                $new = $this->get_replaced_node($node, $i);
+
+                // Replace <jsxgraph>-node.
+                $node->parentNode->replaceChild($this->DOM->appendChild($new), $node);
+
+                $this->apply_js($node);
+            }
+        }
+
+        // 5. STEP: Paste new div node in web page.
+        ///////////////////////////////////////////
+
+        // Remove DOCTYPE.
+        $this->DOM->removeChild($this->DOM->firstChild);
+        // Remove <html><body></body></html>.
+        $str = $this->DOM->saveHTML();
+        $str = str_replace("<body>", "", $str);
+        $str = str_replace("</body>", "", $str);
+        $str = str_replace("<html>", "", $str);
+        $str = str_replace("</html>", "", $str);
+
+        // Cleanup.
+        $this->TAGLIST = null;
+        $this->DOM = null;
+        $this->SETTINGS = null;
+
+        return $str;
+    }
+
+    private function get_replaced_node($node, $index) {
+        $ATTRIBS = $this->get_tagattributes($node);
+
+        // Create div node.
+        $new = $this->DOM->createElement('div');
+        $a = $this->DOM->createAttribute('class');
+        $a->value = 'jsxgraph-boards';
+        $new->appendChild($a);
+
+        for ($i = 0; $i < $ATTRIBS['numberOfBoards']; $i++) {
+
+            // Create div id.
+            $divid = $this->string_or($ATTRIBS['boardid'][$i], $ATTRIBS['box'][$i]);
+            if ($this->SETTINGS['usedivid']) {
+                $divid = $this->string_or($divid, $this->SETTINGS['divid'] . $index);
+            } else {
+                $divid = $this->string_or($divid, 'JSXGraph_' . strtoupper(uniqid()));
+            }
+            $this->IDS[$i] = $divid;
+
+            // Create new div element containing JSXGraph.
+            $dimensions = [
+                "width" => $this->string_or($ATTRIBS['width'][$i], $this->SETTINGS['fixwidth']),
+                "height" => $this->string_or($ATTRIBS['height'][$i], $this->SETTINGS['fixheight']),
+                "aspect-ratio" => $this->string_or($ATTRIBS['aspect-ratio'][$i], $this->SETTINGS['aspectratio']),
+                "max-width" => $this->string_or($ATTRIBS['max-width'][$i], $this->SETTINGS['maxwidth']),
+                "max-height" => $this->string_or($ATTRIBS['max-height'][$i], $this->SETTINGS['maxheight']),
+            ];
+            $div = $this->get_board_html(
+                $divid,
+                $dimensions,
+                $ATTRIBS['class'][$i],
+                $ATTRIBS['wrapper-class'][$i],
+                $ATTRIBS['force-wrapper'][$i],
+                $this->SETTINGS['fallbackaspectratio'],
+                $this->SETTINGS['fallbackwidth']
+            );
+
+            $divdom = new DOMDocument;
+            libxml_use_internal_errors(true);
+            $divdom->loadHTML($div);
+            libxml_use_internal_errors(false);
+
+            $new->appendChild($this->DOM->importNode($divdom->documentElement, true));
+
+            // Load formulas extension.
+            if ($this->SETTINGS['formulasextension'] || $ATTRIBS['ext_formulas'][$i]) {
+                $this->load_library('formulas');
+            }
+        }
+
+        return $new;
+    }
+
+    private function apply_js($node) {
+        global $PAGE;
+        $ATTRIBS = $this->get_tagattributes($node);
+        $CODE = "";
+
+        // Load global JavaScript code from administrator settings.
+        ///////////////////////////////////////////////////////////
+
+        if ($this->SETTINGS['globalJS'] !== '' && $ATTRIBS['useGlobalJS'][0]) {
+            $CODE .=
+                "// Global JavaScript code from administrator settings.\n" .
+                "//////////////////////////////////////////////////////\n\n" .
+                $this->SETTINGS['globalJS'] .
+                "\n\n";
+        }
+
+        // Define BOARDID constants and some accessibility.
+        ///////////////////////////////////////////////////
+
+        $CODE .=
+            "// Define BOARDID constants.\n" .
+            "////////////////////////////\n\n";
+        for ($i = 0; $i < sizeof($this->IDS); $i++) {
+            $name = self::BOARDID_CONST . $i;
+            $CODE .=
+                "const $name = '" . $this->IDS[$i] . "';\n" .
+                "console.log('$name = `'+$name+'` has been prepared.');\n";
+        }
+        $CODE .=
+            "const " . self::BOARDID_CONST . " = " . self::BOARDID_CONST . "0" . ";\n" .
+            "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->IDS) . "'];\n" .
+            "\n";
+
+        $CODE .=
+            "// Accessibility.\n" .
+            "/////////////////\n\n";
+        $CODE .=
+            "JXG.Options.board.title = '" . $ATTRIBS['title'][0] . "';\n" .
+            "JXG.Options.board.description = '" . $ATTRIBS['description'][0] . "';\n" .
+            "\n";
+
+        // Load code from <jsxgraph>-node.
+        //////////////////////////////////
+
+        $usercode = $this->DOM->saveHTML($node);
+        // Remove <jsxgraph> tags.
+        $usercode = preg_replace("(</?" . self::TAG . "[^>]*\>)i", "", $usercode);
+        // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
+        $usercode = str_replace("</script>", "<\/script>", $usercode);
+
+        $CODE .=
+            "// Code from user input.\n" .
+            "////////////////////////\n";
+        $CODE .= $usercode;
+
+        // Surround the code with version-specific strings.
+        ///////////////////////////////////////////////////
+
+        $surroundings = $this->get_code_surroundings();
+        $CODE = $surroundings["pre"] . "\n\n" . $CODE . "" . $surroundings["post"];
+
+        // Convert HTML-entities in code.
+        /////////////////////////////////
+
+        if ($this->SETTINGS['HTMLentities'] && $ATTRIBS['entities']) {
+            $CODE = html_entity_decode($CODE);
+        }
+
+        // Paste the code
+        /////////////////
+
+        // POI
+        /*
+        $t = $this->DOM->createElement('script', $CODE);
+        $a = $this->DOM->createAttribute('type');
+        $a->value = 'module';
+        $t->appendChild($a);
+        $this->DOM->appendChild($t);
+        */
+
+        $PAGE->requires->js_init_call($CODE);
+
+        /*
+        $t = $this->DOM->createElement('script', '');
+        $a = $this->DOM->createAttribute('type');
+        $a->value = 'text/javascript';
+        $t->appendChild($a);
+        $a = $this->DOM->createAttribute('src');
+        $a->value = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
+        $t->appendChild($a);
+        $this->DOM->appendChild($t);
+        $t = $this->DOM->createElement('script', $CODE);
+        $a = $this->DOM->createAttribute('type');
+        $a->value = 'text/javascript';
+        $t->appendChild($a);
+        $this->DOM->appendChild($t);
+        */
+    }
+
+    private function get_code_surroundings() {
+        $result = [
+            'pre' => '',
+            'post' => ''
+        ];
+
+        $condition = '';
+        for ($i = 0; $i < sizeof($this->IDS); $i++) {
+            $condition .= "document.getElementById('" . $this->IDS[$i] . "') != null && ";
+        }
+        $condition = substr($condition, 0, -4);
+
+        // Build from the inside out.
+
+        // POI
+        /*
+        $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
+        $result["pre"] =
+            "require(['" . $jsx_url . "'], function (JXG) { \nif ($condition) {" .
+            $result["pre"];
+        $result["post"] =
+            $result["post"] .
+            "}\n });\n";
+        */
+
+        $jsx_url = new moodle_url('/filter/jsxgraph/amd/build/jsxgraphcore-v1.5.0-lazy.js');
+        $result["pre"] =
+            "import JXG from '$jsx_url';  \nif ($condition) { " .
+            $result["pre"];
+        $result["post"] =
+            $result["post"] .
+            "\n }\n";
+
+        /*
+        $result["pre"] =
+            "require(['jsxgraphcore'], function (JXG) { if ($condition) { \n" .
+            $result["pre"];
+        $result["post"] =
+            $result["post"] .
+            "}\n });\n";
+        */
+        /*
+        $result["pre"] =
+            "\nif ($condition) {" .
+            $result["pre"];
+        $result["post"] =
+            $result["post"] .
+            "};";
+        */
+
+        /////////////////
+
+        $result["pre"] =
+            "\n//< ![CDATA[\n" .
+            $result["pre"];
+        $result["post"] =
+            $result["post"] .
+            "\n//]]>\n";
+
+        $result["pre"] =
+            "\n\n// ###################################################" .
+            "\n// JavaScript code for JSXGraph board '" . $this->IDS[0] . "' and other\n" .
+            $result["pre"];
+        $result["post"] =
+            $result["post"] .
+            "\n// End code for JSXGraph board '" . $this->IDS[0] . "' and other " .
+            "\n// ###################################################\n\n";
+
+        return $result;
+    }
+
+    /**
+     * Load JSXGraph code from local or from server
+     *
+     * @return string[]
+     */
+    private function load_jsxgraph() {
+        global $PAGE;
+
+
+        // defaults:
+        $result = ['success', self::REQUIRE_WITH_PATH];
+
+        $url = self::PATH_FOR_CORES;
+
+        // POI
+
+        // Decide how the code should be included.
+        // For versions after 0.99.6, it must be included with "require".
+        $version = [];
+        while ($pos = strpos($tmp, '.')) {
+            array_push($version, intval(substr($tmp, 0, $pos)));
+            $tmp = substr($tmp, $pos + 1);
+        }
+        array_push($version, $tmp);
+        if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
+            $result[1] = self::REQUIRE_WITHOUT;
+        } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
+            $result[1] = self::REQUIRE_WITH_PATH;
+        } else {
+            $result[1] = self::REQUIRE_WITH_KEY;
+        }
+
+        // POI
+
+        // $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
+
+        // $PAGE->requires->js(new moodle_url($url));
+    }
+
+    private function set_versions($jsxversion) {
+        $this->VERSION_JSX = null;
+        $this->VERSION_MOODLE = null;
+        if (!isset($jsxversion)) {
+            return;
+        }
+
+        // resolve JSXGraph version
+        $versions = json_decode(get_config('filter_jsxgraph', 'versions'));
+        if ($jsxversion === 'auto') {
+            $jsxversion = $versions[1]->id;
+        }
+        foreach ($versions as $v) {
+            if ($v->id === $jsxversion) {
+                $this->VERSION_JSX = $v;
+                break;
+            }
+        }
+
+        // resolve Moodle version
+        $this->VERSION_MOODLE = [
+            "version" => get_config('moodle', 'version'),
+            "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph','requires'),
+            "is_min_420" => get_config('moodle', 'version') >= 2023042400,
+        ];
+
+        if (!$this->VERSION_MOODLE["is_supported"]) {
+            $this->VERSION_MOODLE = null;
+
+            return;
+        }
+
+        // echo '<pre>' . print_r($this->VERSION_JSX, true) . '</pre>';
+        // echo '<pre>' . print_r($this->VERSION_MOODLE, true) . '</pre>';
     }
 
     /**
@@ -91,268 +476,22 @@ class filter_jsxgraph extends moodle_text_filter {
     private function get_text_between_tags($tag, $html) {
         global $PAGE;
 
-        $encoding = "UTF-8";
-        $setting = $this->get_adminsettings();
-
-        $constantnameboardid = "BOARDID";
-        $constantnameboardids = "BOARDIDS";
-
-        /* 1. STEP ---------------------------
-         * Convert HTML string to a dom object
-         */
-
-        // Create a new dom object.
-        $dom = new domDocument('1.0', $encoding);
-        $dom->formatOutput = true;
-
-        // Load the html into the object.
-        libxml_use_internal_errors(true);
-        if ($setting["convertencoding"]) {
-            $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', $encoding));
-        } else {
-            $dom->loadHTML($html);
-        }
-        libxml_use_internal_errors(false);
-
-        // Discard white space.
-        $dom->preserveWhiteSpace = false;
-        $dom->strictErrorChecking = false;
-        $dom->recover = true;
-
-        /* 2. STEP --------
-         * Get tag elements
-         */
-
-        $taglist = $dom->getElementsByTagname($tag);
-        $require = self::REQUIRE_WITHOUT;
-        $error = false;
-
-        if (!empty($taglist)) {
-            $tmp = $this->load_jsxgraph($setting['versionJSXGraph']);
-            if ($tmp[0] === 'error') {
-                $error = $tmp[1];
-            } else {
-                $require = $tmp[1];
-            }
-        }
-
-        /* 3. STEP -----------------------------------
-         * Iterate backwards through the jsxgraph tags
-         */
-
         for ($i = $taglist->length - 1; $i > -1; $i--) {
 
-            $item = $taglist->item($i);
-            $tagattribute = $this->get_tagattributes($item);
-
-            $out = $dom->createElement('div');
-            $a = $dom->createAttribute('class');
-            $a->value = 'jsxgraph-boards';
-            $out->appendChild($a);
-
-            $divids = [];
-
-            for ($b = 0; $b < $tagattribute['numberOfBoards']; $b++) {
-
-                // Create div id.
-                $divid = $this->string_or($tagattribute['boardid'][$b], $tagattribute['box'][$b]);
-                if ($setting['usedivid']) {
-                    $divid = $this->string_or($divid, $setting['divid'] . $i);
-                } else {
-                    $divid = $this->string_or($divid, 'JSXGraph_' . strtoupper(uniqid()));
-                }
-                $divids[$b] = $divid;
-
-                // Create new div element containing JSXGraph.
-                $dims = [
-                    "width" => $this->string_or($tagattribute['width'][$b], $setting['fixwidth']),
-                    "height" => $this->string_or($tagattribute['height'][$b], $setting['fixheight']),
-                    "aspect-ratio" => $this->string_or($tagattribute['aspect-ratio'][$b], $setting['aspectratio']),
-                    "max-width" => $this->string_or($tagattribute['max-width'][$b], $setting['maxwidth']),
-                    "max-height" => $this->string_or($tagattribute['max-height'][$b], $setting['maxheight']),
-                ];
-                $div = $this->get_board_html(
-                    $divid,
-                    $dims,
-                    $tagattribute['class'][$b],
-                    $tagattribute['wrapper-class'][$b],
-                    $tagattribute['force-wrapper'][$b],
-                    $setting['fallbackaspectratio'],
-                    $setting['fallbackwidth']
-                );
-
-                $divdom = new DOMDocument;
-                libxml_use_internal_errors(true);
-                $divdom->loadHTML($div);
-                libxml_use_internal_errors(false);
-
-                $out->appendChild($dom->importNode($divdom->documentElement, true));
-            }
-            $b = 0;
-
-            // Replace <jsxgraph>-node.
-            $item->parentNode->replaceChild($dom->appendChild($out), $item);
-
+            // TODO ?
             if ($error !== false) {
-                $t = $dom->createElement('p');
-                $a = $dom->createAttribute('class');
+                $t = $this->DOM->createElement('p');
+                $a = $this->DOM->createAttribute('class');
                 $a->value = 'jxg-error';
                 $t->appendChild($a);
-                $a = $dom->createElement('b', get_string('error', 'filter_jsxgraph'));
+                $a = $this->DOM->createElement('b', get_string('error', 'filter_jsxgraph'));
                 $t->appendChild($a);
-                $a = $dom->createElement('span', $error);
+                $a = $this->DOM->createElement('span', $error);
                 $t->appendChild($a);
-                $out->parentNode->replaceChild($dom->appendChild($t), $out);
+                $out->parentNode->replaceChild($this->DOM->appendChild($t), $out);
                 continue;
             }
-
-            if ($setting['formulasextension']) {
-                $this->load_library('formulas');
-            } else {
-                if ($tagattribute['ext_formulas'][$b]) {
-                    $this->load_library('formulas');
-                }
-            }
-
-            /* 4. STEP ------
-             * Construct code
-             */
-
-            $generalcode = '';
-            $globalcode = '';
-
-            // Define boardid const.
-            $generalcode .= "\n/** Define boardid const */\n";
-            for ($j = 0; $j < $tagattribute['numberOfBoards']; $j++) {
-                $name = $constantnameboardid . $j;
-                $generalcode .= "const $name = '" . $divids[$j] . "';\n";
-                $generalcode .= "console.log('$name = `'+$name+'` has been prepared');\n";
-            }
-            $generalcode .= "const $constantnameboardid = $constantnameboardid" . "0" . ";\n";
-            $generalcode .= "const $constantnameboardids = ['" . implode("', '", $divids) . "'];\n";
-
-            $generalcode .= "\n/** Accessibility */\n";
-            $generalcode .= "JXG.Options.board.title = '" . $tagattribute['title'][$b] . "';\n";
-            $generalcode .= "JXG.Options.board.description = '" . $tagattribute['description'][$b] . "';\n";
-            $generalcode .= "\n";
-
-            // Load global JavaScript code from administrator settings.
-            if ($setting['globalJS'] !== '' && $tagattribute['useGlobalJS'][$b]) {
-                $globalcode .= "\n// Global JavaScript code of the administrator\n";
-                $globalcode .= $setting['globalJS'];
-                if (substr_compare($setting['globalJS'], ';', strlen($setting['globalJS']) - 1) < 0) {
-                    $globalcode .= ';';
-                }
-            }
-            $globalcode .= "\n\n";
-
-            // Load code from <jsxgraph>-node.
-            $jscode = "\n// Specific JavaScript code\n";
-            // Integrate specific JavaScript.
-            $jscode .= $dom->saveHTML($item);
-            // Remove <jsxgraph> tags.
-            $jscode = preg_replace("(</?" . $tag . "[^>]*\>)i", "", $jscode);
-            // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
-            $jscode = str_replace("</script>", "<\/script>", $jscode);
-
-            // Convert HTML-Entities in code.
-            if ($setting['HTMLentities'] && $tagattribute['entities']) {
-                $globalcode = html_entity_decode($globalcode);
-                $jscode = html_entity_decode($jscode);
-            }
-
-            $jscode = $generalcode . $jscode;
-
-            // Complete the code.
-            $code = '';
-            $cond = '';
-            for ($id = 0; $id < $tagattribute['numberOfBoards']; $id++) {
-                $cond .= "document.getElementById('" . $divids[$id] . "') != null &&";
-            }
-            $cond = substr($cond, 0, -3);
-
-            // POI
-            switch ($require) {
-                case self::REQUIRE_WITH_KEY:
-                    $codeprefix = "require(['jsxgraphcore'], function (JXG) { \n if ($cond) { \n";
-                    $codepostfix = "}\n });\n";
-                    break;
-                case self::REQUIRE_WITH_PATH:
-                    /*
-                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
-                    $codeprefix = "require(['" . $jsx_url . "'], function (JXG) { \nif ($cond) {";
-                    $codepostfix = "}\n });\n";
-                    */
-                    /*
-                    $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.5.0.mjs');
-                    $codeprefix = "import JXG from '$jsx_url';  \nconsole.log('Hi', JXG); \nif ($cond) { ";
-                    $codepostfix = "\n }\n";
-                     */
-                    /*
-                    $codeprefix = "require(['jsxgraphcore'], function (JXG) { if ($cond) { \n";
-                    $codepostfix = "}\n });\n";
-                    */
-
-                    $codeprefix = "\nif ($cond) {";
-                    $codepostfix = "};";
-
-                    break;
-                case self::REQUIRE_WITHOUT:
-                default:
-                    $codeprefix = "\nif ($cond) {";
-                    $codepostfix = "};";
-            }
-            $code = $codeprefix . $globalcode . $jscode . $codepostfix;
-
-            $code = "\n//< ![CDATA[\n" . $code . "\n//]]>\n";
-            $code =
-                "\n\n// ###################################################" .
-                "\n// JavaScript code for JSXGraph board '" . $divids[0] . "' and other\n" .
-                $code .
-                "\n// End Code for JSXGraph board '" . $divids[0] . "' and other " .
-                "\n// ###################################################\n\n";
-
-            // Place JavaScript code at the end of the page.
-            // POI
-            /*
-            $t = $dom->createElement('script', $code);
-            $a = $dom->createAttribute('type');
-            $a->value = 'module';
-            $t->appendChild($a);
-            $dom->appendChild($t);
-            */
-            /*
-            $PAGE->requires->js_init_call($code);
-            */
-            $t = $dom->createElement('script', '');
-            $a = $dom->createAttribute('type');
-            $a->value = 'text/javascript';
-            $t->appendChild($a);
-            $a = $dom->createAttribute('src');
-            $a->value = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
-            $t->appendChild($a);
-            $dom->appendChild($t);
-            $t = $dom->createElement('script', $code);
-            $a = $dom->createAttribute('type');
-            $a->value = 'text/javascript';
-            $t->appendChild($a);
-            $dom->appendChild($t);
         }
-
-        /* 5. STEP ----------------------
-         * Paste new div node in web page
-         */
-
-        // Remove DOCTYPE.
-        $dom->removeChild($dom->firstChild);
-        // Remove <html><body></body></html>.
-        $str = $dom->saveHTML();
-        $str = str_replace("<body>", "", $str);
-        $str = str_replace("</body>", "", $str);
-        $str = str_replace("<html>", "", $str);
-        $str = str_replace("</html>", "", $str);
-
-        return $str;
     }
 
     /**
@@ -559,75 +698,13 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     /**
-     * Load JSXGraph code from local or from server
-     *
-     * @param string $version
-     *
-     * @return string[]
-     */
-    private function load_jsxgraph($jsxversion) {
-        global $PAGE, $CFG;
-
-        // resolve JSXGraph version
-        $versions = json_decode(get_config('filter_jsxgraph', 'versions'));
-        if ($jsxversion === 'auto') {
-            $jsxversion = $versions[1]->id;
-        }
-        $file = '';
-        foreach ($versions as $v) {
-            if ($v->id === $jsxversion) {
-                $jsxversion = $v;
-                break;
-            }
-        }
-
-        // resolve Moodle version
-        $moodleversion = get_config('moodle', 'version');
-
-        // echo '<pre>' . print_r($jsxversion, true) . '</pre>';
-        // echo '<pre>' . print_r($moodleversion, true) . '</pre>';
-
-        // defaults:
-        $result = ['success', self::REQUIRE_WITH_PATH];
-
-        $url = self::$jsxcore;
-
-        // POI
-
-        // Decide how the code should be included.
-        // For versions after 0.99.6, it must be included with "require".
-        $version = [];
-        while ($pos = strpos($tmp, '.')) {
-            array_push($version, intval(substr($tmp, 0, $pos)));
-            $tmp = substr($tmp, $pos + 1);
-        }
-        array_push($version, $tmp);
-        if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
-            $result[1] = self::REQUIRE_WITHOUT;
-        } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
-            $result[1] = self::REQUIRE_WITH_PATH;
-        } else {
-            $result[1] = self::REQUIRE_WITH_KEY;
-        }
-
-        // POI
-
-        // $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
-
-        // $PAGE->requires->js(new moodle_url($url));
-
-        // dev
-        return ['success', self::REQUIRE_WITH_PATH];
-    }
-
-    /**
      * Load additional library
      *
      * @param string $libname
      *
      */
     private function load_library($libname) {
-        global $PAGE, $CFG;
+        global $PAGE;
 
         $libs = [
             'formulas' => 'formulas_extension/JSXQuestion.js'
@@ -636,61 +713,8 @@ class filter_jsxgraph extends moodle_text_filter {
         if (!array_key_exists($libname, $libs)) {
             return;
         }
-        $url = self::$libpath . $libs[$libname];
+        $url = self::PATH_FOR_LIBS . $libs[$libname];
         $PAGE->requires->js(new moodle_url($url));
-    }
-
-    /**
-     * Get settings made by administrator
-     *
-     * @return array settings from administration
-     */
-    private function get_adminsettings() {
-        global $PAGE, $CFG;
-
-        // Set defaults.
-        $defaults = [
-            'versionJSXGraph' => 'auto',
-            'formulasextension' => true,
-            'HTMLentities' => true,
-            'convertencoding' => true,
-            'globalJS' => '',
-            'usedivid' => false,
-            'divid' => 'box',
-            'fixwidth' => '',
-            'fixheight' => '',
-            'aspectratio' => '',
-            'maxwidth' => '',
-            'maxheight' => '',
-            'fallbackaspectratio' => '1 / 1',
-            'fallbackwidth' => '100%',
-        ];
-
-        $bools = [
-            'formulasextension',
-            'HTMLentities',
-            'convertencoding',
-            'usedivid',
-        ];
-
-        $trims = [
-            'globalJS'
-        ];
-
-        // Read and save settings.
-        foreach ($defaults as $a => &$default) {
-            $tmp = get_config('filter_jsxgraph', $a);
-
-            if (in_array($a, $bools)) {
-                $tmp = $this->convert_bool($tmp);
-            }
-            if (in_array($a, $trims)) {
-                $tmp = trim($tmp);
-            }
-            $default = $tmp;
-        }
-
-        return $defaults;
     }
 
     /**
@@ -767,6 +791,57 @@ class filter_jsxgraph extends moodle_text_filter {
         $attributes[$numberofboardsattr] = $numberofboardsval;
 
         return $attributes;
+    }
+
+    /**
+     * Get settings made by administrator
+     *
+     * @return array settings from administration
+     */
+    private function get_adminsettings() {
+        // Set defaults.
+        $defaults = [
+            'versionJSXGraph' => 'auto',
+            'formulasextension' => true,
+            'HTMLentities' => true,
+            'convertencoding' => true,
+            'globalJS' => '',
+            'usedivid' => false,
+            'divid' => 'box',
+            'fixwidth' => '',
+            'fixheight' => '',
+            'aspectratio' => '',
+            'maxwidth' => '',
+            'maxheight' => '',
+            'fallbackaspectratio' => '1 / 1',
+            'fallbackwidth' => '100%',
+        ];
+
+        $bools = [
+            'formulasextension',
+            'HTMLentities',
+            'convertencoding',
+            'usedivid',
+        ];
+
+        $trims = [
+            'globalJS'
+        ];
+
+        // Read and save settings.
+        foreach ($defaults as $a => &$default) {
+            $tmp = get_config('filter_jsxgraph', $a);
+
+            if (in_array($a, $bools)) {
+                $tmp = $this->convert_bool($tmp);
+            }
+            if (in_array($a, $trims)) {
+                $tmp = trim($tmp);
+            }
+            $default = $tmp;
+        }
+
+        return $defaults;
     }
 
     /**
