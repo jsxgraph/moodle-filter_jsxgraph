@@ -51,7 +51,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var string
      */
-    public const PATH_FOR_CORES = '/amd/build/';
+    public const PATH_FOR_CORES = '/filter/jsxgraph/amd/build/';
     /**
      * Path to library folders
      *
@@ -125,8 +125,6 @@ class filter_jsxgraph extends moodle_text_filter {
         /////////////////////////////
 
         $this->TAGLIST = $this->DOM->getElementsByTagname(self::TAG);
-        $require = self::REQUIRE_WITHOUT;
-        $error = false;
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the jsxgraph tags.
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -257,9 +255,10 @@ class filter_jsxgraph extends moodle_text_filter {
             "// Accessibility.\n" .
             "/////////////////\n\n";
         $CODE .=
+            "if(JXG.exists(JXG.Options.board)) {\n".
             "JXG.Options.board.title = '" . $ATTRIBS['title'][0] . "';\n" .
             "JXG.Options.board.description = '" . $ATTRIBS['description'][0] . "';\n" .
-            "\n";
+            "}\n";
 
         // Load code from <jsxgraph>-node.
         //////////////////////////////////
@@ -279,7 +278,7 @@ class filter_jsxgraph extends moodle_text_filter {
         ///////////////////////////////////////////////////
 
         $surroundings = $this->get_code_surroundings();
-        $CODE = $surroundings["pre"] . "\n\n" . $CODE . "" . $surroundings["post"];
+        $CODE = $surroundings["pre"] . "\n\n" . $CODE . $surroundings["post"];
 
         // Convert HTML-entities in code.
         /////////////////////////////////
@@ -292,6 +291,23 @@ class filter_jsxgraph extends moodle_text_filter {
         /////////////////
 
         // POI
+        if ($this->VERSION_MOODLE["is_min_420"]) {
+
+            if ($this->VERSION_JSX["version_number"] >= 10500) { // version 1.5.0
+
+                $PAGE->requires->js_init_call($CODE);
+
+            } else {
+
+                $PAGE->requires->js_init_call($CODE);
+
+            }
+
+        } else {
+
+
+        }
+
         /*
         $t = $this->DOM->createElement('script', $CODE);
         $a = $this->DOM->createAttribute('type');
@@ -299,9 +315,9 @@ class filter_jsxgraph extends moodle_text_filter {
         $t->appendChild($a);
         $this->DOM->appendChild($t);
         */
-
+        /*
         $PAGE->requires->js_init_call($CODE);
-
+        */
         /*
         $t = $this->DOM->createElement('script', '');
         $a = $this->DOM->createAttribute('type');
@@ -334,6 +350,33 @@ class filter_jsxgraph extends moodle_text_filter {
         // Build from the inside out.
 
         // POI
+        if ($this->VERSION_MOODLE["is_min_420"]) {
+
+            if ($this->VERSION_JSX["version_number"] >= 10500) { // version 1.5.0
+
+                $result["pre"] =
+                    "require(['" . $this->get_core_url() . "'], function (JXG) {\n" .
+                    "if ($condition) {\n" .
+                    $result["pre"];
+                $result["post"] =
+                    $result["post"] .
+                    "}\n " .
+                    "});\n";
+
+            } else {
+
+                $result["pre"] =
+                    "if ($condition) {\n" .
+                    $result["pre"];
+                $result["post"] =
+                    $result["post"] .
+                    "}\n ";
+
+            }
+
+        } else {
+
+        }
         /*
         $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
         $result["pre"] =
@@ -343,7 +386,7 @@ class filter_jsxgraph extends moodle_text_filter {
             $result["post"] .
             "}\n });\n";
         */
-
+        /*
         $jsx_url = new moodle_url('/filter/jsxgraph/amd/build/jsxgraphcore-v1.5.0-lazy.js');
         $result["pre"] =
             "import JXG from '$jsx_url';  \nif ($condition) { " .
@@ -351,7 +394,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $result["post"] =
             $result["post"] .
             "\n }\n";
-
+        */
         /*
         $result["pre"] =
             "require(['jsxgraphcore'], function (JXG) { if ($condition) { \n" .
@@ -390,6 +433,10 @@ class filter_jsxgraph extends moodle_text_filter {
         return $result;
     }
 
+    private function get_core_url() {
+        return new moodle_url(self::PATH_FOR_CORES . $this->VERSION_JSX["file"]);
+    }
+
     /**
      * Load JSXGraph code from local or from server
      *
@@ -398,35 +445,49 @@ class filter_jsxgraph extends moodle_text_filter {
     private function load_jsxgraph() {
         global $PAGE;
 
-
-        // defaults:
-        $result = ['success', self::REQUIRE_WITH_PATH];
-
-        $url = self::PATH_FOR_CORES;
-
         // POI
+        if ($this->VERSION_MOODLE["is_min_420"]) {
 
-        // Decide how the code should be included.
-        // For versions after 0.99.6, it must be included with "require".
-        $version = [];
-        while ($pos = strpos($tmp, '.')) {
-            array_push($version, intval(substr($tmp, 0, $pos)));
-            $tmp = substr($tmp, $pos + 1);
-        }
-        array_push($version, $tmp);
-        if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
-            $result[1] = self::REQUIRE_WITHOUT;
-        } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
-            $result[1] = self::REQUIRE_WITH_PATH;
+            if ($this->VERSION_JSX["version_number"] >= 10500) { // version 1.5.0
+
+                // Nothing to do!
+
+            } else {
+
+                $t = $this->DOM->createElement('script', '');
+                $a = $this->DOM->createAttribute('type');
+                $a->value = 'text/javascript';
+                $t->appendChild($a);
+                $a = $this->DOM->createAttribute('src');
+                $a->value = $this->get_core_url();
+                $t->appendChild($a);
+                $this->DOM->appendChild($t);
+
+            }
+
         } else {
-            $result[1] = self::REQUIRE_WITH_KEY;
+
+            // Decide how the code should be included.
+            // For versions after 0.99.6, it must be included with "require".
+            $version = [];
+            while ($pos = strpos($tmp, '.')) {
+                array_push($version, intval(substr($tmp, 0, $pos)));
+                $tmp = substr($tmp, $pos + 1);
+            }
+            array_push($version, $tmp);
+            if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
+                $result[1] = self::REQUIRE_WITHOUT;
+            } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
+                $result[1] = self::REQUIRE_WITH_PATH;
+            } else {
+                $result[1] = self::REQUIRE_WITH_KEY;
+            }
+
+            // $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
+
+            // $PAGE->requires->js(new moodle_url($url));
+
         }
-
-        // POI
-
-        // $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
-
-        // $PAGE->requires->js(new moodle_url($url));
     }
 
     private function set_versions($jsxversion) {
@@ -437,21 +498,26 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // resolve JSXGraph version
-        $versions = json_decode(get_config('filter_jsxgraph', 'versions'));
+        $versions = json_decode(get_config('filter_jsxgraph', 'versions'), true);
         if ($jsxversion === 'auto') {
-            $jsxversion = $versions[1]->id;
+            $jsxversion = $versions[1]["id"];
         }
         foreach ($versions as $v) {
-            if ($v->id === $jsxversion) {
+            if ($v["id"] === $jsxversion) {
                 $this->VERSION_JSX = $v;
                 break;
             }
         }
+        $this->VERSION_JSX["version"] = explode('.', $this->VERSION_JSX["id"]);
+        $this->VERSION_JSX["version_number"] =
+            intval($this->VERSION_JSX["version"][0]) * 10000 +
+            intval($this->VERSION_JSX["version"][1]) * 100 +
+            intval($this->VERSION_JSX["version"][2]) * 1;
 
         // resolve Moodle version
         $this->VERSION_MOODLE = [
             "version" => get_config('moodle', 'version'),
-            "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph','requires'),
+            "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
             "is_min_420" => get_config('moodle', 'version') >= 2023042400,
         ];
 
@@ -463,35 +529,6 @@ class filter_jsxgraph extends moodle_text_filter {
 
         // echo '<pre>' . print_r($this->VERSION_JSX, true) . '</pre>';
         // echo '<pre>' . print_r($this->VERSION_MOODLE, true) . '</pre>';
-    }
-
-    /**
-     * Replace <jsxgraph ...> tag
-     *
-     * @param string $tag The tag name
-     * @param string $html The HTML string
-     *
-     * @return string text between tags
-     */
-    private function get_text_between_tags($tag, $html) {
-        global $PAGE;
-
-        for ($i = $taglist->length - 1; $i > -1; $i--) {
-
-            // TODO ?
-            if ($error !== false) {
-                $t = $this->DOM->createElement('p');
-                $a = $this->DOM->createAttribute('class');
-                $a->value = 'jxg-error';
-                $t->appendChild($a);
-                $a = $this->DOM->createElement('b', get_string('error', 'filter_jsxgraph'));
-                $t->appendChild($a);
-                $a = $this->DOM->createElement('span', $error);
-                $t->appendChild($a);
-                $out->parentNode->replaceChild($this->DOM->appendChild($t), $out);
-                continue;
-            }
-        }
     }
 
     /**
