@@ -515,7 +515,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->VERSION_MOODLE = [
             "version" => get_config('moodle', 'version'),
             "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
-            "needs_unnamed_require" => get_config('moodle', 'version') >= 2022041900,
+            "needs_unnamed_require" => get_config('moodle', 'version') >= 2021051700,
         ];
 
         if (!$this->VERSION_MOODLE["is_supported"]) {

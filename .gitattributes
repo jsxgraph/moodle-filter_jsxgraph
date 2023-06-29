@@ -3,7 +3,7 @@
 /.gitattributes export-ignore
 /.gitmodules export-ignore
 /.gitignore export-ignore
-/how_to_release.md export-ignore
+/RELEASE.md export-ignore
 /*.less export-ignore
 /styles/* export-ignore
 /img export-ignore
@@ -12,5 +12,4 @@
 /libs/*/screenshots export-ignore
 /libs/*/development_hint.md export-ignore
 /libs/*/how_to_release.txt export-ignore
-/*.docx export-ignore
-/*.mbz export-ignore
+/tests/* export-ignore
