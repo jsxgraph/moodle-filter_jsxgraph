@@ -12,3 +12,4 @@
 /libs/*/screenshots export-ignore
 /libs/*/development_hint.md export-ignore
 /libs/*/how_to_release.txt export-ignore
+/*.docx export-ignore
