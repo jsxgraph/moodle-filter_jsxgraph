@@ -1,0 +1,1859 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+      <text>$course$/top/Standard für JSX</text>
+    </category>
+    <info format="moodle_auto_format">
+      <text>Standardkategorie für Fragen, die im Kontext 'JSX' freigegeben sind.</text>
+    </info>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 30  -->
+  <question type="formulas">
+    <name>
+      <text>Bewegungsparabel nachzeichnen</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Die blaue Kurve im \(x(t)\)-Diagramm markiert die Bewegung eines Körpers.</p>
+
+<p>Passen Sie die Parameter \(x_0\), \(v_{x,0}\) und \(a_x\) so an, dass die rote Kurve genau die blaue Kurve nachzeichnet.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>3.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>x0 = {-3:3.1:0.1};
+v0 = {-1.5:1.6:0.1};
+a0 = {-1.5:1.6:0.1};</text>
+</varsrandom>
+<varsglobal><text></text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>3</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>3</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[x0, v0, a0]</text>
+ </answer>
+ <vars2>
+  <text><![CDATA[S_x0 = _0;
+S_v0 = _1;
+S_a0 = _2;
+
+crit_x0 = ( abs( S_x0 - x0 ) < 0.01 );
+crit_v0 = ( abs( S_v0 - v0 ) < 0.01 );
+crit_a0 = ( abs( S_a0 - a0 ) < 0.01 );
+
+crit_tot = ( crit_x0 + crit_v0 + crit_a0 ) / 3;]]></text>
+ </vars2>
+ <correctness>
+  <text>crit_tot</text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="400,400" height="400,100" numberOfBoards="2" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+  
+  // Import final coordinates after submission
+  const x0fix = {x0}, v0fix = {v0}, a0fix = {a0};
+  var x0, v0, a0;
+  [ x0, v0, a0 ] = question.getAllValues([ 0, 0, 0 ]);
+  
+  // Attributes for points and lines
+  const col1='#4285F4', col2='#EA4335', col3='#34A853', col4='#FBBC05';
+  const colVecN='#4285F4', colVecS='#EA4335', colVecC='#34A853';
+
+
+  // Create boards
+  var brds = question.initBoards( [
+  { // attribs for BOARDID0 
+    boundingbox: [-1, 7, 11, -7], axis:true,
+    defaultAxes: {
+      x: {withLabel: true, name: '$$t\\;\\mathrm{(s)}$$',
+          label: {position: 'rt', offset: [10, 26], anchorX: 'right', parse: false, fontSize: 12 } },
+      y: {withLabel:true, name: '$$x\\;\\mathrm{(m)}$$',
+          label: {position: 'rt', offset: [10, 15], parse: false, fontSize: 12 } } },
+    zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+    showCopyright: false, showNavigation: false 
+    },
+    { // attribs for BOARDID1 
+    boundingbox: [-4.2, 3.7, 12, 0.3], axis:false,
+    zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+    showCopyright: false, showNavigation: false
+    }
+  ] );
+
+  var brd0 = brds[0];
+  var brd1 = brds[1];
+  console.log(brd0);
+
+  // Board brd0 needs to be updated when changes in brd1 occur
+  // question.addChildsAsc();
+  brd1.addChild(brd0);
+
+
+  // Define elements on brd1
+  var sliderX = brd1.create('slider',[[0,3],[10,3],[-3,x0,3]], {snapWidth: 0.1, precision:1 } ),
+      sliderV = brd1.create('slider',[[0,2],[10,2],[-1.5,v0,1.5]], {snapWidth: 0.1, precision:1 } ),
+      sliderA = brd1.create('slider',[[0,1],[10,1],[-1.5,a0,1.5]], {snapWidth: 0.1, precision:1 } );
+  brd1.create('text',[-3.5, 3.4, '$$x_0\\;\\;\\mathrm{(m)}$$'      ], {fixed:true, parse:false, fontSize: 14 });
+  brd1.create('text',[-3.5, 2.4, '$$v_{x,0}\\;\\;\\mathrm{(m/s)}$$'], {fixed:true, parse:false, fontSize: 14 });
+  brd1.create('text',[-3.5, 1.4, '$$a_x\\;\\;\\mathrm{(m/s^2)}$$'  ], {fixed:true, parse:false, fontSize: 14 });
+
+
+  // Define elements on brd0
+  var f = brd0.create('functiongraph', [function(t){ return x0fix + v0fix*t + 0.5*a0fix*t*t }, 0, 10], 
+                        {strokeColor:col1, strokeWidth:2 });
+  var g = brd0.create('functiongraph', [function(t){ return sliderX.Value() + sliderV.Value()*t + 0.5*sliderA.Value()*t*t }, 0, 10], 
+                        {strokeColor:col2, strokeWidth:2 });
+
+  
+
+  // Whenever the construction is altered the values of the points are sent to formulas.
+  question.bindInput(0, () => { return sliderX.Value(); });
+  question.bindInput(1, () => { return sliderV.Value(); });
+  question.bindInput(2, () => { return sliderA.Value(); });
+  };
+  
+  // Execute the JavaScript code.
+  new JSXQuestion(BOARDIDS, jsxCode, allowInputEntry=false); // use BOARDIDS here!!
+  
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+    <tags>
+      <tag><text>JXG</text>
+</tag>
+    </tags>
+  </question>
+
+<!-- question: 33  -->
+  <question type="formulas">
+    <name>
+      <text>Diagramme: v_x(t) und zu x(t)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Ein Körper startet an der Position {x0} m auf der x-Achse. Dann bewegt er sich 
+<ul>
+<li>für {Dt1} s mit {v1} m/s,</li>
+<li>für {Dt2} s mit {v2} m/s und</li>
+<li>für {Dt3} s mit {v3} m/s.</li>
+</ul>
+</p>
+<p>Stellen Sie die Bewegung richtig dar, und zwar zuerst im v_x(t)-Diagramm und dann im x(t)-Diagramm.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>t1 = {1,2,3,4}; t2 = {5,6,7}; t3 = {8,9,10,11};
+vArray = shuffle([-3:3.1:0.1]);
+x0 = {-10:10.1:0.1};</text>
+</varsrandom>
+<varsglobal><text><![CDATA[t0 = 0; x0 = round( x0 , 1 );
+Dt1 = t1 - t0; Dt2 = t2-t1; Dt3 = t3-t2;
+xMax = 10; xMin = -10;
+
+v1 = round( vArray[0] , 1);
+for (j:[1:7]) { v1 = ( x0+v1*Dt1 > xMax) ? (v1 - 0.5) : ( ( x0+v1*Dt1 < xMin) ? (v1 + 0.5) : v1 ); }
+x1 = round( x0+v1*Dt1 , 1);
+
+v2= round( vArray[1] , 1);
+for (j:[1:7]) { v2 = ( x1+v2*Dt2 > xMax) ? (v2 - 0.5) : ( ( x1+v2*Dt2 < xMin) ? (v2 + 0.5) : v2 ); }
+x2 = round( x1+v2*Dt2 , 1);
+
+v3 = round( vArray[0] , 1);
+for (j:[1:7]) { v3 = ( x2+v3*Dt3 > xMax) ? (v3 - 0.5) : ( ( x2+v3*Dt3 < xMin) ? (v3 + 0.5) : v3 ); }
+x3 = round( x2+v3*Dt3 , 1);]]></text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>1</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>9</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[t1,t2,t3 , v1,v2,v3 , x1,x2,x3]</text>
+ </answer>
+ <vars2>
+  <text></text>
+ </vars2>
+ <correctness>
+  <text><![CDATA[_relerr < 0.01]]></text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="400" height="300" numberOfBoards="2" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+  
+  // Import final coordinates after submission
+  var x0={x0};
+  var t1,t2,t3 , v1,v2,v3 , x1,x2,x3;
+  [t1,t2,t3 , v1,v2,v3 , x1,x2,x3] = 
+  question.getAllValues([1,2,3 , 1,2,3 , x0,x0,x0 ]);
+  
+  JXG.Options.point.infoboxDigits = 1;
+  JXG.Options.point.snapSizeX = 1;
+  JXG.Options.point.snapSizeY = 0.1;
+  
+  // Create boards
+  var brd0 = JXG.JSXGraph.initBoard(BOARDID0, { 
+    boundingbox: [-1, 11, 12, -11], axis:true,
+    defaultAxes: {
+      x: {withLabel: true, name: 't in s',
+          label: {position: 'rt', offset: [-0, 15], anchorX: 'right'} },
+      y: {withLabel:true, name: 'x in m',      
+          label: {position: 'rt', offset: [+15, -0]} } },
+      showCopyright: false, showNavigation: false 
+    });
+    
+  var brd1 = JXG.JSXGraph.initBoard(BOARDID1, { 
+    boundingbox: [-1, 3.5, 12, -3.5], axis:true,
+    defaultAxes: {
+      x: {withLabel: true, name: 't in s',
+          label: {position: 'rt', offset: [-0, 15], anchorX: 'right'} },
+      y: {withLabel:true, name: 'v_x in m/s',      
+          label: {position: 'rt', offset: [+15, -0]} } },
+      showCopyright: false, showNavigation: false
+    });
+      
+  // Board brd0 needs to be updated when changes in brd1 occur
+  brd1.addChild(brd0);
+  
+  // Attributes for points and lines
+  function attrPfix(addAttr={}) {
+    const attr = {fixed: true, visible: false, withLabel: false};
+    return { ...attr, ...addAttr}; 
+  }
+  function attrPmov(addAttr={}) {
+    const attr = {fixed: question.isSolved, snapToGrid: true, withLabel: false};
+    return { ...attr, ...addAttr};
+  }
+  function attrPsma(addAttr={}) {
+    const attr = {visible: true, withLabel: false, color:'#4285F4', size: 1};
+    return { ...attr, ...addAttr};
+  }
+  const attrLine = {borders: {strokeColor:'#4285F4', strokeWidth: 3} };
+  const attrGlid = {visible:false};
+
+
+  // Define lines and points on brd1
+  brd1.suspendUpdate();
+  var lV0 = brd1.create('segment', [[0,-10], [0,10]], {visible:false}),
+      lV3 = brd1.create('segment', [[-10,0], [20,0]], {visible:false});
+  var pV0 = brd1.create('glider', [0, v1, lV0], attrPmov({name: "pV0"}) ),
+      pV1 = brd1.create('point', [t1, v2], attrPmov({name: "pV1"}) ),
+      pV2 = brd1.create('point', [t2, v3], attrPmov({name: "pV2"}) ),
+      pV3 = brd1.create('glider', [t3, 0, lV3], attrPmov({name: "pV3"}) ),
+      pV01 = brd1.create('point', ["X(pV1)", "Y(pV0)"], attrPsma() ),
+      pV12 = brd1.create('point', ["X(pV2)", "Y(pV1)"], attrPsma() ),
+      pV23 = brd1.create('point', ["X(pV3)", "Y(pV2)"], attrPsma() )	;
+  brd1.create('polygonalchain', [ pV0, pV01, pV1, pV12, pV2, pV23, pV3 ], attrLine);
+  brd1.unsuspendUpdate();
+
+  // Define lines and points on brd1
+  // Q: Is it necessary/beneficial/wrong to suspendUpdate here?
+  brd0.suspendUpdate();
+  var lX1 = brd0.create('line', [[function(){return pV1.X();},-10], [function(){return pV1.X();},10]], attrGlid),
+      lX2 = brd0.create('line', [[function(){return pV2.X();},-10], [function(){return pV2.X();},10]], attrGlid),
+      lX3 = brd0.create('line', [[function(){return pV3.X();},-10], [function(){return pV3.X();},10]], attrGlid);
+  var pX0 = brd0.create('point', [0, x0], attrPsma({fixed: true}) ),
+      pX1 = brd0.create('glider', [t1, x1, lX1], attrPmov({face: 'diamond'}) ),
+      pX2 = brd0.create('glider', [t2, x2, lX2], attrPmov({face: 'diamond'}) ),
+      pX3 = brd0.create('glider', [t3, x3, lX3], attrPmov({face: 'diamond'}) );
+  brd0.create('polygonalchain', [ pX0, pX1, pX2, pX3 ], attrLine);
+  brd0.unsuspendUpdate();
+
+  // Q: Are these updates necessary?
+  brd0.update();
+  brd1.update();
+
+  // Whenever the construction is altered the values of the points are sent to formulas.
+  question.bindInput(0, () => { return pV1.X(); });
+  question.bindInput(1, () => { return PV2.X(); });
+  question.bindInput(2, () => { return pV3.X(); });
+  question.bindInput(3, () => { return pV1.Y(); });
+  question.bindInput(4, () => { return pV2.Y(); });
+  question.bindInput(5, () => { return PV3.Y(); });
+  question.bindInput(6, () => { return pX1.Y(); });
+  question.bindInput(7, () => { return pX2.Y(); });
+  question.bindInput(8, () => { return pX3.Y(); });
+  };
+  
+  // Execute the JavaScript code.
+  new JSXQuestion(BOARDID0, jsxCode, allowInputEntry=true);
+  
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+  </question>
+
+<!-- question: 31  -->
+  <question type="formulas">
+    <name>
+      <text>Diagramme: x(t) und v_x(t) aus v_x(t)-Daten</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Ein Körper startet an der Position \({x0}\,\mathrm{m}\) auf der \(x\)-Achse. Dann bewegt er sich 
+<ul>
+<li>für \({Dt1}\,\mathrm{s}\) mit \({v1}\,\mathrm{m/s}\),</li>
+<li>für \({Dt2}\,\mathrm{s}\) mit \({v2}\,\mathrm{m/s}\) und</li>
+<li>für \({Dt3}\,\mathrm{s}\) mit \({v3}\,\mathrm{m/s}\).</li>
+</ul>
+</p>
+<p>Stellen Sie die Bewegung in beiden Diagrammen richtig dar. Am besten gehen Sie so vor:
+<ol>
+<li>Stellen Sie im \(v_x(t)\)-Diagramm die Zeitspannen richtig ein, indem Sie die roten Punkte horizontal verschieben.</li>
+<li>Verschieben Sie die roten Punkte im \(v_x(t)\)-Diagramm entsprechend der angegebenen Geschwindigkeiten.</li>
+<li>Platzieren Sie die roten Punkte im \(x(t)\)-Diagramm gemäss der resultierenden Verschiebungen.</li>
+</ol></p>
+<br>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>4.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>t1 = {1,2,3,4}; t2 = {5,6,7}; t3 = {8,9,10,11};
+vArray = shuffle([-3:3.1:0.1]);
+x0 = {-10:10.1:0.1};</text>
+</varsrandom>
+<varsglobal><text><![CDATA[t0 = 0; x0 = round( x0 , 1 );
+Dt1 = t1 - t0; Dt2 = t2-t1; Dt3 = t3-t2;
+xMax = 10; xMin = -10;
+
+v1 = round( vArray[0] , 1);
+for (j:[1:7]) { v1 = ( x0+v1*Dt1 > xMax) ? (v1 - 0.5) : ( ( x0+v1*Dt1 < xMin) ? (v1 + 0.5) : v1 ); }
+Dx1 = round( v1*Dt1 , 1);
+x1 = x0 + Dx1;
+
+v2= round( vArray[1] , 1);
+for (j:[1:7]) { v2 = ( x1+v2*Dt2 > xMax) ? (v2 - 0.5) : ( ( x1+v2*Dt2 < xMin) ? (v2 + 0.5) : v2 ); }
+Dx2 = round( v2*Dt2 , 1);
+x2 = x1 + Dx2;
+
+v3 = round( vArray[2] , 1);
+for (j:[1:7]) { v3 = ( x2+v3*Dt3 > xMax) ? (v3 - 0.5) : ( ( x2+v3*Dt3 < xMin) ? (v3 + 0.5) : v3 ); }
+Dx3 = round( v3*Dt3 , 1);
+x3 = x2 + Dx3;]]></text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>4</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>9</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[t1,t2,t3 , v1,v2,v3 , x1,x2,x3]</text>
+ </answer>
+ <vars2>
+  <text><![CDATA[S_t1 = _0;
+S_t2 = _1;
+S_t3 = _2;
+S_v1 = _3;
+S_v2 = _4;
+S_v3 = _5;
+S_x1 = _6;
+S_x2 = _7;
+S_x3 = _8;
+
+S_Dx1 = S_x1-x0;
+S_Dx2 = S_x2-S_x1;
+S_Dx3 = S_x3-S_x2;
+
+crit_t1 = ( abs( S_t1 - t1 ) < 0.01 );
+crit_t2 = ( abs( S_t2 - t2 ) < 0.01 );
+crit_t3 = ( abs( S_t3 - t3 ) < 0.01 );
+
+crit_v1 = ( abs( S_v1 - v1 ) < 0.01 );
+crit_v2 = ( abs( S_v2 - v2 ) < 0.01 );
+crit_v3 = ( abs( S_v3 - v3 ) < 0.01 );
+
+crit_Dx1 = ( abs( S_Dx1 - Dx1) <0.01 );
+crit_Dx2 = ( abs( S_Dx2 - Dx2) <0.01 );
+crit_Dx3 = ( abs( S_Dx3 - Dx3) <0.01 );
+
+crit_tot = ( crit_t1 + crit_t2 + crit_t3 + 2*crit_Dx1 + 2*crit_Dx2 + 2*crit_Dx3 + crit_v1 + crit_v2 + crit_v3) / 12;]]></text>
+ </vars2>
+ <correctness>
+  <text>crit_tot</text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="400" height="300" numberOfBoards="2" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+  
+  // Import final coordinates after submission
+  var x0={x0};
+  var t1,t2,t3 , v1,v2,v3 , x1,x2,x3;
+  [t1,t2,t3 , v1,v2,v3 , x1,x2,x3] = 
+  question.getAllValues([1,2,3 , 1,2,3 , x0,x0,x0 ]);
+  
+  JXG.Options.point.infoboxDigits = 1;
+  JXG.Options.point.snapSizeX = 1;
+  JXG.Options.point.snapSizeY = 0.1;
+  
+  // Attributes for points and lines
+  function attrPfix(addAttr={}) {
+    const attr = {fixed: true, visible: false, withLabel: false};
+    return { ...attr, ...addAttr}; 
+  }
+  function attrPmov(addAttr={}) {
+    const attr = {fixed: question.isSolved, snapToGrid: true, withLabel: false};
+    return { ...attr, ...addAttr};
+  }
+  function attrPsma(addAttr={}) {
+    const attr = {visible: true, withLabel: false, color:'#4285F4', size: 1};
+    return { ...attr, ...addAttr};
+  }
+  const attrLine = {borders: {strokeColor:'#4285F4', strokeWidth: 3} };
+  const attrGlid = {visible:false};
+
+
+  // Create boards
+  var brds = question.initBoards( [
+  { // attribs for BOARDID0 
+    boundingbox: [-1, 12, 13, -11], axis:true,
+    defaultAxes: {
+      x: {withLabel: true, name: '$$t\\;\\mathrm{(s)}$$',
+          label: {position: 'rt', offset: [10, 26], anchorX: 'right', parse: false, fontSize: 12 } },
+      y: {withLabel:true, name: '$$x\\;\\mathrm{(m)}$$',
+          label: {position: 'rt', offset: [10, 15], parse: false, fontSize: 12 } } },
+      zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+      showCopyright: false, showNavigation: false 
+    },
+    { // attribs for BOARDID1 
+    boundingbox: [-1, 3.8, 12, -3.5], axis:true,
+    defaultAxes: {
+      x: {withLabel: true, name: '$$t\\;\\mathrm{(s)}$$',
+          label: {position: 'rt', offset: [10, 26], anchorX: 'right', parse: false, fontSize: 12 } },
+      y: {withLabel:true, name: '$$v_x\\;\\mathrm{(m/s)}$$',
+          label: {position: 'rt', offset: [10, 15], parse: false, fontSize: 12 } } },
+      zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+      showCopyright: false, showNavigation: false
+    }
+  ] );
+
+  var brd0 = brds[0];
+  var brd1 = brds[1];
+  // console.log(brd0, brd1);
+
+  // Board brd0 needs to be updated when changes in brd1 occur
+  // question.addChildsAsc();
+  
+
+  // Define lines and points on brd1
+  var pV1 = brd1.create('point',  [t1, v1], attrPmov({name: "pV1"}) ),
+      pV2 = brd1.create('point',  [t2, v2], attrPmov({name: "pV2"}) ),
+      pV3 = brd1.create('point',  [t3, v3], attrPmov({name: "pV3"}) ),
+      pV01 = brd1.create('point', [0, "Y(pV1)"], attrPsma() ),
+      pV12 = brd1.create('point', ["X(pV1)", "Y(pV2)"], attrPsma() ),
+      pV23 = brd1.create('point', ["X(pV2)", "Y(pV3)"], attrPsma() )    ;
+      pV34 = brd1.create('point', ["X(pV3)", 0], attrPsma() )    ;
+  brd1.create('polygonalchain', [ pV01, pV1, pV12, pV2, pV23, pV3, pV34 ], attrLine);
+  
+
+  // Define lines and points on brd0
+  var pX0 = brd0.create('point', [0, x0], attrPsma({fixed: true}) ),
+      pX1 = brd0.create('point', [t1, x1], attrPmov({face: 'diamond'}) ),
+      pX2 = brd0.create('point', [t2, x2], attrPmov({face: 'diamond'}) ),
+      pX3 = brd0.create('point', [t3, x3], attrPmov({face: 'diamond'}) );
+  brd0.create('polygonalchain', [ pX0, pX1, pX2, pX3 ], attrLine);
+  
+
+  // Define dependencies
+  pV1.on('drag', function() { pX1.moveTo([this.X(), pX1.Y()], 0); });
+  pV2.on('drag', function() { pX2.moveTo([this.X(), pX2.Y()], 0); });
+  pV3.on('drag', function() { pX3.moveTo([this.X(), pX3.Y()], 0); });
+  pX1.on('drag', function() { pV1.moveTo([this.X(), pV1.Y()], 0); });
+  pX2.on('drag', function() { pV2.moveTo([this.X(), pV2.Y()], 0); });
+  pX3.on('drag', function() { pV3.moveTo([this.X(), pV3.Y()], 0); });
+  
+
+  // Whenever the construction is altered the values of the points are sent to formulas.
+  question.bindInput(0, () => { return pV1.X(); });
+  question.bindInput(1, () => { return pV2.X(); });
+  question.bindInput(2, () => { return pV3.X(); });
+  question.bindInput(3, () => { return pV1.Y(); });
+  question.bindInput(4, () => { return pV2.Y(); });
+  question.bindInput(5, () => { return pV3.Y(); });
+  question.bindInput(6, () => { return pX1.Y(); });
+  question.bindInput(7, () => { return pX2.Y(); });
+  question.bindInput(8, () => { return pX3.Y(); });
+  };
+  
+  // Execute the JavaScript code.
+  new JSXQuestion(BOARDIDS, jsxCode, allowInputEntry=false); // use BOARDIDS here!!
+  
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+    <tags>
+      <tag><text>JXG</text>
+</tag>
+    </tags>
+  </question>
+
+<!-- question: 29  -->
+  <question type="formulas">
+    <name>
+      <text>formulas line equation</text>
+    </name>
+    <questiontext format="html">
+      <text>Change the two points P and Q so that the straight line PQ becomes the functional equation $$f(x)={m}*x+({t})$$.</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>2.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="html">
+      <text>Die Antwort ist richtig.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Die Antwort ist teilweise richtig.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Die Antwort ist falsch.</text>
+    </incorrectfeedback>
+<varsrandom><text>m = {-4:4:0.5};
+t = {-7:7:1};</text>
+</varsrandom>
+<varsglobal><text></text>
+</varsglobal>
+<answernumbering><text>abc</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>2</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>2</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[m,t]</text>
+ </answer>
+ <vars2>
+  <text></text>
+ </vars2>
+ <correctness>
+  <text><![CDATA[_relerr < 0.01]]></text>
+ </correctness>
+ <unitpenalty>
+  <text>1</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="400" height="400" ext_formulas="">
+var jsxCode = function(helper) {
+    var board = helper.initBoard( BOARDID, {
+        boundingbox: [-8, 8, 8,-8], 
+       axis: true
+    } );
+
+    var p = board.create( 'point',
+        [-5,-2], {
+            snapToGrid: true,
+            snapSizeX: 0.5,
+            snapSizeY: 0.5,
+            name: 'P'
+    } );
+    var q = board.create( 'point',
+        [3,2], {
+            snapToGrid: true,
+            snapSizeX: 0.5,
+            snapSizeY: 0.5,
+            name: 'Q'
+    } );
+
+    var f = board.create( 'line', [ p, q ], {
+        name: 'f', 
+        withLabel: true, 
+        label: { fontSize: 35 }
+    } );
+
+    helper.bindInput(0, function () { 
+       return (q.Y() - p.Y() ) / ( q.X() - p.X()); 
+    } );
+    helper.bindInput(1, function () { 
+       return (p.Y() * q.X() - q.Y() * p.X() ) / ( q.X() - p.X()); 
+    } );
+};
+
+new JSXQuestion(BOARDID, jsxCode, true);
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="html">
+<text></text>
+ </feedback>
+ <correctfeedback format="html">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="html">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="html">
+<text></text>
+ </incorrectfeedback>
+</answers>
+  </question>
+
+<!-- question: 26  -->
+  <question type="formulas">
+    <name>
+      <text>formulas simple</text>
+    </name>
+    <questiontext format="html">
+      <text>Sketch the linear function y = {m} * x + {t}!</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>m={2,3};
+t={10,20};</text>
+</varsrandom>
+<varsglobal><text>y1=m+t;
+y2=2*m+t;
+y3=3*m+t;
+y4=4*m+t;</text>
+</varsglobal>
+<answernumbering><text>abc</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>1</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>4</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[y1,y2,y3,y4]</text>
+ </answer>
+ <vars2>
+  <text></text>
+ </vars2>
+ <correctness>
+  <text><![CDATA[_relerr < 0.01]]></text>
+ </correctness>
+ <unitpenalty>
+  <text>1</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="400" height="400" ext_formulas>
+
+    // JavaScript code to create the construction.
+    var jsxCode = function (question) {
+
+        // Import the initial y-coordinates of the four points from formulas
+        var t1, t2, t3, t4;
+        [t1, t2, t3, t4] = question.getAllValues();
+
+        // Initialize the construction
+        var board = question.initBoard(BOARDID, {
+                axis:true,
+                boundingbox: [-0.5, 35, 5.5, -5],
+                showCopyright: true,
+                showNavigation: true
+            });
+        // Four invisible, vertical lines
+        var line1 = board.create('segment', [[1,-5], [1,35]], {visible:false}),
+            line2 = board.create('segment', [[2,-5], [2,35]], {visible:false}),
+            line3 = board.create('segment', [[3,-5], [3,35]], {visible:false}),
+            line4 = board.create('segment', [[4,-5], [4,35]], {visible:false});
+
+        // The four points fixated to the lines, called 'gliders'.
+        var point_attr = {fixed: question.isSolved, snapToGrid: true, withLabel: false},
+            p = [];
+        p.push(board.create('glider', [1, t1, line1], point_attr));
+        p.push(board.create('glider', [2, t2, line2], point_attr));
+        p.push(board.create('glider', [3, t3, line3], point_attr));
+        p.push(board.create('glider', [4, t4, line4], point_attr));
+
+        // The polygonal chain, aka. polyline, through the four points
+        board.create('polygonalchain', p, {borders: {strokeWidth: 3}});
+
+        // Whenever the construction is altered the values of the points are sent to formulas.
+        question.bindInput(0, () => { return p[0].Y(); });
+        question.bindInput(1, () => { return p[1].Y(); });
+        question.bindInput(2, () => { return p[2].Y(); });
+        question.bindInput(3, () => { return p[3].Y(); });
+    };
+
+    // Execute the JavaScript code.
+    new JSXQuestion(BOARDID, jsxCode, /* if you want to see inputs: */ true);
+
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="html">
+<text></text>
+ </feedback>
+ <correctfeedback format="html">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="html">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="html">
+<text></text>
+ </incorrectfeedback>
+</answers>
+  </question>
+
+<!-- question: 32  -->
+  <question type="formulas">
+    <name>
+      <text>Ian und Eric schwimmen auf der 50m Bahn</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Ian Thorpe und Eric Moussambani schwimmen auf der 50 m Bahn um die Wette. Für 100 m benötigt Ian {tA2} s und Eric {tB2} s.</p>
+<p>Nehmen Sie konstante Schnelligkeit an und vernachlässigen Sie die Zeit fürs Wenden.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>4.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>tA2 = {48:60:2};
+tB2 = {112:126:2};</text>
+</varsrandom>
+<varsglobal><text>tA1 = tA2/2;
+tB1 = tB2/2;
+
+xA1 = 50;
+xA2 = 0;
+xB1 = 50;
+xB2 = 0;
+
+tP = (tB1 * (tA2 * xA1 - tA1 * xA2)) / (tB1 * xA1 - tB1 * xA2 - tA1 * xB1 + tA2 * xB1);
+tP = round(tP, 1);
+xP = ((tA2 * xA1 - tA1 * xA2) * xB1) / (tB1 * xA1 - tB1 * xA2 - tA1 * xB1 + tA2 * xB1);
+xP = round(xP, 1);</text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>2.8</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>8</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[ tA1,xA1 , tA2,xA2 , tB1,xB1 , tB2,xB2 ]</text>
+ </answer>
+ <vars2>
+  <text>critA1 = ( (_0==tA1) + (_1==xA1) ) / 2;
+critA2 = ( (_2==tA2) + (_3==xA2) ) / 2;
+critB1 = ( (_4==tB1) + (_5==xB1) ) / 2;
+critB2 = ( (_6==tB2) + (_7==xB2) ) / 2;
+
+criterion = ( critA1 + critA2 + critB1 + critB2 ) / 4;</text>
+ </vars2>
+ <correctness>
+  <text>criterion</text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[Verschieben Sie die roten Punkte so, dass die Graphen die Bewegung der beiden Schwimmer repräsentieren.
+
+<jsxgraph width="600" height="400" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+
+    // Import final coordinates after submission
+    var tA1, xA1, tA2, xA2, tB1, xB1, tB2, xB2;
+    [tA1, xA1, tA2, xA2, tB1, xB1, tB2, xB2] = 
+        question.getAllValues([4,25, 10,35, 10,20, 20,30 ]);
+
+    // Initialize the construction
+    var brd = question.initBoard({
+        boundingbox: [-10, 55, 130, -5], axis:true,
+        defaultAxes: {
+            x: {withLabel: true, name: 't in s',
+                label: {position: 'rt', offset: [-0, 15], anchorX: 'right'} },
+            y: {withLabel:true, name: 'x in m',      
+                label: {position: 'rt', offset: [+15, -0]} } },
+            showCopyright: false, showNavigation: false,
+            zoom: {enabled:false, wheel: false},
+            pan: {enabled:false, needTwoFingers: false}
+        });
+
+    // The four points fixated to the lines, called 'gliders'.
+    var pA = [];
+    pA.push(brd.create('point', [0, 0],
+        {fixed: true, visible: false, withLabel: false} ));
+    pA.push(brd.create('point', [tA1, xA1],
+        {fixed: question.isSolved, snapToGrid: true, withLabel: false} ));
+    pA.push(brd.create('point', [tA2, xA2],
+        {fixed: question.isSolved, snapToGrid: true, name: 'Ian',
+         label:{color:'#4285F4', fontSize: 16} } ));
+    var pB = [];
+    pB.push(brd.create('point', [0, 0],
+        {fixed: true, visible: false, withLabel: false} ));
+    pB.push(brd.create('point', [tB1, xB1],
+        {fixed: question.isSolved, snapToGrid: true, withLabel: false} ));
+    pB.push(brd.create('point', [tB2, xB2],
+        {fixed: question.isSolved, snapToGrid: true, name: 'Eric',
+         label:{color:'#34A853', fontSize: 16} } ));
+
+    // Polygonal chain, aka. polyline, through the points
+    brd.create('polygonalchain', pA,
+        {borders: {strokeColor:'#4285F4', strokeWidth: 3} });
+     brd.create('polygonalchain', pB,
+         {borders: {strokeColor:'#34A853', strokeWidth: 3} });
+
+    brd.update();
+
+    // Whenever the construction is altered the values of the points are sent to formulas.
+    question.bindInput(0, () => { return pA[1].X(); });
+    question.bindInput(1, () => { return pA[1].Y(); });
+    question.bindInput(2, () => { return pA[2].X(); });
+    question.bindInput(3, () => { return pA[2].Y(); });
+    question.bindInput(4, () => { return pB[1].X(); });
+    question.bindInput(5, () => { return pB[1].Y(); });
+    question.bindInput(6, () => { return pB[2].X(); });
+    question.bindInput(7, () => { return pB[2].Y(); });
+};
+
+// Execute the JavaScript code.
+new JSXQuestion(BOARDID, jsxCode, allowInputEntry=false);
+
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="html">
+<text><![CDATA[<p>Die Punkte auf Ians Graph sollten sein: ({tA1} s; {xA1} m) und ({tA2} s; {xA2} m)</p>
+<p>Die Punkte auf Erics Graph sollten sein: ({tB1} s; {xB1} m) und ({tB2} s; {xB2} m)</p>]]></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+<answers>
+ <partindex>
+  <text>1</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>0.6</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>1</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>tP</text>
+ </answer>
+ <vars2>
+  <text></text>
+ </vars2>
+ <correctness>
+  <text><![CDATA[_err < 1.1]]></text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text>s</text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="markdown">
+<text>Wie lange nach dem Start begegnen sich Ian und Eric?
+
+{_0}{_u}</text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+<answers>
+ <partindex>
+  <text>2</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>0.6</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>1</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>xP</text>
+ </answer>
+ <vars2>
+  <text></text>
+ </vars2>
+ <correctness>
+  <text><![CDATA[_err < 1.1]]></text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text>m</text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="markdown">
+<text>In welcher Entfernung vom Startblock begegnen sich Ian und Eric?
+
+{_0}{_u}</text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+    <tags>
+      <tag><text>JXG</text>
+</tag>
+    </tags>
+  </question>
+
+<!-- question: 34  -->
+  <question type="formulas">
+    <name>
+      <text>Relativgeschwindigkeiten von Vögeln</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Fünf Vögel fliegen mit den im ersten Diagramm dargestellten Geschwindigkeiten bezüglich des Bodens.</p>
+<p>Verschieben Sie im zweiten Diagramm die Punkte, so dass die Geschwindigkeitsvektoren die Geschwindigkeiten bezüglich des Bezugssystems von <strong>Vogel {letter}</strong> angeben.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>3.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>vArray = shuffle([-15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+j = {0:5};</text>
+</varsrandom>
+<varsglobal><text><![CDATA[letters = ["A", "B", "C", "D", "E"];
+
+vA = vArray[0];
+vB = vArray[1];
+vC = vArray[2];
+vD = vArray[3];
+vE = vArray[4];
+
+uA = vA - vArray[j];
+uB = vB - vArray[j];
+uC = vC - vArray[j];
+uD = vD - vArray[j];
+uE = vE - vArray[j];
+
+letter = letters[j];]]></text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>3</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>5</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[uA, uB, uC, uD, uE]</text>
+ </answer>
+ <vars2>
+  <text><![CDATA[S_uA = _0;
+S_uB = _1;
+S_uC = _2;
+S_uD = _3;
+S_uE = _4;
+
+crit_uA = ( abs( S_uA - uA ) < 0.1 );
+crit_uB = ( abs( S_uB - uB ) < 0.1 );
+crit_uC = ( abs( S_uC - uC ) < 0.1 );
+crit_uD = ( abs( S_uD - uD ) < 0.1 );
+crit_uE = ( abs( S_uE - uE ) < 0.1 );
+
+crit_tot = ( crit_uA + crit_uB + crit_uC + crit_uD + crit_uE ) / 5;]]></text>
+ </vars2>
+ <correctness>
+  <text>crit_tot</text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="600" height="300" numberOfBoards="2" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+  
+  JXG.Options.point.showInfobox = false;
+  JXG.Options.point.snapSizeX = 1;
+  JXG.Options.point.snapToGrid = true;
+  JXG.Options.arrow.lastArrow.size = 4;
+  JXG.Options.arrow.lineCap = 'round';
+
+  // Attributes for points
+  function attrPvelV(addAttr={}) {
+    const attr = {fixed:true, color:'none', withLabel:true, size:2, label:{ offset:[0,-14], anchorX:'middle' }};
+    return { ...attr, ...addAttr};
+  }
+  function attrPvelU(addAttr={}) {
+    const attr = {fixed:question.isSolved, withLabel:true, size:2, label:{ offset:[0,-14], anchorX:'middle' }};
+    return { ...attr, ...addAttr};
+  }
+  const attrVecN = {fixed:question.isSolved, strokeColor:'#4285F4', strokeWidth:3};
+  // const attrVecC = {fixed:question.isSolved, strokeColor:'#34A853', strokeWidth:2, dash:2};
+  // const attrVecS = {fixed:question.isSolved, strokeColor:'#EA4335',  strokeWidth:4, };
+  const attrPbodies = {fixed:true, size:4, color:'#34A853', label:{ offset:[0,14], anchorX:'middle' }};
+
+
+
+  // Import final coordinates after submission
+  var initialU = question.getAllValues([0,0,0,0,0]);
+  
+  const positions = [[40,1],[70,2],[60,3],[30,4],[50,5]];
+  const initialV = [{vA},{vB},{vC},{vD},{vE}];
+  
+
+  // Create boards
+  var brd0 = JXG.JSXGraph.initBoard(BOARDID0, { 
+    boundingbox:[0, 7, 100, 0], axis:false, keepaspectratio:false,
+    // zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+    showCopyright:false, showNavigation:false 
+    });
+    
+  var brd1 = question.initBoard(BOARDID1, { 
+    boundingbox:[0, 7, 100, 0], axis:false, keepaspectratio:false,
+    // zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+    showCopyright:false, showNavigation:false 
+    });
+  
+
+  // Define lines and points on brd0
+  brd0.suspendUpdate();
+
+  brd0.create('text', [50, 6.5, 'Bezugzsystem «Boden»'], {anchorX:'middle', fontSize: 18});
+
+  var pointsA = [];
+  var pointsV = [];
+  for (let i = 0; i != positions.length; i++) {
+    pointsA[i] = brd0.create('point', positions[i], attrPbodies);
+    pointsV[i] = brd0.create('point', [pointsA[i].X()+initialV[i], pointsA[i].Y()], 
+        attrPvelV({name:function(){return (this.X()-pointsA[i].X()).toString().concat(' m/s');} }) );
+    brd0.create('arrow', [pointsA[i], pointsV[i]], attrVecN );
+  }
+
+  brd0.unsuspendUpdate();
+
+
+  // Define lines and points on brd1
+  brd1.suspendUpdate();
+ 
+  brd1.create('text', [50, 6.5, 'Bezugzsystem «Vogel {letter}»'], {anchorX:'middle', fontSize: 18});
+
+  var pointsB = [];
+  var pointsU = [];
+  for (let i = 0; i != positions.length; i++) {
+    pointsB[i] = brd1.create('point', positions[i], attrPbodies);
+    pointsU[i] = brd1.create('point', [pointsB[i].X()+initialU[i], pointsB[i].Y()], 
+        attrPvelU({name:function(){return (this.X()-pointsB[i].X()).toString().concat(' m/s');} }) );
+    pointsU[i].on('drag', function() { this.moveTo([this.X(), pointsB[i].Y()], 0); });
+    brd1.create('arrow', [pointsB[i], pointsU[i]], attrVecN );
+  }
+
+  brd1.unsuspendUpdate();
+
+
+  // Whenever the construction is altered the values of the points are sent to formulas.
+  for (let i = 0; i != positions.length; i++) {
+    question.bindInput(i, () => { return (pointsU[i].X()-pointsB[i].X()); });
+  }
+
+  };
+  
+  // Execute the JavaScript code.
+  new JSXQuestion(BOARDID1, jsxCode, allowInputEntry=false);
+  
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+    <tags>
+      <tag><text>JXG</text>
+</tag>
+    </tags>
+  </question>
+
+<!-- question: 35  -->
+  <question type="formulas">
+    <name>
+      <text>Vektor der Coulomb-Kraft bei drei Ladungen</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In die Anordnung der drei grünen Körper mit elektrischen Ladungen 
+<ul>
+<li>\(Q_1 = {Qwest}\,\mathrm{\mu C}\), </li>
+<li>\(Q_2 = {Qnorth}\,\mathrm{\mu C}\) und</li>
+<li>\(Q_3 = {Qeast}\,\mathrm{\mu C}\)</li>
+</ul>
+wird die <u>{strChargeSign}</u> geladene Probeladung \(q\) gesetzt.</p>
+
+<p> Verschieben Sie im Diagram den roten Punkt so, dass der Vektor die <strong>Coulomb-Kraft</strong> auf \( q \) angibt.</p>
+
+<p>Die Breite bzw. Höhe eines Gitterhäuschens entspricht der Stärke der Coulomb-Kraft auf \(q\), wenn nur \(Q_1\) zugegen wäre und eine Ladung von \( 1\,\mathrm{\mu C}\) hätte.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>3.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>Qwest = {-3,-2,-1,1,2,3};
+Qnorth = {-2,-1,1,2};
+Qeast = {-3,-2,-1,1,2,3};
+jSign = {0,1};</text>
+</varsrandom>
+<varsglobal><text><![CDATA[strChargeSigns = ["negativ", "positiv"];
+intChargeSigns = [-1, +1];
+
+strChargeSign = strChargeSigns[jSign];
+intChargeSign = intChargeSigns[jSign];
+
+FCx = intChargeSign * ( Qwest - Qeast);
+FCy = intChargeSign * ( -4 * Qnorth);]]></text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>3</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>2</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[FCx, FCy]</text>
+ </answer>
+ <vars2>
+  <text><![CDATA[S_uEX = _0;
+S_uEY = _1;
+
+crit_uEX = abs( S_uEX - FCx ) < 0.1;
+crit_uEY = abs( S_uEY - FCy ) < 0.1;
+
+crit_tot = ( crit_uEX + crit_uEY ) / 2;]]></text>
+ </vars2>
+ <correctness>
+  <text>crit_tot</text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="500" height="500" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+  
+  // JXG.Options.axis.ticks.majorHeight = 8;
+  JXG.Options.axis.ticks.minorHeight = 0;
+  JXG.Options.point.infoboxDigits = 0;
+  JXG.Options.point.showInfobox = false;
+  JXG.Options.point.snapSizeX = 1;
+  JXG.Options.point.snapSizeY = 1;
+  JXG.Options.point.snapToGrid = true;
+  JXG.Options.line.snapToGrid = true;
+  JXG.Options.arrow.lastArrow.size = 4;
+  JXG.Options.arrow.lineCap = 'round';
+
+  // Attributes for points and lines
+  function attrPfix(addAttr={}) {
+    const attr = {fixed: true, visible: false, withLabel: false};
+    return { ...attr, ...addAttr}; 
+  }
+ function attrPmov(addAttr={}) {
+    const attr = {fixed:question.isSolved, withLabel:false, size:2};
+    return { ...attr, ...addAttr};
+  }
+ function attrChargeBigQ(nameQ="Q") {
+    return {fixed:true, size:4, fillColor: '#34A853', strokeColor: '#34A853', withLabel:true, name:nameQ, 
+            label: {offset: [7, 26], anchorX: 'left', parse: false, fontSize: 12 } };
+  }
+ function attrChargeSmaQ(nameQ="q") {
+    return {fixed:true, size:4, fillColor: '#FBBC05', strokeColor: '#FBBC05', withLabel:true, name:nameQ, 
+            label: {offset: [7, 26], anchorX: 'left', parse: false, fontSize: 12 } };
+  }
+  const attrVecN = {fixed:question.isSolved, strokeColor:'#4285F4', strokeWidth:3};
+
+
+  // Import final coordinates after submission
+  var uEX, uEY;
+  [uEX, uEY] = question.getAllValues([0, 0]);
+  const uSX=0, uSY=0;
+  
+  
+  // Create boards
+  const brd0 = question.initBoard(BOARDID0, { 
+    boundingbox:[-8.5, 8.5, 8.5, -8.5], axis:true, keepaspectratio:true,
+    // defaultAxes: {
+    //   x: {withLabel: true, name: '$$x$$',
+    //       label: {position: 'rt', offset: [10, 26], anchorX: 'right', parse: false, fontSize: 12 } },
+    //   y: {withLabel:true, name: '$$y$$',
+    //       label: {position: 'rt', offset: [10, 15], parse: false, fontSize: 12 } } },
+    zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+    showCopyright:false, showNavigation:false 
+    });
+  console.log(brd0);
+   
+
+  // Define lines and points on brd0
+  brd0.create('point', [-4, 0], attrChargeBigQ('$$Q_1$$') );
+  brd0.create('point', [0, +2], attrChargeBigQ('$$Q_2$$') );
+  brd0.create('point', [+4, 0], attrChargeBigQ('$$Q_3$$') );
+	var pUS = brd0.create('point', [uSX, uSY], attrChargeSmaQ('$$q$$') );
+	var pUE = brd0.create('point', [uEX, uEY], attrPmov() );
+	// var u = brd0.create('arrow', [pUS, pUE], { ...attrVecN, ...{fixed:true}} );
+	var u = brd0.create('arrow', [pUS, pUE], attrVecN );
+
+
+  // Whenever the construction is altered the values of the points are sent to formulas.
+  question.bindInput(0, () => { return pUE.X(); });
+  question.bindInput(1, () => { return pUE.Y(); });
+  };
+  
+  // Execute the JavaScript code.
+  new JSXQuestion(BOARDID0, jsxCode, allowInputEntry=false);
+  
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+  </question>
+
+<!-- question: 36  -->
+  <question type="formulas">
+    <name>
+      <text>Vektor gemäss Ansatzpunkt und Komponenten zeichnen</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Verschieben Sie die roten Punkte so, dass der Vektor im Punkt \( \left( {uSX}; {uSY} \right) \) beginnt und die Komponenten \( \left( {uX}; {uY} \right) \) hat.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>2.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <correctfeedback format="markdown">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="markdown">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="markdown">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+<varsrandom><text>uSX = {-5,-4,-3,-2,-1,1,2,3,4,5};
+uSY = {-5,-4,-3,-2,-1,1,2,3,4,5};
+uEX = {-5,-4,-3,-2,-1,1,2,3,4,5};
+uEY = {-5,-4,-3,-2,-1,1,2,3,4,5};</text>
+</varsrandom>
+<varsglobal><text>uX = uEX - uSX;
+uY = uEY - uSY;</text>
+</varsglobal>
+<answernumbering><text>none</text>
+</answernumbering>
+<answers>
+ <partindex>
+  <text>0</text>
+ </partindex>
+ <placeholder>
+  <text></text>
+ </placeholder>
+ <answermark>
+  <text>2</text>
+ </answermark>
+ <answertype>
+  <text>0</text>
+ </answertype>
+ <numbox>
+  <text>4</text>
+ </numbox>
+ <vars1>
+  <text></text>
+ </vars1>
+ <answer>
+  <text>[uSX, uSY, uEX, uEY]</text>
+ </answer>
+ <vars2>
+  <text><![CDATA[S_uSX = _0;
+S_uSY = _1;
+S_uEX = _2;
+S_uEY = _3;
+
+S_uX = S_uEX - S_uSX;
+S_uY = S_uEY - S_uSY;
+
+crit_uSX = abs( S_uSX - uSX ) < 0.1;
+crit_uSY = abs( S_uSY - uSY ) < 0.1;
+crit_uX = abs( S_uX - uX ) < 0.1;
+crit_uY = abs( S_uY - uY ) < 0.1;
+
+crit_tot = ( crit_uSX + crit_uSY + 1.5*crit_uX + 1.5*crit_uY ) / 5;]]></text>
+ </vars2>
+ <correctness>
+  <text>crit_tot</text>
+ </correctness>
+ <unitpenalty>
+  <text>0.2</text>
+ </unitpenalty>
+ <postunit>
+  <text></text>
+ </postunit>
+ <ruleid>
+  <text>1</text>
+ </ruleid>
+ <otherrule>
+  <text></text>
+ </otherrule>
+ <subqtext format="html">
+<text><![CDATA[<jsxgraph width="400" height="400" ext_formulas>
+
+// JavaScript code to create the construction.
+var jsxCode = function (question) {
+  
+  JXG.Options.axis.ticks.majorHeight = 8;
+  JXG.Options.axis.ticks.minorHeight = 0;
+  JXG.Options.point.infoboxDigits = 0;
+  JXG.Options.point.showInfobox = false;
+  JXG.Options.point.snapSizeX = 1;
+  JXG.Options.point.snapSizeY = 1;
+  JXG.Options.point.snapToGrid = true;
+  JXG.Options.line.snapToGrid = true;
+  JXG.Options.arrow.lastArrow.size = 4;
+  JXG.Options.arrow.lineCap = 'round';
+
+  // Attributes for points and lines
+  function attrPmov(addAttr={}) {
+    const attr = {fixed:question.isSolved, withLabel:false, size:2};
+    return { ...attr, ...addAttr};
+  }
+  const attrVecN = {fixed:question.isSolved, strokeColor:'#4285F4', strokeWidth:3};
+  const attrVecC = {fixed:question.isSolved, strokeColor:'#34A853', strokeWidth:2, dash:2};
+  const attrVecS = {fixed:question.isSolved, strokeColor:'#EA4335',  strokeWidth:4, };
+  function attrVecFixed(addAttr={}) {
+    const attr = { ...attrVecN, ...{fixed:true, withLabel:true } };
+    return { ...attr, ...addAttr};
+  }
+  const attrGlid = {visible:false};
+
+
+  // Import final coordinates after submission
+  var uSX, uSY, uEX, uEY;
+  [uSX, uSY, uEX, uEY] = question.getAllValues([1, 1, 3, 3]);
+  
+  
+  // Create boards
+  const brd0 = question.initBoard(BOARDID0, { 
+    boundingbox:[-6, 6, 6, -6], axis:true, keepaspectratio:true,
+    defaultAxes: {
+      x: {withLabel: true, name: '$$x$$',
+          label: {position: 'rt', offset: [10, 26], anchorX: 'right', parse: false, fontSize: 12 } },
+      y: {withLabel:true, name: '$$y$$',
+          label: {position: 'rt', offset: [10, 15], parse: false, fontSize: 12 } } },
+    zoom: {enabled:false, wheel: false}, pan: {enabled:false, needTwoFingers: false},
+    showCopyright:false, showNavigation:false 
+    });
+
+    
+
+  // Define lines and points on brd0
+  brd0.suspendUpdate();
+
+	var pUS = brd0.create('point', [uSX, uSY], attrPmov() );
+	var pUEX = brd0.create('point', [uEX, uSY], attrPmov({name:'$$v_x$$', withLabel:true, 
+						   label: {position: 'rt', offset: [10, 26], parse: false, color:'#34A853', fontSize: 12, anchorX: 'right' }}) ),
+			pUEY = brd0.create('point', [uSX, uEY], attrPmov({name:'$$v_y$$', withLabel:true, 
+							 label: {position: 'rt', offset: [10, 15], parse: false, color:'#34A853', fontSize: 12 }}) );
+
+
+	// Create group such that pUEX and pUEY are translated with pUS
+	grp = brd0.create('group', [pUS, pUEX, pUEY]);
+	grp.removeTranslationPoint(pUEX);
+	grp.removeTranslationPoint(pUEY);
+
+	// Imitade glider by correcting the point's positions at each move/drag event
+	pUEX.on('drag', function() { this.moveTo([this.X(), pUS.Y()], 0); });
+	pUEY.on('drag', function() { this.moveTo([pUS.X(), this.Y()], 0); });
+
+
+	var u = brd0.create('arrow', [pUS, [function(){return pUEX.X();},function(){return pUEY.Y();}]], attrVecN );
+	brd0.create('arrow', [pUS, pUEX], attrVecC );
+	brd0.create('arrow', [pUS, pUEY], attrVecC );
+
+
+  brd0.unsuspendUpdate();
+
+
+  // Whenever the construction is altered the values of the points are sent to formulas.
+  question.bindInput(0, () => { return pUS.X(); });
+  question.bindInput(1, () => { return pUS.Y(); });
+  question.bindInput(2, () => { return pUEX.X(); });
+  question.bindInput(3, () => { return pUEY.Y(); });
+  };
+  
+  // Execute the JavaScript code.
+  new JSXQuestion(BOARDID0, jsxCode, allowInputEntry=false);
+  
+</jsxgraph>]]></text>
+ </subqtext>
+ <feedback format="markdown">
+<text></text>
+ </feedback>
+ <correctfeedback format="markdown">
+<text></text>
+ </correctfeedback>
+ <partiallycorrectfeedback format="markdown">
+<text></text>
+ </partiallycorrectfeedback>
+ <incorrectfeedback format="markdown">
+<text></text>
+ </incorrectfeedback>
+</answers>
+  </question>
+
+<!-- question: 21  -->
+  <question type="multichoice">
+    <name>
+      <text>multiple choice</text>
+    </name>
+    <questiontext format="html">
+      <text>Which point is the right one?</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <single>true</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Die Antwort ist richtig.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Die Antwort ist teilweise richtig.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Die Antwort ist falsch.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text><![CDATA[<jsxgraph height="300" width="300" box="box1">
+    (function() { var brd2 = JXG.JSXGraph.initBoard('box1', {boundingbox:[-5,5,5,-5], axis:true}); var p2 = brd2.create('point', [1,2]); })();
+</jsxgraph>]]></text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<jsxgraph height="200" width="300" box="box0">
+    (function() { var brd = JXG.JSXGraph.initBoard('box0', {boundingbox:[-5,5,5,-5], axis:true}); var p = brd.create('point', [2,2]); })();
+</jsxgraph>]]></text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+</quiz>
