@@ -305,35 +305,17 @@ class filter_jsxgraph extends moodle_text_filter {
 
         } else {
 
-            $PAGE->requires->js_init_call($CODE);
+            if ($this->VERSION_JSX["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
+
+                $PAGE->requires->js_init_call($CODE);
+
+            } else {
+
+                $PAGE->requires->js_init_call($CODE);
+
+            }
 
         }
-
-        /*
-        $t = $this->DOM->createElement('script', $CODE);
-        $a = $this->DOM->createAttribute('type');
-        $a->value = 'module';
-        $t->appendChild($a);
-        $this->DOM->appendChild($t);
-        */
-        /*
-        $PAGE->requires->js_init_call($CODE);
-        */
-        /*
-        $t = $this->DOM->createElement('script', '');
-        $a = $this->DOM->createAttribute('type');
-        $a->value = 'text/javascript';
-        $t->appendChild($a);
-        $a = $this->DOM->createAttribute('src');
-        $a->value = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
-        $t->appendChild($a);
-        $this->DOM->appendChild($t);
-        $t = $this->DOM->createElement('script', $CODE);
-        $a = $this->DOM->createAttribute('type');
-        $a->value = 'text/javascript';
-        $t->appendChild($a);
-        $this->DOM->appendChild($t);
-        */
     }
 
     private function get_code_surroundings() {
@@ -377,7 +359,18 @@ class filter_jsxgraph extends moodle_text_filter {
 
         } else {
 
-            if ($this->VERSION_JSX["version_number"] > $this->jxg_to_version_number("0.99.6")) { // version 0.99.6
+            if ($this->VERSION_JSX["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
+
+                $result["pre"] =
+                    "require(['" . $this->get_core_url() . "'], function (JXG) {\n" .
+                    "if ($condition) {\n" .
+                    $result["pre"];
+                $result["post"] =
+                    $result["post"] .
+                    "}\n " .
+                    "});\n";
+
+            } else if ($this->VERSION_JSX["version_number"] > $this->jxg_to_version_number("0.99.6")) { // version 0.99.6
 
                 $result["pre"] =
                     "require(['jsxgraphcore'], function (JXG) {\n" .
@@ -452,7 +445,15 @@ class filter_jsxgraph extends moodle_text_filter {
 
         } else {
 
-            $PAGE->requires->js($this->get_core_url());
+            if ($this->VERSION_JSX["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
+
+                // Nothing to do!
+
+            } else {
+
+                $PAGE->requires->js($this->get_core_url());
+
+            }
 
         }
     }
@@ -479,7 +480,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->VERSION_MOODLE = [
             "version" => get_config('moodle', 'version'),
             "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
-            "is_newer_version" => true // get_config('moodle', 'version') >= 2023042400,
+            "is_newer_version" => get_config('moodle', 'version') >= 2023042400,
         ];
 
         if (!$this->VERSION_MOODLE["is_supported"]) {
