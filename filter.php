@@ -499,7 +499,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         // resolve JSXGraph version
         $versions = json_decode(get_config('filter_jsxgraph', 'versions'), true);
-        if (!isset($jsxversion) || $jsxversion === 'auto') {
+        if (empty($jsxversion) || $jsxversion === 'auto') {
             $jsxversion = $versions[1]["id"];
         }
         foreach ($versions as $v) {
@@ -515,7 +515,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->VERSION_MOODLE = [
             "version" => get_config('moodle', 'version'),
             "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
-            "needs_unnamed_require" => get_config('moodle', 'version') >= 2022112804.03,
+            "needs_unnamed_require" => get_config('moodle', 'version') >= 2022041900,
         ];
 
         if (!$this->VERSION_MOODLE["is_supported"]) {
