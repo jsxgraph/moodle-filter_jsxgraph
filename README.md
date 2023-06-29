@@ -170,7 +170,7 @@ _***Use-cases:***_
         <tr>
             <td>4</td>
             <td>only <code>aspect-ratio</code></td>
-            <td>The `fallback width` from admin settings is used. Apart from that see case 2.</td>
+            <td>The <code>fallback width</code> from admin settings is used. Apart from that see case 2.</td>
         </tr>
         <tr>
             <td>5</td>
@@ -194,12 +194,8 @@ _***Notes:***_
 As moodle administrator, you can make the following settings:
 <table>
     <tr>
-        <th>JSXGraph from server</th>
-        <td>You can decide whether the used JSXGraph core is loaded from server or if the filter uses the locally provided one supplied with the plugin.</td>
-    </tr>
-    <tr>
-        <th>server version</th>
-        <td>Type the version number, which should be loaded, when <code>JSXGraph from server</code> is checked.</td>
+        <th>JSXGraph version</th>
+        <td>Our filter delivers all versions of JSXGraph. Here you can choose which version to use. If <code>auto</code> is selected (recommended), the latest version will be used automatically.</td>
     </tr>
     <tr>
         <th>extension for question type <a href="https://moodle.org/plugins/qtype_formulas" target="_blank">formulas</a></th>

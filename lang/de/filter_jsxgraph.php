@@ -43,14 +43,12 @@ $string['off'] = 'deaktiviert';
 $string['error'] = 'FEHLER:';
 $string['error0.99.5'] = 'Leider wird die Core-Version 0.99.5 aufgrund eines CDN-Fehlers vom JSXGraph-Filter nicht unterstützt. Bitte kontaktieren Sie Ihren Administrator.';
 $string['error0.99.6'] = 'Leider wird die Core-Version 0.99.6 vom JSXGraph-Filter nicht unterstützt. Bitte kontaktieren Sie Ihren Administrator.';
-$string['errorNotFound_pre'] = 'Es existiert keine JSXGraph-Version ';
-$string['errorNotFound_post'] = ' auf CDN. Der JSXGraph-Core konnte nicht geladen werden. Bitte kontaktieren Sie Ihren Administrator.';
 
 $string['header_docs'] = 'Allgemeine Informationen';
 $string['docs'] = 'Vielen Dank, dass sie den JSXGraph-Filter benutzen. Für aktuelle Informationen über JSXGraph besuchen Sie einfach unsere <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">Homepage</a>.<br>Beachten Sie unsere <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detaillierte Filter-Dokumentation auf GitHub</a>.<br>Informationen über die Verwendung von JSXGraph finden sie <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in den docs</a>.<br><br>Nehmen Sie auf dieser Seite <b>globale Einstellungen</b> für den Filter vor. Einige davon lassen sich in Tag-Attributen lokal überschreiben. Siehe hierzu die <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation.</a>';
 $string['header_versions'] = 'Versionsinformationen';
 $string['filterversion'] = 'Sie benutzen derzeit die folgende <b>Version des JSXGraph-Filters</b> für Moodle:';
-$string['deliveredversion'] = 'Mit diesem Filter wird die folgende <b>JSXGraph-Version</b> ausgeliefert:';
+$string['recommendedversion'] = 'Es wird empfohlen, die folgende <b>JSXGraph-Version</b> zu verwenden (oder "auto"):';
 
 $string['header_jsxversion'] = 'Version der verwendeten JSXGraph-Bibliothek';
 $string['header_libs'] = 'Erweiterungen für den JSXGraph-Filter';
@@ -59,11 +57,9 @@ $string['header_globaljs'] = 'Globales JavaScript';
 $string['header_dimensions'] = 'Standard-Dimensionen';
 $string['header_deprecated'] = 'Veraltete Einstellungen';
 
-$string['jsxfromserver'] = 'JSXGraph vom Server';
-$string['jsxfromserver_desc'] = 'Wählen Sie aus, ob für das Plugin die Server-Version des JSXGraph-Cores genutzt wird, oder die lokal vorliegende, die mit dem Plugin installiert wurde. <b>Achtung:</b> Es muss eine gültige Versionsnummer unter "<a href="#admin-serverversion">Serverversion</a>" eingetragen sein!';
-
-$string['serverversion'] = 'Serverversion';
-$string['serverversion_desc'] = 'Ist "<a href="#admin-jsxfromserver">JSXGraph vom Server</a>" gewählt, wird die hier eingetragene Version vom Server geladen. Unter <a href="http://jsxgraph.uni-bayreuth.de/wp/previousreleases/" target="_blank">http://jsxgraph.uni-bayreuth.de/wp/previousreleases/</a> finden Sie die Versionen, die von CDN geladen werden können. Geben Sie nur die Versionsnummer ein (<code>0.99.5</code> und <code>0.99.6</code> werden leider nicht unterstützt). Achtung: Für Responsivität wird mindestens Version 1.3.2 benötigt.';
+$string['versionJSXGraph'] = 'JSXGraph-Version';
+$string['versionJSXGraph_desc'] = 'Wähle hier, welche JSXGraph-Version genutz werden soll. Achtung: Für Responsivität wird mindestens Version 1.3.2+ benötigt.';
+$string['versionJSXGraph_auto'] = 'aktuellste mitgelieferte Version  (automatisch)';
 
 $string['formulasextension'] = 'Fragetyp formulas';
 $string['formulasextension_desc'] = 'Ist diese Option aktiviert, wird eine weitere JavaScript Bibliothek geladen, mit deren Hilfe ein JSXGraph-Board in einer Frage des Typs "formulas" verwendet werden kann. (Hierzu muss dieser Fragetyp installiert sein!)<br>Eine Dokumentation der Erweiterung findet sich im <a href="https://github.com/jsxgraph/moodleformulas_jsxgraph" target="_blank">zugehörigen Repository bei GitHub</a>.';

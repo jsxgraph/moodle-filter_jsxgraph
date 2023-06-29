@@ -128,10 +128,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $error = false;
 
         if (!empty($taglist)) {
-            $tmp = $this->load_jsxgraph(
-                $setting['jsxfromserver'],
-                $setting['serverversion']
-            );
+            $tmp = $this->load_jsxgraph($setting['versionJSXGraph']);
             if ($tmp[0] === 'error') {
                 $error = $tmp[1];
             } else {
@@ -564,78 +561,63 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Load JSXGraph code from local or from server
      *
-     * @param bool   $fromserver
-     * @param string $serverversion
+     * @param string $version
      *
      * @return string[]
      */
-    private function load_jsxgraph($fromserver, $serverversion = "") {
+    private function load_jsxgraph($jsxversion) {
         global $PAGE, $CFG;
+
+        // resolve JSXGraph version
+        $versions = json_decode(get_config('filter_jsxgraph', 'versions'));
+        if ($jsxversion === 'auto') {
+            $jsxversion = $versions[1]->id;
+        }
+        $file = '';
+        foreach ($versions as $v) {
+            if ($v->id === $jsxversion) {
+                $jsxversion = $v;
+                break;
+            }
+        }
+
+        // resolve Moodle version
+        $moodleversion = get_config('moodle', 'version');
+
+        // echo '<pre>' . print_r($jsxversion, true) . '</pre>';
+        // echo '<pre>' . print_r($moodleversion, true) . '</pre>';
 
         // defaults:
         $result = ['success', self::REQUIRE_WITH_PATH];
 
         $url = self::$jsxcore;
 
-        if ($this->convert_bool($fromserver)) {
-            // Handle several special cases.
-            switch ($serverversion) {
-                case '':
-                    break;
-                case '0.99.6': // Error with requirejs in version 0.99.6!
-                    $result[0] = 'error';
-                    $result[1] = get_string('error0.99.6', 'filter_jsxgraph');
+        // POI
 
-                    return $result;
-                case '0.99.5': // Cloudfare-error with version 0.99.5!
-                    $result[0] = 'error';
-                    $result[1] = get_string('error0.99.5', 'filter_jsxgraph');
-
-                    return $result;
-                default:
-                    $url = 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/' . $serverversion . '/jsxgraphcore.js';
-            }
-
-            // Check if the entered version exists on the server.
-            if ($tmp = fopen($url, 'r') === false) {
-                $result[0] = 'error';
-                $result[1] =
-                    get_string('errorNotFound_pre', 'filter_jsxgraph') .
-                    $serverversion .
-                    get_string('errorNotFound_post', 'filter_jsxgraph');
-
-                return $result;
-            } else {
-                if (isset($tmp)) {
-                    fclose($tmp);
-                }
-            }
-
-            // Decide how the code should be included.
-            // For versions after 0.99.6, it must be included with "require".
-            $tmp = $serverversion;
-            $version = [];
-            while ($pos = strpos($tmp, '.')) {
-                array_push($version, intval(substr($tmp, 0, $pos)));
-                $tmp = substr($tmp, $pos + 1);
-            }
-            array_push($version, $tmp);
-            if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
-                $result[1] = self::REQUIRE_WITHOUT;
-            } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
-                $result[1] = self::REQUIRE_WITH_PATH;
-            } else {
-                $result[1] = self::REQUIRE_WITH_KEY;
-            }
+        // Decide how the code should be included.
+        // For versions after 0.99.6, it must be included with "require".
+        $version = [];
+        while ($pos = strpos($tmp, '.')) {
+            array_push($version, intval(substr($tmp, 0, $pos)));
+            $tmp = substr($tmp, $pos + 1);
+        }
+        array_push($version, $tmp);
+        if ($version[0] <= 0 && $version[1] <= 99 && $version[2] <= 6) {
+            $result[1] = self::REQUIRE_WITHOUT;
+        } else if ($version[0] >= 1 && $version[1] >= 5 && $version[2] >= 0) {
+            $result[1] = self::REQUIRE_WITH_PATH;
+        } else {
+            $result[1] = self::REQUIRE_WITH_KEY;
         }
 
         // POI
 
-        $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
+        // $url = '/filter/jsxgraph/core/jsxgraphcore-1.4.6.js';
 
-       // $PAGE->requires->js(new moodle_url($url));
+        // $PAGE->requires->js(new moodle_url($url));
 
-        return $result;
+        // dev
+        return ['success', self::REQUIRE_WITH_PATH];
     }
 
     /**
@@ -666,15 +648,9 @@ class filter_jsxgraph extends moodle_text_filter {
     private function get_adminsettings() {
         global $PAGE, $CFG;
 
-        $recommended = get_config('filter_jsxgraph', 'recommendedJSX');
-        if (!$recommended) {
-            $recommended = '1.1.0';
-        }
-
         // Set defaults.
         $defaults = [
-            'jsxfromserver' => false,
-            'serverversion' => $recommended,
+            'versionJSXGraph' => 'auto',
             'formulasextension' => true,
             'HTMLentities' => true,
             'convertencoding' => true,
@@ -691,7 +667,6 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         $bools = [
-            'jsxfromserver',
             'formulasextension',
             'HTMLentities',
             'convertencoding',
