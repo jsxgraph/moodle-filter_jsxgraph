@@ -400,42 +400,6 @@ class filter_jsxgraph extends moodle_text_filter {
             }
 
         }
-        /*
-        $jsx_url = new moodle_url('/filter/jsxgraph/core/jsxgraphcore-1.4.6.js');
-        $result["pre"] =
-            "require(['" . $jsx_url . "'], function (JXG) { \nif ($condition) {" .
-            $result["pre"];
-        $result["post"] =
-            $result["post"] .
-            "}\n });\n";
-        */
-        /*
-        $jsx_url = new moodle_url('/filter/jsxgraph/amd/build/jsxgraphcore-v1.5.0-lazy.js');
-        $result["pre"] =
-            "import JXG from '$jsx_url';  \nif ($condition) { " .
-            $result["pre"];
-        $result["post"] =
-            $result["post"] .
-            "\n }\n";
-        */
-        /*
-        $result["pre"] =
-            "require(['jsxgraphcore'], function (JXG) { if ($condition) { \n" .
-            $result["pre"];
-        $result["post"] =
-            $result["post"] .
-            "}\n });\n";
-        */
-        /*
-        $result["pre"] =
-            "\nif ($condition) {" .
-            $result["pre"];
-        $result["post"] =
-            $result["post"] .
-            "};";
-        */
-
-        /////////////////
 
         $result["pre"] =
             "\n//< ![CDATA[\n" .
@@ -515,7 +479,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->VERSION_MOODLE = [
             "version" => get_config('moodle', 'version'),
             "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
-            "is_newer_version" => get_config('moodle', 'version') >= 2021051700,
+            "is_newer_version" => true // get_config('moodle', 'version') >= 2023042400,
         ];
 
         if (!$this->VERSION_MOODLE["is_supported"]) {

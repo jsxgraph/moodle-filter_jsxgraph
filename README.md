@@ -334,14 +334,6 @@ This plugin no longer needs to be explicitly build. To release a **new version o
 
 All bugs, feature requests, feedback, etc., are welcome.
 
-<!--
-## Travis support
-
-[![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph)
-
-https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph
--->
-
 ## License
 
 http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
