@@ -95,14 +95,12 @@ if ($ADMIN->fulltree) {
             if (!$recommended) {
                 return '';
             } else {
-                return get_string('recommendedversion', 'filter_jsxgraph') .
-                    '<div style="text-align: center;margin-top: -0.75rem;margin-bottom: 1rem;"><b><i>' .
+                return get_string('recommendedversion_pre', 'filter_jsxgraph') .
                     $recommended .
-                    '</i></b></div>';
+                    get_string('recommendedversion_post', 'filter_jsxgraph');
             }
         }
     }
-
 
     $settings->add(new admin_setting_heading('filter_jsxgraph/styles', '', $styles));
 
@@ -130,7 +128,7 @@ if ($ADMIN->fulltree) {
                        'filter_jsxgraph/versionJSXGraph',
                        get_string('versionJSXGraph', 'filter_jsxgraph'),
                        get_string('versionJSXGraph_desc', 'filter_jsxgraph'),
-                       'auto',
+                       "auto",
                        $versions
                    ));
 

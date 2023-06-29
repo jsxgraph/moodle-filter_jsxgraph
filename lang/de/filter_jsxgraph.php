@@ -48,7 +48,8 @@ $string['header_docs'] = 'Allgemeine Informationen';
 $string['docs'] = 'Vielen Dank, dass sie den JSXGraph-Filter benutzen. Für aktuelle Informationen über JSXGraph besuchen Sie einfach unsere <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">Homepage</a>.<br>Beachten Sie unsere <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detaillierte Filter-Dokumentation auf GitHub</a>.<br>Informationen über die Verwendung von JSXGraph finden sie <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in den docs</a>.<br><br>Nehmen Sie auf dieser Seite <b>globale Einstellungen</b> für den Filter vor. Einige davon lassen sich in Tag-Attributen lokal überschreiben. Siehe hierzu die <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation.</a>';
 $string['header_versions'] = 'Versionsinformationen';
 $string['filterversion'] = 'Sie benutzen derzeit die folgende <b>Version des JSXGraph-Filters</b> für Moodle:';
-$string['recommendedversion'] = 'Es wird empfohlen, die folgende <b>JSXGraph-Version</b> zu verwenden (oder "auto"):';
+$string['recommendedversion_pre'] = 'Es wird empfohlen, <b>JSXGraph ';
+$string['recommendedversion_post'] = '</b> zu verwenden (oder "auto").';
 
 $string['header_jsxversion'] = 'Version der verwendeten JSXGraph-Bibliothek';
 $string['header_libs'] = 'Erweiterungen für den JSXGraph-Filter';
