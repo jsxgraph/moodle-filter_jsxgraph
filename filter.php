@@ -164,6 +164,14 @@ class filter_jsxgraph extends moodle_text_filter {
         return $str;
     }
 
+    /**
+     * Create a new div node for a given JSXGraph node.
+     *
+     * @param $node domNode JSXGraph node
+     * @param $index Integer Index in taglist.
+     *
+     * @return domNode
+     */
     private function get_replaced_node($node, $index) {
         $attributes = $this->get_tagattributes($node);
 
