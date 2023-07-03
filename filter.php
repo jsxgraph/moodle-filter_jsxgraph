@@ -67,6 +67,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private const ENCODING = "UTF-8";
 
+    /**
+     * Parsed DOM node.
+     *
+     * @var domDocument
+     */
     private $document = null;
     private $taglist  = null;
     private $settings = null;
