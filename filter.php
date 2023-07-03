@@ -82,6 +82,11 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     private const BOARDIDS_CONST = "BOARDIDS";
 
+    /**
+     * HTML encoding.
+     *
+     * @var String
+     */
     private const ENCODING = "UTF-8";
 
     /**
