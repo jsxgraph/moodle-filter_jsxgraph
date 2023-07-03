@@ -240,7 +240,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $code .=
             "// Define BOARDID constants.\n" .
             "////////////////////////////\n\n";
-        for ($i = 0; $i < sizeof($this->ids); $i++) {
+        for ($i = 0; $i < count($this->ids); $i++) {
             $name = self::BOARDID_CONST . $i;
             $code .=
                 "const $name = '" . $this->ids[$i] . "';\n" .
@@ -325,7 +325,7 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         $condition = '';
-        for ($i = 0; $i < sizeof($this->ids); $i++) {
+        for ($i = 0; $i < count($this->ids); $i++) {
             $condition .= "document.getElementById('" . $this->ids[$i] . "') != null && ";
         }
         $condition = substr($condition, 0, -4);
