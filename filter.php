@@ -165,7 +165,7 @@ class filter_jsxgraph extends moodle_text_filter {
     }
 
     private function get_replaced_node($node, $index) {
-        $ATTRIBS = $this->get_tagattributes($node);
+        $attributes = $this->get_tagattributes($node);
 
         // Create div node.
         $new = $this->document->createElement('div');
@@ -173,10 +173,10 @@ class filter_jsxgraph extends moodle_text_filter {
         $a->value = 'jsxgraph-boards';
         $new->appendChild($a);
 
-        for ($i = 0; $i < $ATTRIBS['numberOfBoards']; $i++) {
+        for ($i = 0; $i < $attributes['numberOfBoards']; $i++) {
 
             // Create div id.
-            $divid = $this->string_or($ATTRIBS['boardid'][$i], $ATTRIBS['box'][$i]);
+            $divid = $this->string_or($attributes['boardid'][$i], $attributes['box'][$i]);
             if ($this->settings['usedivid']) {
                 $divid = $this->string_or($divid, $this->settings['divid'] . $index);
             } else {
@@ -186,18 +186,18 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Create new div element containing JSXGraph.
             $dimensions = [
-                "width" => $this->string_or($ATTRIBS['width'][$i], $this->settings['fixwidth']),
-                "height" => $this->string_or($ATTRIBS['height'][$i], $this->settings['fixheight']),
-                "aspect-ratio" => $this->string_or($ATTRIBS['aspect-ratio'][$i], $this->settings['aspectratio']),
-                "max-width" => $this->string_or($ATTRIBS['max-width'][$i], $this->settings['maxwidth']),
-                "max-height" => $this->string_or($ATTRIBS['max-height'][$i], $this->settings['maxheight']),
+                "width" => $this->string_or($attributes['width'][$i], $this->settings['fixwidth']),
+                "height" => $this->string_or($attributes['height'][$i], $this->settings['fixheight']),
+                "aspect-ratio" => $this->string_or($attributes['aspect-ratio'][$i], $this->settings['aspectratio']),
+                "max-width" => $this->string_or($attributes['max-width'][$i], $this->settings['maxwidth']),
+                "max-height" => $this->string_or($attributes['max-height'][$i], $this->settings['maxheight']),
             ];
             $div = $this->get_board_html(
                 $divid,
                 $dimensions,
-                $ATTRIBS['class'][$i],
-                $ATTRIBS['wrapper-class'][$i],
-                $ATTRIBS['force-wrapper'][$i],
+                $attributes['class'][$i],
+                $attributes['wrapper-class'][$i],
+                $attributes['force-wrapper'][$i],
                 $this->settings['fallbackaspectratio'],
                 $this->settings['fallbackwidth']
             );
@@ -210,7 +210,7 @@ class filter_jsxgraph extends moodle_text_filter {
             $new->appendChild($this->document->importNode($divdom->documentElement, true));
 
             // Load formulas extension.
-            if ($this->settings['formulasextension'] || $ATTRIBS['ext_formulas'][$i]) {
+            if ($this->settings['formulasextension'] || $attributes['ext_formulas'][$i]) {
                 $this->load_library('formulas');
             }
         }
@@ -220,13 +220,13 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private function apply_js($node) {
         global $PAGE;
-        $ATTRIBS = $this->get_tagattributes($node);
+        $attributes = $this->get_tagattributes($node);
         $CODE = "";
 
         // Load global JavaScript code from administrator settings.
         ///////////////////////////////////////////////////////////
 
-        if ($this->settings['globalJS'] !== '' && $ATTRIBS['useGlobalJS'][0]) {
+        if ($this->settings['globalJS'] !== '' && $attributes['useGlobalJS'][0]) {
             $CODE .=
                 "// Global JavaScript code from administrator settings.\n" .
                 "//////////////////////////////////////////////////////\n\n" .
@@ -256,8 +256,8 @@ class filter_jsxgraph extends moodle_text_filter {
             "/////////////////\n\n";
         $CODE .=
             "if(JXG.exists(JXG.Options.board)) {\n" .
-            "JXG.Options.board.title = '" . $ATTRIBS['title'][0] . "';\n" .
-            "JXG.Options.board.description = '" . $ATTRIBS['description'][0] . "';\n" .
+            "JXG.Options.board.title = '" . $attributes['title'][0] . "';\n" .
+            "JXG.Options.board.description = '" . $attributes['description'][0] . "';\n" .
             "}\n";
 
         // Load code from <jsxgraph>-node.
@@ -283,7 +283,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Convert HTML-entities in code.
         /////////////////////////////////
 
-        if ($this->settings['HTMLentities'] && $ATTRIBS['entities']) {
+        if ($this->settings['HTMLentities'] && $attributes['entities']) {
             $CODE = html_entity_decode($CODE);
         }
 
