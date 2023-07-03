@@ -224,7 +224,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $code = "";
 
         // Load global JavaScript code from administrator settings.
-        ///////////////////////////////////////////////////////////
+        // --------------------------------------------------------
 
         if ($this->settings['globalJS'] !== '' && $attributes['useGlobalJS'][0]) {
             $code .=
@@ -235,7 +235,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // Define BOARDID constants and some accessibility.
-        ///////////////////////////////////////////////////
+        // ------------------------------------------------
 
         $code .=
             "// Define BOARDID constants.\n" .
@@ -261,7 +261,7 @@ class filter_jsxgraph extends moodle_text_filter {
             "}\n";
 
         // Load code from <jsxgraph>-node.
-        //////////////////////////////////
+        // -------------------------------
 
         $usercode = $this->document->saveHTML($node);
         // Remove <jsxgraph> tags.
@@ -275,20 +275,20 @@ class filter_jsxgraph extends moodle_text_filter {
         $code .= $usercode;
 
         // Surround the code with version-specific strings.
-        ///////////////////////////////////////////////////
+        // ------------------------------------------------
 
         $surroundings = $this->get_code_surroundings();
         $code = $surroundings["pre"] . "\n\n" . $code . $surroundings["post"];
 
         // Convert HTML-entities in code.
-        /////////////////////////////////
+        // ------------------------------
 
         if ($this->settings['HTMLentities'] && $attributes['entities']) {
             $code = html_entity_decode($code);
         }
 
         // Paste the code
-        /////////////////
+        // --------------
 
         // POI
         if ($this->versionmoodle["is_newer_version"]) {
