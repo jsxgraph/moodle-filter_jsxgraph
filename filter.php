@@ -60,6 +60,11 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     public const PATH_FOR_LIBS = '/filter/jsxgraph/libs/';
 
+    /**
+     * Const for tag name (<jsxgraph></jsxgraph>).
+     *
+     * @var String
+     */
     private const TAG = "jsxgraph";
 
     private const BOARDID_CONST  = "BOARDID";
@@ -79,7 +84,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var domNode[]
      */
-    private $taglist  = null;
+    private $taglist = null;
 
     /**
      * Global admin settings.
@@ -93,7 +98,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var String[]
      */
-    private $ids      = [];
+    private $ids = [];
 
     /**
      * Used version of JSXGraph.
