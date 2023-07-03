@@ -87,6 +87,12 @@ class filter_jsxgraph extends moodle_text_filter {
      * @var Object
      */
     private $settings = null;
+
+    /**
+     * List of used unique board ids. Length >= length of $taglist.
+     *
+     * @var String[]
+     */
     private $ids      = [];
 
     /**
