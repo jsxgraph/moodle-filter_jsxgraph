@@ -70,12 +70,12 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private const ENCODING = "UTF-8";
 
-    private $document            = null;
-    private $taglist        = null;
-    private $settings       = null;
-    private $ids            = [];
+    private $document      = null;
+    private $taglist       = null;
+    private $settings      = null;
+    private $ids           = [];
     private $versionjsx    = null;
-    private $VERSION_MOODLE = null;
+    private $versionmoodle = null;
 
     /**
      * Main filter function
@@ -96,7 +96,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         $this->settings = $this->get_adminsettings();
         $this->set_versions($this->settings['versionJSXGraph']);
-        if (!isset($this->versionjsx) || !isset($this->VERSION_MOODLE)) {
+        if (!isset($this->versionjsx) || !isset($this->versionmoodle)) {
             return $text;
         }
 
@@ -291,7 +291,7 @@ class filter_jsxgraph extends moodle_text_filter {
         /////////////////
 
         // POI
-        if ($this->VERSION_MOODLE["is_newer_version"]) {
+        if ($this->versionmoodle["is_newer_version"]) {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
@@ -333,7 +333,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Build from the inside out.
 
         // POI
-        if ($this->VERSION_MOODLE["is_newer_version"]) {
+        if ($this->versionmoodle["is_newer_version"]) {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
@@ -424,7 +424,7 @@ class filter_jsxgraph extends moodle_text_filter {
         global $PAGE;
 
         // POI
-        if ($this->VERSION_MOODLE["is_newer_version"]) {
+        if ($this->versionmoodle["is_newer_version"]) {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
@@ -460,7 +460,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private function set_versions($jsxversion) {
         $this->versionjsx = null;
-        $this->VERSION_MOODLE = null;
+        $this->versionmoodle = null;
 
         // resolve JSXGraph version
         $versions = json_decode(get_config('filter_jsxgraph', 'versions'), true);
@@ -477,20 +477,20 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->versionjsx["version_number"] = $this->jxg_to_version_number($this->versionjsx["version"]);
 
         // resolve Moodle version
-        $this->VERSION_MOODLE = [
+        $this->versionmoodle = [
             "version" => get_config('moodle', 'version'),
             "is_supported" => get_config('moodle', 'version') >= get_config('filter_jsxgraph', 'requires'),
             "is_newer_version" => get_config('moodle', 'version') >= 2023042400,
         ];
 
-        if (!$this->VERSION_MOODLE["is_supported"]) {
-            $this->VERSION_MOODLE = null;
+        if (!$this->versionmoodle["is_supported"]) {
+            $this->versionmoodle = null;
 
             return;
         }
 
         // echo '<pre>' . print_r($this->versionjsx, true) . '</pre>';
-        // echo '<pre>' . print_r($this->VERSION_MOODLE, true) . '</pre>';
+        // echo '<pre>' . print_r($this->versionmoodle, true) . '</pre>';
     }
 
     /**
@@ -715,7 +715,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $url = self::PATH_FOR_LIBS . $libs[$libname];
 
         // POI
-        if ($this->VERSION_MOODLE["is_newer_version"]) {
+        if ($this->versionmoodle["is_newer_version"]) {
 
             $t = $this->document->createElement('script', '');
             $a = $this->document->createAttribute('type');
