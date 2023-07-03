@@ -52,16 +52,13 @@ class filter_jsxgraph extends moodle_text_filter {
      * @var String
      */
     public const PATH_FOR_CORES = '/filter/jsxgraph/amd/build/';
+
     /**
      * Path to library folders
      *
      * @var String
      */
     public const PATH_FOR_LIBS = '/filter/jsxgraph/libs/';
-
-    private const REQUIRE_WITHOUT   = 0;
-    private const REQUIRE_WITH_KEY  = 1;
-    private const REQUIRE_WITH_PATH = 2;
 
     private const TAG = "jsxgraph";
 
@@ -70,11 +67,23 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private const ENCODING = "UTF-8";
 
-    private $document      = null;
-    private $taglist       = null;
-    private $settings      = null;
-    private $ids           = [];
-    private $versionjsx    = null;
+    private $document = null;
+    private $taglist  = null;
+    private $settings = null;
+    private $ids      = [];
+
+    /**
+     * Used version of JSXGraph.
+     *
+     * @var null|Object
+     */
+    private $versionjsx = null;
+
+    /**
+     * Used version of Moodle.
+     *
+     * @var null|Object
+     */
     private $versionmoodle = null;
 
     /**
@@ -95,7 +104,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // -------------------------------
 
         $this->settings = $this->get_adminsettings();
-        $this->set_versions($this->settings['versionJSXGraph']);
+        $this->set_versions();
         if (!isset($this->versionjsx) || !isset($this->versionmoodle)) {
             return $text;
         }
@@ -485,23 +494,35 @@ class filter_jsxgraph extends moodle_text_filter {
         }
     }
 
-    private function set_versions($jsxversion) {
+    /**
+     * Sets $this->versionjsx and $this->versionmoodle objects.
+     * Needs $this->settings to be set!
+     *
+     * @return void
+     *
+     * @see $versionjsx
+     * @see $versionmoodle
+     */
+    private function set_versions() {
         $this->versionjsx = null;
         $this->versionmoodle = null;
 
         // Resolve JSXGraph version.
-        $versions = json_decode(get_config('filter_jsxgraph', 'versions'), true);
-        if (empty($jsxversion) || $jsxversion === 'auto') {
-            $jsxversion = $versions[1]["id"];
-        }
-        foreach ($versions as $v) {
-            if ($v["id"] === $jsxversion) {
-                $this->versionjsx = $v;
-                break;
+        if (!empty($this->settings)) {
+            $jsxversion = $this->settings['versionJSXGraph'];
+            $versions = json_decode(get_config('filter_jsxgraph', 'versions'), true);
+            if (empty($jsxversion) || $jsxversion === 'auto') {
+                $jsxversion = $versions[1]["id"];
             }
+            foreach ($versions as $v) {
+                if ($v["id"] === $jsxversion) {
+                    $this->versionjsx = $v;
+                    break;
+                }
+            }
+            $this->versionjsx["version"] = $this->versionjsx["id"];
+            $this->versionjsx["version_number"] = $this->jxg_to_version_number($this->versionjsx["version"]);
         }
-        $this->versionjsx["version"] = $this->versionjsx["id"];
-        $this->versionjsx["version_number"] = $this->jxg_to_version_number($this->versionjsx["version"]);
 
         // Resolve Moodle version.
         $this->versionmoodle = [
@@ -512,8 +533,6 @@ class filter_jsxgraph extends moodle_text_filter {
 
         if (!$this->versionmoodle["is_supported"]) {
             $this->versionmoodle = null;
-
-            return;
         }
     }
 
