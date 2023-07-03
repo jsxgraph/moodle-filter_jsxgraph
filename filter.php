@@ -72,7 +72,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private $document            = null;
     private $taglist        = null;
-    private $SETTINGS       = null;
+    private $settings       = null;
     private $IDS            = [];
     private $VERSION_JSX    = null;
     private $VERSION_MOODLE = null;
@@ -94,8 +94,8 @@ class filter_jsxgraph extends moodle_text_filter {
         // 0. STEP: Do some initial stuff.
         //////////////////////////////////
 
-        $this->SETTINGS = $this->get_adminsettings();
-        $this->set_versions($this->SETTINGS['versionJSXGraph']);
+        $this->settings = $this->get_adminsettings();
+        $this->set_versions($this->settings['versionJSXGraph']);
         if (!isset($this->VERSION_JSX) || !isset($this->VERSION_MOODLE)) {
             return $text;
         }
@@ -109,7 +109,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         // Load the html into the object.
         libxml_use_internal_errors(true);
-        if ($this->SETTINGS["convertencoding"]) {
+        if ($this->settings["convertencoding"]) {
             $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
         } else {
             $this->document->loadHTML($text);
@@ -159,7 +159,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Cleanup.
         $this->taglist = null;
         $this->document = null;
-        $this->SETTINGS = null;
+        $this->settings = null;
 
         return $str;
     }
@@ -177,8 +177,8 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Create div id.
             $divid = $this->string_or($ATTRIBS['boardid'][$i], $ATTRIBS['box'][$i]);
-            if ($this->SETTINGS['usedivid']) {
-                $divid = $this->string_or($divid, $this->SETTINGS['divid'] . $index);
+            if ($this->settings['usedivid']) {
+                $divid = $this->string_or($divid, $this->settings['divid'] . $index);
             } else {
                 $divid = $this->string_or($divid, 'JSXGraph_' . strtoupper(uniqid()));
             }
@@ -186,11 +186,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
             // Create new div element containing JSXGraph.
             $dimensions = [
-                "width" => $this->string_or($ATTRIBS['width'][$i], $this->SETTINGS['fixwidth']),
-                "height" => $this->string_or($ATTRIBS['height'][$i], $this->SETTINGS['fixheight']),
-                "aspect-ratio" => $this->string_or($ATTRIBS['aspect-ratio'][$i], $this->SETTINGS['aspectratio']),
-                "max-width" => $this->string_or($ATTRIBS['max-width'][$i], $this->SETTINGS['maxwidth']),
-                "max-height" => $this->string_or($ATTRIBS['max-height'][$i], $this->SETTINGS['maxheight']),
+                "width" => $this->string_or($ATTRIBS['width'][$i], $this->settings['fixwidth']),
+                "height" => $this->string_or($ATTRIBS['height'][$i], $this->settings['fixheight']),
+                "aspect-ratio" => $this->string_or($ATTRIBS['aspect-ratio'][$i], $this->settings['aspectratio']),
+                "max-width" => $this->string_or($ATTRIBS['max-width'][$i], $this->settings['maxwidth']),
+                "max-height" => $this->string_or($ATTRIBS['max-height'][$i], $this->settings['maxheight']),
             ];
             $div = $this->get_board_html(
                 $divid,
@@ -198,8 +198,8 @@ class filter_jsxgraph extends moodle_text_filter {
                 $ATTRIBS['class'][$i],
                 $ATTRIBS['wrapper-class'][$i],
                 $ATTRIBS['force-wrapper'][$i],
-                $this->SETTINGS['fallbackaspectratio'],
-                $this->SETTINGS['fallbackwidth']
+                $this->settings['fallbackaspectratio'],
+                $this->settings['fallbackwidth']
             );
 
             $divdom = new documentDocument;
@@ -210,7 +210,7 @@ class filter_jsxgraph extends moodle_text_filter {
             $new->appendChild($this->document->importNode($divdom->documentElement, true));
 
             // Load formulas extension.
-            if ($this->SETTINGS['formulasextension'] || $ATTRIBS['ext_formulas'][$i]) {
+            if ($this->settings['formulasextension'] || $ATTRIBS['ext_formulas'][$i]) {
                 $this->load_library('formulas');
             }
         }
@@ -226,11 +226,11 @@ class filter_jsxgraph extends moodle_text_filter {
         // Load global JavaScript code from administrator settings.
         ///////////////////////////////////////////////////////////
 
-        if ($this->SETTINGS['globalJS'] !== '' && $ATTRIBS['useGlobalJS'][0]) {
+        if ($this->settings['globalJS'] !== '' && $ATTRIBS['useGlobalJS'][0]) {
             $CODE .=
                 "// Global JavaScript code from administrator settings.\n" .
                 "//////////////////////////////////////////////////////\n\n" .
-                $this->SETTINGS['globalJS'] .
+                $this->settings['globalJS'] .
                 "\n\n";
         }
 
@@ -283,7 +283,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Convert HTML-entities in code.
         /////////////////////////////////
 
-        if ($this->SETTINGS['HTMLentities'] && $ATTRIBS['entities']) {
+        if ($this->settings['HTMLentities'] && $ATTRIBS['entities']) {
             $CODE = html_entity_decode($CODE);
         }
 
