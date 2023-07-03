@@ -70,7 +70,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
     private const ENCODING = "UTF-8";
 
-    private $DOM            = null;
+    private $document            = null;
     private $TAGLIST        = null;
     private $SETTINGS       = null;
     private $IDS            = [];
@@ -104,27 +104,27 @@ class filter_jsxgraph extends moodle_text_filter {
         ////////////////////////////////////////////////
 
         // Create a new dom object.
-        $this->DOM = new domDocument('1.0', self::ENCODING);
-        $this->DOM->formatOutput = true;
+        $this->document = new domDocument('1.0', self::ENCODING);
+        $this->document->formatOutput = true;
 
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->SETTINGS["convertencoding"]) {
-            $this->DOM->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
+            $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
         } else {
-            $this->DOM->loadHTML($text);
+            $this->document->loadHTML($text);
         }
         libxml_use_internal_errors(false);
 
         // Discard white space.
-        $this->DOM->preserveWhiteSpace = false;
-        $this->DOM->strictErrorChecking = false;
-        $this->DOM->recover = true;
+        $this->document->preserveWhiteSpace = false;
+        $this->document->strictErrorChecking = false;
+        $this->document->recover = true;
 
         // 2. STEP: Get tag elements.
         /////////////////////////////
 
-        $this->TAGLIST = $this->DOM->getElementsByTagname(self::TAG);
+        $this->TAGLIST = $this->document->getElementsByTagname(self::TAG);
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the jsxgraph tags.
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +138,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 $new = $this->get_replaced_node($node, $i);
 
                 // Replace <jsxgraph>-node.
-                $node->parentNode->replaceChild($this->DOM->appendChild($new), $node);
+                $node->parentNode->replaceChild($this->document->appendChild($new), $node);
 
                 $this->apply_js($node);
             }
@@ -148,9 +148,9 @@ class filter_jsxgraph extends moodle_text_filter {
         ///////////////////////////////////////////
 
         // Remove DOCTYPE.
-        $this->DOM->removeChild($this->DOM->firstChild);
+        $this->document->removeChild($this->document->firstChild);
         // Remove <html><body></body></html>.
-        $str = $this->DOM->saveHTML();
+        $str = $this->document->saveHTML();
         $str = str_replace("<body>", "", $str);
         $str = str_replace("</body>", "", $str);
         $str = str_replace("<html>", "", $str);
@@ -158,7 +158,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         // Cleanup.
         $this->TAGLIST = null;
-        $this->DOM = null;
+        $this->document = null;
         $this->SETTINGS = null;
 
         return $str;
@@ -168,8 +168,8 @@ class filter_jsxgraph extends moodle_text_filter {
         $ATTRIBS = $this->get_tagattributes($node);
 
         // Create div node.
-        $new = $this->DOM->createElement('div');
-        $a = $this->DOM->createAttribute('class');
+        $new = $this->document->createElement('div');
+        $a = $this->document->createAttribute('class');
         $a->value = 'jsxgraph-boards';
         $new->appendChild($a);
 
@@ -202,12 +202,12 @@ class filter_jsxgraph extends moodle_text_filter {
                 $this->SETTINGS['fallbackwidth']
             );
 
-            $divdom = new DOMDocument;
+            $divdom = new documentDocument;
             libxml_use_internal_errors(true);
             $divdom->loadHTML($div);
             libxml_use_internal_errors(false);
 
-            $new->appendChild($this->DOM->importNode($divdom->documentElement, true));
+            $new->appendChild($this->document->importNode($divdom->documentElement, true));
 
             // Load formulas extension.
             if ($this->SETTINGS['formulasextension'] || $ATTRIBS['ext_formulas'][$i]) {
@@ -263,7 +263,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // Load code from <jsxgraph>-node.
         //////////////////////////////////
 
-        $usercode = $this->DOM->saveHTML($node);
+        $usercode = $this->document->saveHTML($node);
         // Remove <jsxgraph> tags.
         $usercode = preg_replace("(</?" . self::TAG . "[^>]*\>)i", "", $usercode);
         // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
@@ -432,14 +432,14 @@ class filter_jsxgraph extends moodle_text_filter {
 
             } else {
 
-                $t = $this->DOM->createElement('script', '');
-                $a = $this->DOM->createAttribute('type');
+                $t = $this->document->createElement('script', '');
+                $a = $this->document->createAttribute('type');
                 $a->value = 'text/javascript';
                 $t->appendChild($a);
-                $a = $this->DOM->createAttribute('src');
+                $a = $this->document->createAttribute('src');
                 $a->value = $this->get_core_url();
                 $t->appendChild($a);
-                $this->DOM->appendChild($t);
+                $this->document->appendChild($t);
 
             }
 
@@ -717,14 +717,14 @@ class filter_jsxgraph extends moodle_text_filter {
         // POI
         if ($this->VERSION_MOODLE["is_newer_version"]) {
 
-            $t = $this->DOM->createElement('script', '');
-            $a = $this->DOM->createAttribute('type');
+            $t = $this->document->createElement('script', '');
+            $a = $this->document->createAttribute('type');
             $a->value = 'text/javascript';
             $t->appendChild($a);
-            $a = $this->DOM->createAttribute('src');
+            $a = $this->document->createAttribute('src');
             $a->value = new moodle_url($url);
             $t->appendChild($a);
-            $this->DOM->appendChild($t);
+            $this->document->appendChild($t);
 
         } else {
 
