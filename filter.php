@@ -67,6 +67,12 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     private const TAG = "jsxgraph";
 
+    /**
+     * Name for JavaScript constant for board ids.
+     * This is supplemented by a counter (BOARDID0, BOARDID1, ...).
+     *
+     * @var String
+     */
     private const BOARDID_CONST  = "BOARDID";
     private const BOARDIDS_CONST = "BOARDIDS";
 
