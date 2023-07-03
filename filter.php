@@ -49,13 +49,13 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Path to jsxgraphcores
      *
-     * @var string
+     * @var String
      */
     public const PATH_FOR_CORES = '/filter/jsxgraph/amd/build/';
     /**
      * Path to library folders
      *
-     * @var string
+     * @var String
      */
     public const PATH_FOR_LIBS = '/filter/jsxgraph/libs/';
 
@@ -80,10 +80,10 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Main filter function
      *
-     * @param string $text
-     * @param array  $options
+     * @param String $text
+     * @param Array  $options
      *
-     * @return string
+     * @return String
      */
     public function filter($text, array $options = array()) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
@@ -167,10 +167,10 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Create a new div node for a given JSXGraph node.
      *
-     * @param $node DOMNode JSXGraph node
-     * @param $index Integer Index in taglist.
+     * @param domNode $node JSXGraph node
+     * @param Integer $index Index in taglist.
      *
-     * @return DOMNode
+     * @return domNode
      */
     private function get_replaced_node($node, $index) {
         $attributes = $this->get_tagattributes($node);
@@ -229,7 +229,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Combine global code and code contained in $node. Define some JavaScript constants. Apply this code to the dom.
      *
-     * @param $node DOMNode
+     * @param $node domNode
      *
      * @return void
      */
@@ -333,6 +333,11 @@ class filter_jsxgraph extends moodle_text_filter {
         }
     }
 
+    /**
+     * Helper Function for apply_js(...). Returns the pre and post part of JavaScript code.
+     *
+     * @return String[]
+     */
     private function get_code_surroundings() {
         $result = [
             'pre' => '',
@@ -547,8 +552,8 @@ class filter_jsxgraph extends moodle_text_filter {
      *  (c) If only width is given, the height will be 0 like in css. You have to define an aspect-ratio or height to display the
      *      board!
      *
-     * @param string  $id
-     * @param object  $dimensions with possible attributes
+     * @param String  $id
+     * @param Object  $dimensions with possible attributes
      *                                      aspect-ratio  (the ratio of width / height)
      *                                      width         (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      height        (px, rem, vh, ...; if only a number is given, its interpreted as px)
@@ -556,15 +561,15 @@ class filter_jsxgraph extends moodle_text_filter {
      *                                      min-width     (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      max-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
      *                                      min-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
-     * @param string  $classes Additional css classes for the board.
-     * @param string  $wrapperclasses Additional css classes for the boards container.
+     * @param String  $classes Additional css classes for the board.
+     * @param String  $wrapperclasses Additional css classes for the boards container.
      *                                      (If it is needed. In the other case this is merged with $classes.)
-     * @param boolean $forcewrapper Default: false.
-     * @param string  $defaultaspectratio Default: "1 / 1".
-     * @param string  $defaultwidth Default: "100%".
-     * @param boolean $perventjsdimreg Default: false.
+     * @param Boolean $forcewrapper Default: false.
+     * @param String  $defaultaspectratio Default: "1 / 1".
+     * @param String  $defaultwidth Default: "100%".
+     * @param Boolean $perventjsdimreg Default: false.
      *
-     * @return string                       The <div> for the board.
+     * @return String                       The <div> for the board.
      */
     private function get_board_html(
         $id, $dimensions = [], $classes = "", $wrapperclasses = "", $forcewrapper = false,
@@ -591,9 +596,9 @@ class filter_jsxgraph extends moodle_text_filter {
              * Returns a css value or $default,
              *
              * @param mixed  $var Some variable
-             * @param string $default Default value
+             * @param String $default Default value
              *
-             * @return string
+             * @return String
              */
             function css_norm($var, $default = '') {
                 if (substr('' . $var, 0, 1) === '0') {
@@ -713,7 +718,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Load additional library
      *
-     * @param string $libname
+     * @param String $libname
      *
      */
     private function load_library($libname) {
@@ -750,9 +755,9 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Determine the attributes
      *
-     * @param HTMLnode $node
+     * @param domNode $node
      *
-     * @return string[]
+     * @return String[]
      */
     private function get_tagattributes($node) {
         $numberofboardsattr = 'numberOfBoards';
@@ -826,7 +831,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Get settings made by administrator
      *
-     * @return array settings from administration
+     * @return Array settings from administration
      */
     private function get_adminsettings() {
         // Set defaults.
@@ -886,10 +891,10 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Gives the value of $attribute in $node as bool. If the attribute does not exist, $stdval is returned.
      *
-     * @param HTMLNode    $node
-     * @param string      $attribute
-     * @param string      $givenval
-     * @param bool|string $stdval
+     * @param domNode     $node
+     * @param String      $attribute
+     * @param String      $givenval
+     * @param bool|String $stdval
      *
      * @return bool
      */
@@ -908,7 +913,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Convert string to bool
      *
-     * @param string $string
+     * @param String $string
      * @param bool   $default
      *
      * @return bool
@@ -926,10 +931,10 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Decide between two strings
      *
-     * @param string $choice1
-     * @param string $choice2
+     * @param String $choice1
+     * @param String $choice2
      *
-     * @return string
+     * @return String
      */
     private function string_or($choice1, $choice2) {
         if (!empty($choice1)) {
