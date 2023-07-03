@@ -167,10 +167,10 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Create a new div node for a given JSXGraph node.
      *
-     * @param $node domNode JSXGraph node
+     * @param $node DOMNode JSXGraph node
      * @param $index Integer Index in taglist.
      *
-     * @return domNode
+     * @return DOMNode
      */
     private function get_replaced_node($node, $index) {
         $attributes = $this->get_tagattributes($node);
@@ -226,6 +226,13 @@ class filter_jsxgraph extends moodle_text_filter {
         return $new;
     }
 
+    /**
+     * Combine global code and code contained in $node. Define some JavaScript constants. Apply this code to the dom.
+     *
+     * @param $node DOMNode
+     *
+     * @return void
+     */
     private function apply_js($node) {
         global $PAGE;
         $attributes = $this->get_tagattributes($node);
