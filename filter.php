@@ -73,7 +73,7 @@ class filter_jsxgraph extends moodle_text_filter {
     private $document            = null;
     private $taglist        = null;
     private $settings       = null;
-    private $IDS            = [];
+    private $ids            = [];
     private $VERSION_JSX    = null;
     private $VERSION_MOODLE = null;
 
@@ -134,7 +134,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
             for ($i = $this->taglist->length - 1; $i > -1; $i--) {
                 $node = $this->taglist->item($i);
-                $this->IDS = [];
+                $this->ids = [];
                 $new = $this->get_replaced_node($node, $i);
 
                 // Replace <jsxgraph>-node.
@@ -182,7 +182,7 @@ class filter_jsxgraph extends moodle_text_filter {
             } else {
                 $divid = $this->string_or($divid, 'JSXGraph_' . strtoupper(uniqid()));
             }
-            $this->IDS[$i] = $divid;
+            $this->ids[$i] = $divid;
 
             // Create new div element containing JSXGraph.
             $dimensions = [
@@ -240,15 +240,15 @@ class filter_jsxgraph extends moodle_text_filter {
         $CODE .=
             "// Define BOARDID constants.\n" .
             "////////////////////////////\n\n";
-        for ($i = 0; $i < sizeof($this->IDS); $i++) {
+        for ($i = 0; $i < sizeof($this->ids); $i++) {
             $name = self::BOARDID_CONST . $i;
             $CODE .=
-                "const $name = '" . $this->IDS[$i] . "';\n" .
+                "const $name = '" . $this->ids[$i] . "';\n" .
                 "console.log('$name = `'+$name+'` has been prepared.');\n";
         }
         $CODE .=
             "const " . self::BOARDID_CONST . " = " . self::BOARDID_CONST . "0" . ";\n" .
-            "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->IDS) . "'];\n" .
+            "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
             "\n";
 
         $CODE .=
@@ -325,8 +325,8 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         $condition = '';
-        for ($i = 0; $i < sizeof($this->IDS); $i++) {
-            $condition .= "document.getElementById('" . $this->IDS[$i] . "') != null && ";
+        for ($i = 0; $i < sizeof($this->ids); $i++) {
+            $condition .= "document.getElementById('" . $this->ids[$i] . "') != null && ";
         }
         $condition = substr($condition, 0, -4);
 
@@ -403,11 +403,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
         $result["pre"] =
             "\n\n// ###################################################" .
-            "\n// JavaScript code for JSXGraph board '" . $this->IDS[0] . "' and other\n" .
+            "\n// JavaScript code for JSXGraph board '" . $this->ids[0] . "' and other\n" .
             $result["pre"];
         $result["post"] =
             $result["post"] .
-            "\n// End code for JSXGraph board '" . $this->IDS[0] . "' and other " .
+            "\n// End code for JSXGraph board '" . $this->ids[0] . "' and other " .
             "\n// ###################################################\n\n";
 
         return $result;
