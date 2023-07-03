@@ -71,7 +71,7 @@ class filter_jsxgraph extends moodle_text_filter {
     private const ENCODING = "UTF-8";
 
     private $document            = null;
-    private $TAGLIST        = null;
+    private $taglist        = null;
     private $SETTINGS       = null;
     private $IDS            = [];
     private $VERSION_JSX    = null;
@@ -124,16 +124,16 @@ class filter_jsxgraph extends moodle_text_filter {
         // 2. STEP: Get tag elements.
         /////////////////////////////
 
-        $this->TAGLIST = $this->document->getElementsByTagname(self::TAG);
+        $this->taglist = $this->document->getElementsByTagname(self::TAG);
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the jsxgraph tags.
         ////////////////////////////////////////////////////////////////////////////////////////
 
-        if (!empty($this->TAGLIST)) {
+        if (!empty($this->taglist)) {
             $this->load_jsxgraph();
 
-            for ($i = $this->TAGLIST->length - 1; $i > -1; $i--) {
-                $node = $this->TAGLIST->item($i);
+            for ($i = $this->taglist->length - 1; $i > -1; $i--) {
+                $node = $this->taglist->item($i);
                 $this->IDS = [];
                 $new = $this->get_replaced_node($node, $i);
 
@@ -157,7 +157,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $str = str_replace("</html>", "", $str);
 
         // Cleanup.
-        $this->TAGLIST = null;
+        $this->taglist = null;
         $this->document = null;
         $this->SETTINGS = null;
 
