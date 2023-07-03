@@ -221,13 +221,13 @@ class filter_jsxgraph extends moodle_text_filter {
     private function apply_js($node) {
         global $PAGE;
         $attributes = $this->get_tagattributes($node);
-        $CODE = "";
+        $code = "";
 
         // Load global JavaScript code from administrator settings.
         ///////////////////////////////////////////////////////////
 
         if ($this->settings['globalJS'] !== '' && $attributes['useGlobalJS'][0]) {
-            $CODE .=
+            $code .=
                 "// Global JavaScript code from administrator settings.\n" .
                 "//////////////////////////////////////////////////////\n\n" .
                 $this->settings['globalJS'] .
@@ -237,24 +237,24 @@ class filter_jsxgraph extends moodle_text_filter {
         // Define BOARDID constants and some accessibility.
         ///////////////////////////////////////////////////
 
-        $CODE .=
+        $code .=
             "// Define BOARDID constants.\n" .
             "////////////////////////////\n\n";
         for ($i = 0; $i < sizeof($this->ids); $i++) {
             $name = self::BOARDID_CONST . $i;
-            $CODE .=
+            $code .=
                 "const $name = '" . $this->ids[$i] . "';\n" .
                 "console.log('$name = `'+$name+'` has been prepared.');\n";
         }
-        $CODE .=
+        $code .=
             "const " . self::BOARDID_CONST . " = " . self::BOARDID_CONST . "0" . ";\n" .
             "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
             "\n";
 
-        $CODE .=
+        $code .=
             "// Accessibility.\n" .
             "/////////////////\n\n";
-        $CODE .=
+        $code .=
             "if(JXG.exists(JXG.Options.board)) {\n" .
             "JXG.Options.board.title = '" . $attributes['title'][0] . "';\n" .
             "JXG.Options.board.description = '" . $attributes['description'][0] . "';\n" .
@@ -269,22 +269,22 @@ class filter_jsxgraph extends moodle_text_filter {
         // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
         $usercode = str_replace("</script>", "<\/script>", $usercode);
 
-        $CODE .=
+        $code .=
             "// Code from user input.\n" .
             "////////////////////////\n";
-        $CODE .= $usercode;
+        $code .= $usercode;
 
         // Surround the code with version-specific strings.
         ///////////////////////////////////////////////////
 
         $surroundings = $this->get_code_surroundings();
-        $CODE = $surroundings["pre"] . "\n\n" . $CODE . $surroundings["post"];
+        $code = $surroundings["pre"] . "\n\n" . $code . $surroundings["post"];
 
         // Convert HTML-entities in code.
         /////////////////////////////////
 
         if ($this->settings['HTMLentities'] && $attributes['entities']) {
-            $CODE = html_entity_decode($CODE);
+            $code = html_entity_decode($code);
         }
 
         // Paste the code
@@ -295,11 +295,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
-                $PAGE->requires->js_init_call($CODE);
+                $PAGE->requires->js_init_call($code);
 
             } else {
 
-                $PAGE->requires->js_init_call($CODE);
+                $PAGE->requires->js_init_call($code);
 
             }
 
@@ -307,11 +307,11 @@ class filter_jsxgraph extends moodle_text_filter {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) { // version 1.5.0
 
-                $PAGE->requires->js_init_call($CODE);
+                $PAGE->requires->js_init_call($code);
 
             } else {
 
-                $PAGE->requires->js_init_call($CODE);
+                $PAGE->requires->js_init_call($code);
 
             }
 
