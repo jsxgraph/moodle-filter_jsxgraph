@@ -92,7 +92,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // 0. STEP: Do some initial stuff.
-        //////////////////////////////////
+        // -------------------------------
 
         $this->settings = $this->get_adminsettings();
         $this->set_versions($this->settings['versionJSXGraph']);
@@ -101,7 +101,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // 1. STEP: Convert HTML string to a dom object.
-        ////////////////////////////////////////////////
+        // ---------------------------------------------
 
         // Create a new dom object.
         $this->document = new domDocument('1.0', self::ENCODING);
@@ -122,12 +122,12 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->document->recover = true;
 
         // 2. STEP: Get tag elements.
-        /////////////////////////////
+        // --------------------------
 
         $this->taglist = $this->document->getElementsByTagname(self::TAG);
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the jsxgraph tags.
-        ////////////////////////////////////////////////////////////////////////////////////////
+        // -------------------------------------------------------------------------------------
 
         if (!empty($this->taglist)) {
             $this->load_jsxgraph();
@@ -145,7 +145,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // 5. STEP: Paste new div node in web page.
-        ///////////////////////////////////////////
+        // ----------------------------------------
 
         // Remove DOCTYPE.
         $this->document->removeChild($this->document->firstChild);
