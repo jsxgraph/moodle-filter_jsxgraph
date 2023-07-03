@@ -42,7 +42,7 @@
 function xmldb_filter_jsxgraph_install() {
 
     $release = 'v1.5.0'; // This value should be the same as in version.php!
-    $recommendedJSX = 'v1.5.0';
+    $recommendedjsx = 'v1.5.0';
 
     $versions = [
         ["id" => "auto"],
@@ -84,7 +84,7 @@ function xmldb_filter_jsxgraph_install() {
 
     try {
         set_config('release', $release, 'filter_jsxgraph');
-        set_config('recommendedJSX', $recommendedJSX, 'filter_jsxgraph');
+        set_config('recommendedJSX', $recommendedjsx, 'filter_jsxgraph');
         set_config('versions', json_encode($versions), 'filter_jsxgraph');
     } catch (Exception $e) {
         // Exception is not handled because it is not necessary.
