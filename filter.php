@@ -433,6 +433,11 @@ class filter_jsxgraph extends moodle_text_filter {
         return $result;
     }
 
+    /**
+     * Returns the path to the core file.
+     *
+     * @return moodle_url
+     */
     private function get_core_url() {
         return new moodle_url(self::PATH_FOR_CORES . $this->versionjsx["file"]);
     }
