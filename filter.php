@@ -903,6 +903,13 @@ class filter_jsxgraph extends moodle_text_filter {
         return $defaults;
     }
 
+    /**
+     * Converts a version string like 1.5.0 to an integer.
+     *
+     * @param String $versionstring
+     *
+     * @return Integer
+     */
     private function jxg_to_version_number($versionstring) {
         $arr = explode('.', $versionstring);
 
