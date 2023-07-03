@@ -48,12 +48,12 @@ if ($ADMIN->fulltree) {
         ' }' .
         '</style>';
 
-    $versionsAll = json_decode(get_config('filter_jsxgraph', 'versions'), true);
-    if (!$versionsAll) {
-        $versionsAll = [["label" => "auto"]];
+    $versionsconfig = json_decode(get_config('filter_jsxgraph', 'versions'), true);
+    if (!$versionsconfig) {
+        $versionsconfig = [["label" => "auto"]];
     }
     $versions = [];
-    foreach ($versionsAll as $v) {
+    foreach ($versionsconfig as $v) {
         $versions[$v["id"]] = $v["id"] === "auto" ? get_string('versionJSXGraph_auto', 'filter_jsxgraph') : $v["label"];
     }
 
