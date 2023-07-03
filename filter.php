@@ -73,6 +73,12 @@ class filter_jsxgraph extends moodle_text_filter {
      * @var domDocument
      */
     private $document = null;
+
+    /**
+     * List of <jsxgraph> tags.
+     *
+     * @var domNode[]
+     */
     private $taglist  = null;
     private $settings = null;
     private $ids      = [];
@@ -140,8 +146,8 @@ class filter_jsxgraph extends moodle_text_filter {
 
         $this->taglist = $this->document->getElementsByTagname(self::TAG);
 
-        // 3.+4. STEP: Load library (if needed) and iterate backwards through the jsxgraph tags.
-        // -------------------------------------------------------------------------------------
+        // 3.+4. STEP: Load library (if needed) and iterate backwards through the <jsxgraph> tags.
+        // ---------------------------------------------------------------------------------------
 
         if (!empty($this->taglist)) {
             $this->load_jsxgraph();
