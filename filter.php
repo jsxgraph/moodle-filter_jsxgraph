@@ -74,6 +74,12 @@ class filter_jsxgraph extends moodle_text_filter {
      * @var String
      */
     private const BOARDID_CONST  = "BOARDID";
+
+    /**
+     * Name for JavaScript constant array of board ids.
+     *
+     * @var String
+     */
     private const BOARDIDS_CONST = "BOARDIDS";
 
     private const ENCODING = "UTF-8";
