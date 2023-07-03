@@ -80,6 +80,12 @@ class filter_jsxgraph extends moodle_text_filter {
      * @var domNode[]
      */
     private $taglist  = null;
+
+    /**
+     * Global admin settings.
+     *
+     * @var Object
+     */
     private $settings = null;
     private $ids      = [];
 
