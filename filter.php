@@ -429,6 +429,7 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
 
                 // Nothing to do!
+                return;
 
             } else {
 
@@ -448,6 +449,7 @@ class filter_jsxgraph extends moodle_text_filter {
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
 
                 // Nothing to do!
+                return;
 
             } else {
 
@@ -488,9 +490,6 @@ class filter_jsxgraph extends moodle_text_filter {
 
             return;
         }
-
-        // echo '<pre>' . print_r($this->versionjsx, true) . '</pre>';
-        // echo '<pre>' . print_r($this->versionmoodle, true) . '</pre>';
     }
 
     /**
