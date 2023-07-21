@@ -264,7 +264,7 @@ class filter_jsxgraph extends moodle_text_filter {
                 $this->settings['fallbackwidth']
             );
 
-            $divdom = new documentDocument;
+            $divdom = new DOMDocument;
             libxml_use_internal_errors(true);
             $divdom->loadHTML($div);
             libxml_use_internal_errors(false);
