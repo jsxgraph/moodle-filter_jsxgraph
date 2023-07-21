@@ -83,7 +83,6 @@ function xmldb_filter_jsxgraph_upgrade($oldversion) {
         ["id" => '0.92', "label" => 'v0.92', "file" => 'jsxgraphcore-v0.92-lazy.js'],
         ["id" => '0.91', "label" => 'v0.91', "file" => 'jsxgraphcore-v0.91-lazy.js'],
         ["id" => '0.90', "label" => 'v0.90', "file" => 'jsxgraphcore-v0.90-lazy.js'],
-
     ];
 
     try {
