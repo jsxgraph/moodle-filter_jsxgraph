@@ -90,6 +90,26 @@ class filter_jsxgraph extends moodle_text_filter {
     private const ENCODING = "UTF-8";
 
     /**
+     * @var string
+     */
+    public const ALLOWED_DIMS = ["aspect-ratio", "width", "height", "max-width", "max-height"];
+
+    /**
+     * @var string
+     */
+    public const AR = "aspect-ratio";
+
+    /**
+     * @var string
+     */
+    public const ALLOWED_DIMS_EXCEPT_AR = ["width", "height", "max-width", "max-height"];
+
+    /**
+     * @var string
+     */
+    public const WIDTHS = ["width", "max-width"];
+
+    /**
      * Parsed DOM node.
      *
      * @var domDocument
@@ -682,28 +702,22 @@ class filter_jsxgraph extends moodle_text_filter {
             }
         }
 
-        // Constants.
-        define('ALLOWED_DIMS', ["aspect-ratio", "width", "height", "max-width", "max-height"]);
-        define('AR', "aspect-ratio");
-        define('ALLOWED_DIMS_EXCEPT_AR', ["width", "height", "max-width", "max-height"]);
-        define('WIDTHS', ["width", "max-width"]);
-
         // Tmp vars.
         $styles = "";
         $wrapperstyles = "";
 
         $tmp = true;
-        foreach (ALLOWED_DIMS_EXCEPT_AR as $attr) {
+        foreach (static::ALLOWED_DIMS_EXCEPT_AR as $attr) {
             $tmp = $tmp && empty_or_0_or_default($dimensions[$attr]);
         }
-        if ($tmp && empty_or_0_or_default($dimensions[AR])) {
-            $dimensions[AR] = $defaultaspectratio;
+        if ($tmp && empty_or_0_or_default($dimensions[static::AR])) {
+            $dimensions[static::AR] = $defaultaspectratio;
             $dimensions["width"] = $defaultwidth;
         }
 
         // At this point there is at least an aspect-ratio.
 
-        foreach (ALLOWED_DIMS as $attr) {
+        foreach (static::ALLOWED_DIMS as $attr) {
             if (!empty_or_0_or_default($dimensions[$attr])) {
                 $styles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
             }
@@ -715,7 +729,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         if (!$perventjsdimreg) {
 
-            foreach (WIDTHS as $attr) {
+            foreach (static::WIDTHS as $attr) {
                 if (!empty_or_0_or_default($dimensions[$attr])) {
                     $wrapperstyles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
                 }
