@@ -90,22 +90,30 @@ class filter_jsxgraph extends moodle_text_filter {
     private const ENCODING = "UTF-8";
 
     /**
-     * @var string
+     * Allowed dimension attributes.
+     *
+     * @var String
      */
     private const ALLOWED_DIMS = ["aspect-ratio", "width", "height", "max-width", "max-height"];
 
     /**
-     * @var string
+     * Attribute for aspect ratio.
+     *
+     * @var String
      */
     private const AR = "aspect-ratio";
 
     /**
-     * @var string
+     * Allowed dimension attributes without aspect ratio.
+     *
+     * @var String
      */
     private const ALLOWED_DIMS_EXCEPT_AR = ["width", "height", "max-width", "max-height"];
 
     /**
-     * @var string
+     * Attributes for width.
+     *
+     * @var String
      */
     private const WIDTHS = ["width", "max-width"];
 
