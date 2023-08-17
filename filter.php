@@ -92,22 +92,22 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * @var string
      */
-    public const ALLOWED_DIMS = ["aspect-ratio", "width", "height", "max-width", "max-height"];
+    private const ALLOWED_DIMS = ["aspect-ratio", "width", "height", "max-width", "max-height"];
 
     /**
      * @var string
      */
-    public const AR = "aspect-ratio";
+    private const AR = "aspect-ratio";
 
     /**
      * @var string
      */
-    public const ALLOWED_DIMS_EXCEPT_AR = ["width", "height", "max-width", "max-height"];
+    private const ALLOWED_DIMS_EXCEPT_AR = ["width", "height", "max-width", "max-height"];
 
     /**
      * @var string
      */
-    public const WIDTHS = ["width", "max-width"];
+    private const WIDTHS = ["width", "max-width"];
 
     /**
      * Parsed DOM node.
@@ -161,7 +161,7 @@ class filter_jsxgraph extends moodle_text_filter {
      */
     public function filter($text, array $options = array()) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
-        if (!is_int(strpos($text, '<' . self::TAG))) {
+        if (!is_int(strpos($text, '<' . static::TAG))) {
             return $text;
         }
 
@@ -178,13 +178,13 @@ class filter_jsxgraph extends moodle_text_filter {
         // ---------------------------------------------
 
         // Create a new dom object.
-        $this->document = new domDocument('1.0', self::ENCODING);
+        $this->document = new domDocument('1.0', static::ENCODING);
         $this->document->formatOutput = true;
 
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->settings["convertencoding"]) {
-            $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
+            $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', static::ENCODING));
         } else {
             $this->document->loadHTML($text);
         }
@@ -198,7 +198,7 @@ class filter_jsxgraph extends moodle_text_filter {
         // 2. STEP: Get tag elements.
         // --------------------------
 
-        $this->taglist = $this->document->getElementsByTagname(self::TAG);
+        $this->taglist = $this->document->getElementsByTagname(static::TAG);
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the <jsxgraph> tags.
         // ---------------------------------------------------------------------------------------
@@ -330,14 +330,14 @@ class filter_jsxgraph extends moodle_text_filter {
             "// Define BOARDID constants.\n" .
             "////////////////////////////\n\n";
         for ($i = 0; $i < count($this->ids); $i++) {
-            $name = self::BOARDID_CONST . $i;
+            $name = static::BOARDID_CONST . $i;
             $code .=
                 "const $name = '" . $this->ids[$i] . "';\n" .
                 "console.log('$name = `'+$name+'` has been prepared.');\n";
         }
         $code .=
-            "const " . self::BOARDID_CONST . " = " . self::BOARDID_CONST . "0" . ";\n" .
-            "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
+            "const " . static::BOARDID_CONST . " = " . static::BOARDID_CONST . "0" . ";\n" .
+            "const " . static::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
             "\n";
 
         $code .=
@@ -354,7 +354,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         $usercode = $this->document->saveHTML($node);
         // Remove <jsxgraph> tags.
-        $usercode = preg_replace("(</?" . self::TAG . "[^>]*\>)i", "", $usercode);
+        $usercode = preg_replace("(</?" . static::TAG . "[^>]*\>)i", "", $usercode);
         // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
         $usercode = str_replace("</script>", "<\/script>", $usercode);
 
@@ -513,7 +513,7 @@ class filter_jsxgraph extends moodle_text_filter {
      * @return moodle_url
      */
     private function get_core_url() {
-        return new moodle_url(self::PATH_FOR_CORES . $this->versionjsx["file"]);
+        return new moodle_url(static::PATH_FOR_CORES . $this->versionjsx["file"]);
     }
 
     /**
@@ -814,7 +814,7 @@ class filter_jsxgraph extends moodle_text_filter {
         if (!array_key_exists($libname, $libs)) {
             return;
         }
-        $url = self::PATH_FOR_LIBS . $libs[$libname];
+        $url = static::PATH_FOR_LIBS . $libs[$libname];
 
         // POI: Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
