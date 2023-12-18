@@ -51,7 +51,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var String
      */
-    public const PATH_FOR_CORES = '/filter/jsxgraph/amd/build/';
+    public const PATH_FOR_CORES = '/filter/jsxgraph/amd/src/';
 
     /**
      * Path to library folders
@@ -306,7 +306,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Combine global code and code contained in $node. Define some JavaScript constants. Apply this code to the dom.
      *
-     * @param $node domNode JSXGraph node.
+     * @param domNode $node JSXGraph node.
      *
      * @return void
      */
