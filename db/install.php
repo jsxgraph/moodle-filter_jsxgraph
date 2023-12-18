@@ -46,6 +46,7 @@ function xmldb_filter_jsxgraph_install() {
 
     $versions = [
         ["id" => "auto"],
+        ["id" => '1.6.1', "label" => 'v1.6.1', "file" => 'jsxgraphcore-v1.6.1-lazy.js'],
         ["id" => '1.6.0', "label" => 'v1.6.0', "file" => 'jsxgraphcore-v1.6.0-lazy.js'],
         ["id" => '1.5.0', "label" => 'v1.5.0', "file" => 'jsxgraphcore-v1.5.0-lazy.js'],
         ["id" => '1.4.6', "label" => 'v1.4.6', "file" => 'jsxgraphcore-v1.4.6-lazy.js'],
@@ -80,7 +81,6 @@ function xmldb_filter_jsxgraph_install() {
         ["id" => '0.92', "label" => 'v0.92', "file" => 'jsxgraphcore-v0.92-lazy.js'],
         ["id" => '0.91', "label" => 'v0.91', "file" => 'jsxgraphcore-v0.91-lazy.js'],
         ["id" => '0.90', "label" => 'v0.90', "file" => 'jsxgraphcore-v0.90-lazy.js'],
-
     ];
 
     try {
