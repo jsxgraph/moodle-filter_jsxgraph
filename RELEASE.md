@@ -4,13 +4,15 @@ You can find instructions to build the latest version of jsxgraphcore.js here: h
 
 To release a new version of JSXGraph into the filter follow the steps below:
 
-1. Add file `amd/build/jsxgraphcore-v_._._-lazy.js` and replace file [`styles/jsxgraph.css`](styles/jsxgraph.css) in branch `main` of https://github.com/jsxgraph/moodle-filter_jsxgraph.
-2. Recompile [`styles.less`](styles.less).
-3. Reformat [`styles.css`](styles.css) (indentation of 4 spaces).
-4. If formulas extension hat been updated, replace directory `libs/fomulas_extension`.
-5. Add version tag in [`thirdpartylibs.xml`](thirdpartylibs.xml)!
+1. Add file `amd/build/jsxgraphcore-v_._._-lazy.js` and replace file [`styles/jsxgraph.css`](styles/jsxgraph.css) in branch `main`
+   of https://github.com/jsxgraph/moodle-filter_jsxgraph.
+2. Add version tag in [`thirdpartylibs.xml`](thirdpartylibs.xml)!
+3. Recompile [`styles.less`](styles.less).
+4. Reformat [`styles.css`](styles.css) (indentation of 4 spaces).
+5. If formulas extension hat been updated, replace directory `libs/fomulas_extension`.
 6. Update string for `recommendedjsx` in [`db/install.php`](db/install.php) and [`db/upgrade.php`](db/upgrade.php).
-7. Update `plugin->release` in the files [`db/install.php`](db/install.php), [`db/upgrade.php`](db/upgrade.php) and [`version.php`](version.php).
+7. Update `plugin->release` in the files [`db/install.php`](db/install.php), [`db/upgrade.php`](db/upgrade.php)
+   and [`version.php`](version.php).
 8. The value of `plugin->version` should be updated in [`version.php`](version.php) to the current date (`YYYYMMDD00`).
 9. Check in your local Moodle installation if everything works fine.
 10. Draft a new release in GitHub.
