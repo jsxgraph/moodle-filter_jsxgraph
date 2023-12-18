@@ -41,7 +41,7 @@
  */
 function xmldb_filter_jsxgraph_install() {
 
-    $release = 'v1.6.0'; // This value should be the same as in version.php!
+    $release = 'v1.6.2'; // This value should be the same as in version.php!
     $recommendedjsx = 'v1.6.2';
 
     $versions = [
