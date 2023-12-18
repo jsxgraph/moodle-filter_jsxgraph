@@ -174,7 +174,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // 0. STEP: Do some initial stuff.
-        // ...............................
+        //////////////////////////////////
 
         $this->settings = $this->get_adminsettings();
         $this->set_versions();
@@ -183,7 +183,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // 1. STEP: Convert HTML string to a dom object.
-        // .............................................
+        ////////////////////////////////////////////////
 
         // Create a new dom object.
         $this->document = new domDocument('1.0', static::ENCODING);
@@ -204,12 +204,12 @@ class filter_jsxgraph extends moodle_text_filter {
         $this->document->recover = true;
 
         // 2. STEP: Get tag elements.
-        // ..........................
+        /////////////////////////////
 
         $this->taglist = $this->document->getElementsByTagname(static::TAG);
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the <jsxgraph> tags.
-        // .......................................................................................
+        //////////////////////////////////////////////////////////////////////////////////////////
 
         if (!empty($this->taglist)) {
             $this->load_jsxgraph();
@@ -227,7 +227,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // 5. STEP: Paste new div node in web page.
-        // ........................................
+        ///////////////////////////////////////////
 
         // Remove DOCTYPE.
         $this->document->removeChild($this->document->firstChild);
@@ -321,7 +321,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $code = "";
 
         // Let's load global JavaScript code from administrator settings.
-        // ..............................................................
+        /////////////////////////////////////////////////////////////////
 
         if ($this->settings['globalJS'] !== '' && $attributes['useGlobalJS'][0]) {
             $code .=
@@ -332,7 +332,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // Define the BOARDID constants and some attributes for accessibility.
-        // ...................................................................
+        //////////////////////////////////////////////////////////////////////
 
         $code .=
             "// Define BOARDID constants.\n" .
@@ -358,7 +358,7 @@ class filter_jsxgraph extends moodle_text_filter {
             "}\n";
 
         // Load the code from <jsxgraph>-node.
-        // ...................................
+        //////////////////////////////////////
 
         $usercode = $this->document->saveHTML($node);
         // Remove <jsxgraph> tags.
@@ -372,20 +372,20 @@ class filter_jsxgraph extends moodle_text_filter {
         $code .= $usercode;
 
         // Surround the code with version-specific strings, e.g. "require".
-        // ................................................................
+        ///////////////////////////////////////////////////////////////////
 
         $surroundings = $this->get_code_surroundings();
         $code = $surroundings["pre"] . "\n\n" . $code . $surroundings["post"];
 
         // Convert the HTML-entities in the variable $code.
-        // ................................................
+        ///////////////////////////////////////////////////
 
         if ($this->settings['HTMLentities'] && $attributes['entities']) {
             $code = html_entity_decode($code);
         }
 
         // Paste the code.
-        // ...............
+        //////////////////
 
         // POI: Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
