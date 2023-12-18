@@ -21,6 +21,4 @@ To release a new version of JSXGraph into the filter follow the steps below:
    Use the release notes from GitHub.
 10. Comment under the Google Groups post of JSXGraph release: https://groups.google.com/g/jsxgraph.
 
-For seeing travis prechecks go here: https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph
-
 Moodle Plugin CI: https://moodlehq.github.io/moodle-plugin-ci/

@@ -73,7 +73,7 @@ class filter_jsxgraph extends moodle_text_filter {
      *
      * @var String
      */
-    private const BOARDID_CONST  = "BOARDID";
+    private const BOARDID_CONST = "BOARDID";
 
     /**
      * Name for JavaScript constant array of board ids.
@@ -160,14 +160,14 @@ class filter_jsxgraph extends moodle_text_filter {
     private $versionmoodle = null;
 
     /**
-     * Main filter function
+     * Main filter function.
      *
-     * @param String $text
-     * @param Array  $options
+     * @param String $text Moodle standard.
+     * @param Array  $options Moodle standard.
      *
      * @return String
      */
-    public function filter($text, array $options = array()) {
+    public function filter($text, array $options = []) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
         if (!is_int(strpos($text, '<' . static::TAG))) {
             return $text;
@@ -311,7 +311,7 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Combine global code and code contained in $node. Define some JavaScript constants. Apply this code to the dom.
      *
-     * @param $node domNode
+     * @param $node domNode JSXGraph node.
      *
      * @return void
      */
@@ -321,7 +321,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $code = "";
 
         // Load global JavaScript code from administrator settings.
-        // --------------------------------------------------------
+        // ........................................................
 
         if ($this->settings['globalJS'] !== '' && $attributes['useGlobalJS'][0]) {
             $code .=
@@ -332,7 +332,7 @@ class filter_jsxgraph extends moodle_text_filter {
         }
 
         // Define BOARDID constants and some accessibility.
-        // ------------------------------------------------
+        // ................................................
 
         $code .=
             "// Define BOARDID constants.\n" .
@@ -358,7 +358,7 @@ class filter_jsxgraph extends moodle_text_filter {
             "}\n";
 
         // Load code from <jsxgraph>-node.
-        // -------------------------------
+        // ...............................
 
         $usercode = $this->document->saveHTML($node);
         // Remove <jsxgraph> tags.
@@ -372,20 +372,20 @@ class filter_jsxgraph extends moodle_text_filter {
         $code .= $usercode;
 
         // Surround the code with version-specific strings.
-        // ------------------------------------------------
+        // ................................................
 
         $surroundings = $this->get_code_surroundings();
         $code = $surroundings["pre"] . "\n\n" . $code . $surroundings["post"];
 
         // Convert HTML-entities in code.
-        // ------------------------------
+        // ..............................
 
         if ($this->settings['HTMLentities'] && $attributes['entities']) {
             $code = html_entity_decode($code);
         }
 
         // Paste the code.
-        // ---------------
+        // ...............
 
         // POI: Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
@@ -423,7 +423,7 @@ class filter_jsxgraph extends moodle_text_filter {
     private function get_code_surroundings() {
         $result = [
             'pre' => '',
-            'post' => ''
+            'post' => '',
         ];
 
         $condition = '';
@@ -816,7 +816,7 @@ class filter_jsxgraph extends moodle_text_filter {
         global $PAGE;
 
         $libs = [
-            'formulas' => 'formulas_extension/JSXQuestion.js'
+            'formulas' => 'formulas_extension/JSXQuestion.js',
         ];
 
         if (!array_key_exists($libname, $libs)) {
@@ -951,7 +951,7 @@ class filter_jsxgraph extends moodle_text_filter {
         ];
 
         $trims = [
-            'globalJS'
+            'globalJS',
         ];
 
         // Read and save settings.
