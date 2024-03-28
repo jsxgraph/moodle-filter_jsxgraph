@@ -273,6 +273,19 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
     </tr>
 </table>
 
+These attributes can be defined for each board by separating with `,`:
+- title
+- description
+- width
+- height
+- aspect-ratio
+- max-width
+- max-height
+- class
+- wrapper-class
+- box
+- boardid
+
 ## Using MathJax within the board
 
 To use the pre-installed `MathJax` notation within the board, your **Moodle admin** first has to make some settings:
