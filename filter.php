@@ -873,6 +873,8 @@ class filter_jsxgraph extends moodle_text_filter {
             'aspect-ratio',
             'max-width',
             'max-height',
+            'class',
+            'wrapper-class',
             'box',
             'boardid',
         ];
