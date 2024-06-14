@@ -32,8 +32,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['filtername'] = 'JSXGraph';
-
 $string['aspectratio'] = 'Seitenverhältnis';
 $string['aspectratio_desc'] = 'Format z.B. <code>1 / 1</code>';
 
@@ -59,6 +57,8 @@ $string['fallbackaspectratio_desc'] = 'Siehe Beschreibung der Standard-Dimension
 $string['fallbackwidth'] = 'Fallback-Breite';
 $string['fallbackwidth_desc'] = 'Siehe Beschreibung der Standard-Dimensionen.';
 
+$string['filtername'] = 'JSXGraph';
+
 $string['filterversion'] = 'Sie benutzen derzeit die folgende <b>Version des JSXGraph-Filters</b> für Moodle:';
 
 $string['fixheight'] = 'Höhe';
@@ -81,8 +81,8 @@ $string['header_jsxversion'] = 'Version der verwendeten JSXGraph-Bibliothek';
 $string['header_libs'] = 'Erweiterungen für den JSXGraph-Filter';
 $string['header_versions'] = 'Versionsinformationen';
 
-$string['HTMLentities'] = 'HTMLentities';
-$string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';
+$string['html_entities'] = 'HTML entities';
+$string['html_entities_desc'] = 'Einstellung, ob HTML entities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';
 
 $string['maxheight'] = 'Maximale Höhe';
 $string['maxheight_desc'] = '';

@@ -370,7 +370,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         // Convert the HTML-entities in the variable $code.
 
-        if ($this->settings['HTMLentities'] && $attributes['entities']) {
+        if ($this->settings['html_entities'] && $attributes['entities']) {
             $code = html_entity_decode($code);
         }
 
@@ -896,7 +896,7 @@ class filter_jsxgraph extends moodle_text_filter {
         $defaults = [
             'versionJSXGraph' => 'auto',
             'formulasextension' => true,
-            'HTMLentities' => true,
+            'html_entities' => true,
             'convertencoding' => true,
             'globalJS' => '',
             'usedivid' => false,
@@ -912,7 +912,7 @@ class filter_jsxgraph extends moodle_text_filter {
 
         $bools = [
             'formulasextension',
-            'HTMLentities',
+            'html_entities',
             'convertencoding',
             'usedivid',
         ];

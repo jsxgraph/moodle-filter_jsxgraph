@@ -206,7 +206,7 @@ As moodle administrator, you can make the following settings:
     </tr>
     <tr>
         <th>HTML entities</th>
-        <td>If this setting is set to <code>true</code>, HTMLentities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
+        <td>If this setting is set to <code>true</code>, HTML entities like "&", "<", etc. are supported within the JavaScript code for JSXGraph.</td>
     </tr>
     <tr>
         <th>convert encoding</th>
@@ -264,7 +264,7 @@ Within the `<jsxgraph>` tag different attributes can be declared, e.g. `<jsxgrap
     </tr>
     <tr>
         <th><code>entities</code></th>
-        <td>If HTMLentities like "&", "<", etc. should be supported within the JavaScript code set the attribute to <code>"true"</code>. To override a global <code>true</code> type <code>"false"</code>.</td>
+        <td>If HTML entities like "&", "<", etc. should be supported within the JavaScript code set the attribute to <code>"true"</code>. To override a global <code>true</code> type <code>"false"</code>.</td>
     </tr>
     <tr>
         <th><code>useGlobalJS</code></th>
