@@ -34,26 +34,6 @@
 
 $string['filtername'] = 'JSXGraph';
 
-// General.
-
-$string['no'] = 'nein';
-$string['off'] = 'deaktiviert';
-$string['on'] = 'aktiviert';
-$string['yes'] = 'ja';
-
-// Settings Docs and Versions.
-
-$string['docs'] = 'Vielen Dank, dass sie den JSXGraph-Filter benutzen. Für aktuelle Informationen über JSXGraph besuchen Sie einfach unsere <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">Homepage</a>.<br>Beachten Sie unsere <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detaillierte Filter-Dokumentation auf GitHub</a>.<br>Informationen über die Verwendung von JSXGraph finden sie <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in den docs</a>.<br><br>Nehmen Sie auf dieser Seite <b>globale Einstellungen</b> für den Filter vor. Einige davon lassen sich in Tag-Attributen lokal überschreiben. Siehe hierzu die <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation.</a>';
-$string['filterversion'] = 'Sie benutzen derzeit die folgende <b>Version des JSXGraph-Filters</b> für Moodle:';
-$string['header_docs'] = 'Allgemeine Informationen';
-$string['header_versions'] = 'Versionsinformationen';
-$string['recommendedversion_post'] = '</b> zu verwenden (oder "<code>automatisch</code>").';
-$string['recommendedversion_pre'] = 'Es wird empfohlen, <b>JSXGraph ';
-
-
-// Settings JSXGraph.
-
-
 $string['aspectratio'] = 'Seitenverhältnis';
 $string['aspectratio_desc'] = 'Format z.B. <code>1 / 1</code>';
 
@@ -72,15 +52,17 @@ $string['divid_desc'] =
     'Ist im Tag keine Board-ID angegeben, wird diese automatisch erzeugt. Hierzu wird das hier angegebene Präfix verwendet und um eine fortlaufende Nummer pro Seite ergänzt, z.B. box0, box1,...<br>' .
     'Der Benutzer braucht die ID nicht zu kennen. Sie kann in jedem Fall innerhalb des JavaScript über die Konstante "<code>BOARDID</code>" referenziert werden.</small>';
 
+$string['docs'] = 'Vielen Dank, dass sie den JSXGraph-Filter benutzen. Für aktuelle Informationen über JSXGraph besuchen Sie einfach unsere <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">Homepage</a>.<br>Beachten Sie unsere <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detaillierte Filter-Dokumentation auf GitHub</a>.<br>Informationen über die Verwendung von JSXGraph finden sie <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in den docs</a>.<br><br>Nehmen Sie auf dieser Seite <b>globale Einstellungen</b> für den Filter vor. Einige davon lassen sich in Tag-Attributen lokal überschreiben. Siehe hierzu die <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">Dokumentation.</a>';
+
 $string['fallbackaspectratio'] = 'Fallback-Seitenverhältnis';
 $string['fallbackaspectratio_desc'] = 'Siehe Beschreibung der Standard-Dimensionen.';
-
 $string['fallbackwidth'] = 'Fallback-Breite';
 $string['fallbackwidth_desc'] = 'Siehe Beschreibung der Standard-Dimensionen.';
 
+$string['filterversion'] = 'Sie benutzen derzeit die folgende <b>Version des JSXGraph-Filters</b> für Moodle:';
+
 $string['fixheight'] = 'Höhe';
 $string['fixheight_desc'] = 'Wir empfehlen, dieses Feld leer zu lassen und stattdessen <a href="#admin-aspectratio">Seitenverhältnis</a> und <a href="#admin-width">Breite</a> zu verwenden.';
-
 $string['fixwidth'] = 'Breite';
 $string['fixwidth_desc'] = 'Wir empfehlen, hier einen relativen Wert zu verwenden, z.B. <code>100%.</code>';
 
@@ -93,18 +75,29 @@ $string['globalJS_desc'] = 'Definieren Sie hier einen allgemein gültigen JavaSc
 $string['header_codingbetweentags'] = 'Codierung zwischen den Tags';
 $string['header_deprecated'] = 'Veraltete Einstellungen';
 $string['header_dimensions'] = 'Standard-Dimensionen';
+$string['header_docs'] = 'Allgemeine Informationen';
 $string['header_globaljs'] = 'Globales JavaScript';
 $string['header_jsxversion'] = 'Version der verwendeten JSXGraph-Bibliothek';
 $string['header_libs'] = 'Erweiterungen für den JSXGraph-Filter';
+$string['header_versions'] = 'Versionsinformationen';
 
 $string['HTMLentities'] = 'HTMLentities';
 $string['HTMLentities_desc'] = 'Einstellung, ob HTMLentities wie z.B. "&", "<",... innerhalb des JavaScript-Codes für JSXGraph unterstützt werden.';
 
 $string['maxheight'] = 'Maximale Höhe';
 $string['maxheight_desc'] = '';
-
 $string['maxwidth'] = 'Maximale Breite';
 $string['maxwidth_desc'] = '';
+
+$string['no'] = 'nein';
+
+$string['off'] = 'deaktiviert';
+$string['on'] = 'aktiviert';
+
+$string['privacy'] = 'Dieses Plugin dient lediglich dazu, JSXGraph-Konstruktionen, die mithilfe des jsxgraph-Tags im Editor eingegeben werden, anzuzeigen. Es speichert und übermittelt selbst keine personenbezonenen Daten. Die eventuell extern eingebundene Bibliothek jsxgraphcore.js verarbeitet ebenfalls keinerlei personenbezogene Daten.';
+
+$string['recommendedversion_post'] = '</b> zu verwenden (oder "<code>automatisch</code>").';
+$string['recommendedversion_pre'] = 'Es wird empfohlen, <b>JSXGraph ';
 
 $string['usedivid'] = 'Benutze div-Präfix';
 $string['usedivid_desc'] =
@@ -114,6 +107,4 @@ $string['versionJSXGraph'] = 'JSXGraph-Version';
 $string['versionJSXGraph_auto'] = 'aktuellste mitgelieferte Version (automatisch)';
 $string['versionJSXGraph_desc'] = 'Wähle hier, welche JSXGraph-Version genutz werden soll. Achtung: Für Responsivität wird mindestens Version 1.3.2+ benötigt.';
 
-// Privacy.
-
-$string['privacy'] = 'Dieses Plugin dient lediglich dazu, JSXGraph-Konstruktionen, die mithilfe des jsxgraph-Tags im Editor eingegeben werden, anzuzeigen. Es speichert und übermittelt selbst keine personenbezonenen Daten. Die eventuell extern eingebundene Bibliothek jsxgraphcore.js verarbeitet ebenfalls keinerlei personenbezogene Daten.';
+$string['yes'] = 'ja';

@@ -34,24 +34,6 @@
 
 $string['filtername'] = 'JSXGraph';
 
-// General.
-
-$string['no'] = 'no';
-$string['off'] = 'deactivated';
-$string['on'] = 'activated';
-$string['yes'] = 'yes';
-
-// Settings Docs and Versions.
-
-$string['docs'] = 'Thank your for using our JSXGraph filter. For current information about JSXGraph, visit our <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">homepage</a>.<br>Please note our <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detailed documentation for our filter on GitHub</a>.<br>Information on using JSXGraph can be found <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in the docs</a>.<br><br>Make <b>global settings</b> for the filter on this page. Some of these can be overwritten locally in tag attributes. Look at the <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">documentation</a> for this.';
-$string['filterversion'] = 'You are using version the following <b>version of the JSXGraph filter</b> for Moodle:';
-$string['header_docs'] = 'General information';
-$string['header_versions'] = 'Version info';
-$string['recommendedversion_post'] = '</b> (or use "<code>automatically</code>").';
-$string['recommendedversion_pre'] = 'It is recommended, to use <b>JSXGraph ';
-
-// Settings JSXGraph.
-
 $string['aspectratio'] = 'aspect-ratio';
 $string['aspectratio_desc'] = 'Format e.g. <code>1 / 1</code>';
 
@@ -70,15 +52,17 @@ $string['divid_desc'] =
     'If no board ID is specified in the tag, it is generated automatically. The prefix specified here is used for this and supplemented by a consecutive number per page, e.g. box0, box1, ...<br>' .
     'The user does not need to know the ID. In any case, it can be referenced within the JavaScript via the constant "<code>BOARDID</code>".</small>';
 
+$string['docs'] = 'Thank your for using our JSXGraph filter. For current information about JSXGraph, visit our <a href="http://jsxgraph.uni-bayreuth.de/" target="_blank">homepage</a>.<br>Please note our <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md" target="_blank">detailed documentation for our filter on GitHub</a>.<br>Information on using JSXGraph can be found <a href="http://jsxgraph.uni-bayreuth.de/wp/docs/index.html" target="_blank">in the docs</a>.<br><br>Make <b>global settings</b> for the filter on this page. Some of these can be overwritten locally in tag attributes. Look at the <a href="https://github.com/jsxgraph/moodle-filter_jsxgraph/blob/master/README.md#jsxgraph-tag-attributes" target="_blank">documentation</a> for this.';
+
 $string['fallbackaspectratio'] = 'fallback aspect-ratio';
 $string['fallbackaspectratio_desc'] = 'See description of standard dimensions.';
-
 $string['fallbackwidth'] = 'fallback width';
 $string['fallbackwidth_desc'] = 'See description of standard dimensions.';
 
+$string['filterversion'] = 'You are using version the following <b>version of the JSXGraph filter</b> for Moodle:';
+
 $string['fixheight'] = 'height';
 $string['fixheight_desc'] = 'We recommend to leave this empty and use <a href="#admin-aspectratio">aspect-ratio</a> and <a href="#admin-width">width</a> instead.';
-
 $string['fixwidth'] = 'width';
 $string['fixwidth_desc'] = 'We recommend to use here an relative value e.g. <code>100%.</code>';
 
@@ -91,18 +75,29 @@ $string['globalJS_desc'] = 'Define a general JavaScript code that is loaded in e
 $string['header_codingbetweentags'] = 'Coding between the tags';
 $string['header_deprecated'] = 'Deprecated settings';
 $string['header_dimensions'] = 'Standard dimensions';
+$string['header_docs'] = 'General information';
 $string['header_globaljs'] = 'Global JavaScript';
 $string['header_jsxversion'] = 'Version of the used JSXGraph library';
 $string['header_libs'] = 'Extensions for the JSXGraph filter';
+$string['header_versions'] = 'Version info';
 
 $string['HTMLentities'] = 'HTML entities';
 $string['HTMLentities_desc'] = 'Decide whether HTMLentities like "&", "<",... are supported within the JavaScript code for JSXGraph.';
 
 $string['maxheight'] = 'max-height';
 $string['maxheight_desc'] = '';
-
 $string['maxwidth'] = 'max-width';
 $string['maxwidth_desc'] = '';
+
+$string['no'] = 'no';
+
+$string['off'] = 'deactivated';
+$string['on'] = 'activated';
+
+$string['privacy'] = 'This plugin is only used to display JSXGraph constructions typed in the editor using the jsxgraph tag. It does not store or transmit any personally identifiable information. The possibly externally integrated library jsxgraphcore.js does not process any personal data either.';
+
+$string['recommendedversion_post'] = '</b> (or use "<code>automatically</code>").';
+$string['recommendedversion_pre'] = 'It is recommended, to use <b>JSXGraph ';
 
 $string['usedivid'] = 'use div prefix';
 $string['usedivid_desc'] =
@@ -112,6 +107,4 @@ $string['versionJSXGraph'] = 'JSXGraph version';
 $string['versionJSXGraph_auto'] = 'latest supplied version (automatically)';
 $string['versionJSXGraph_desc'] = 'Select here which version of JSXGraph should be used. Attention: Version 1.3.2+ is needed for responsiveness.';
 
-// Privacy.
-
-$string['privacy'] = 'This plugin is only used to display JSXGraph constructions typed in the editor using the jsxgraph tag. It does not store or transmit any personally identifiable information. The possibly externally integrated library jsxgraphcore.js does not process any personal data either.';
+$string['yes'] = 'yes';
