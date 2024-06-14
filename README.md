@@ -198,7 +198,7 @@ As moodle administrator, you can make the following settings:
 <table>
     <tr>
         <th>JSXGraph version</th>
-        <td>Our filter delivers all versions of JSXGraph. Here you can choose which version to use. If <code>auto</code> is selected (recommended), the latest version will be used automatically.</td>
+        <td>Our filter delivers all versions of JSXGraph. Here you can choose which version to use. If <code>automatically</code> is selected (recommended), the latest version will be used automatically.</td>
     </tr>
     <tr>
         <th>extension for question type <a href="https://moodle.org/plugins/qtype_formulas" target="_blank">formulas</a></th>
