@@ -134,28 +134,28 @@ class filter_jsxgraph extends moodle_text_filter {
     /**
      * Global admin settings.
      *
-     * @var Object
+     * @var object
      */
     private $settings = null;
 
     /**
      * List of used unique board ids. Length >= length of $taglist.
      *
-     * @var String[]
+     * @var string[]
      */
     private $ids = [];
 
     /**
      * Used version of JSXGraph.
      *
-     * @var null|Object
+     * @var null|object
      */
     private $versionjsx = null;
 
     /**
      * Used version of Moodle.
      *
-     * @var null|Object
+     * @var null|object
      */
     private $versionmoodle = null;
 
