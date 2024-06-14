@@ -45,7 +45,7 @@
  */
 function xmldb_filter_jsxgraph_upgrade($oldversion) {
 
-    $release = 'v1.6.2'; // This value should be the same as in version.php!
+    $release = 'v1.9.1'; // This value should be the same as in version.php!
     $recommendedjsx = 'v1.9.1';
 
     $versions = [
