@@ -41,11 +41,13 @@
  */
 function xmldb_filter_jsxgraph_install() {
 
-    $release = 'v1.9.1'; // This value should be the same as in version.php!
-    $recommendedjsx = 'v1.9.1';
+    $release = 'v1.10.0'; // This value should be the same as in version.php!
+    $recommendedjsx = 'v1.10.0';
 
     $versions = [
         ["id" => "auto"],
+        ["id" => '1.10.0', "label" => 'v1.10.0', "file" => 'jsxgraphcore-v1.10.0-lazy.js'],
+        ["id" => '1.9.2', "label" => 'v1.9.2', "file" => 'jsxgraphcore-v1.9.2-lazy.js'],
         ["id" => '1.9.1', "label" => 'v1.9.1', "file" => 'jsxgraphcore-v1.9.1-lazy.js'],
         ["id" => '1.9.0', "label" => 'v1.9.0', "file" => 'jsxgraphcore-v1.9.0-lazy.js'],
         ["id" => '1.8.0', "label" => 'v1.8.0', "file" => 'jsxgraphcore-v1.8.0-lazy.js'],
