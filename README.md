@@ -295,7 +295,9 @@ To use the pre-installed `MathJax` notation within the board, your **Moodle admi
 
 1. Go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters`
 2. If not already done, enable the `MathJax` filter
-3. Arrange the filters so, that `MathJax` is before `JSXGraph`.
+3. Arrange the filters so, that
+   -`MathJax` is **before** `JSXGraph`
+   -`Convert URLs into links and images` is **after** `JSXGraph`
 4. If the `TeX notation` filter is activated, this must be arranged below `MathJax`
 
 After this changes **everyone** can use `MathJax` notation `$$(...)$$` within the board of JSXGraph as follows:
