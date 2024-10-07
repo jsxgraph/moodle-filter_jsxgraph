@@ -289,16 +289,20 @@ These attributes can be defined for each board by separating with `,`:
 - box
 - boardid
 
+## Use the JSXGraph filter together with other filters
+
+To avoid conflicts the order of filters should follow this rules:
+
+- `MathJax` is **before** `JSXGraph`
+- `Convert URLs into links and images` is **after** `JSXGraph`
+
 ## Using MathJax within the board
 
-To use the pre-installed `MathJax` notation within the board, your **Moodle admin** first has to make some settings:
+To use e.g. the pre-installed `MathJax` notation within the board, your **Moodle admin** first has to enable the `MathJax` filter
+in `Moodle -> Site administration -> Plugins -> Filters -> Manage filters`. If the `TeX notation` filter is activated, this must be
+arranged below `MathJax`.
 
-1. Go to `Moodle -> Site administration -> Plugins -> Filters -> Manage filters`
-2. If not already done, enable the `MathJax` filter
-3. Arrange the filters so, that
-   -`MathJax` is **before** `JSXGraph`
-   -`Convert URLs into links and images` is **after** `JSXGraph`
-4. If the `TeX notation` filter is activated, this must be arranged below `MathJax`
+Also comply with the above-mentioned filter order.
 
 After this changes **everyone** can use `MathJax` notation `$$(...)$$` within the board of JSXGraph as follows:
 
