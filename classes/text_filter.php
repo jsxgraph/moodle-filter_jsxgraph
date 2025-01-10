@@ -128,7 +128,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Parsed DOM node.
      *
-     * @var domDocument
+     * @var \domDocument
      */
     private $document = null;
 
@@ -192,7 +192,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         // 1. STEP: Convert HTML string to a dom object.
 
         // Create a new dom object.
-        $this->document = new domDocument('1.0', static::ENCODING);
+        $this->document = new \domDocument('1.0', static::ENCODING);
         $this->document->formatOutput = true;
 
         // Load the html into the object.
@@ -295,7 +295,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                 $this->settings['fallbackwidth']
             );
 
-            $divdom = new DOMDocument;
+            $divdom = new \DOMDocument;
             libxml_use_internal_errors(true);
             $divdom->loadHTML($div);
             libxml_use_internal_errors(false);
@@ -491,10 +491,10 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Returns the path to the core file.
      *
-     * @return moodle_url
+     * @return \moodle_url
      */
     private function get_core_url() {
-        return new moodle_url(static::PATH_FOR_CORES . $this->versionjsx["file"]);
+        return new \moodle_url(static::PATH_FOR_CORES . $this->versionjsx["file"]);
     }
 
     /**
@@ -805,13 +805,13 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
             $a->value = 'text/javascript';
             $t->appendChild($a);
             $a = $this->document->createAttribute('src');
-            $a->value = new moodle_url($url);
+            $a->value = new \moodle_url($url);
             $t->appendChild($a);
             $this->document->appendChild($t);
 
         } else {
 
-            $PAGE->requires->js(new moodle_url($url));
+            $PAGE->requires->js(new \moodle_url($url));
 
         }
     }
