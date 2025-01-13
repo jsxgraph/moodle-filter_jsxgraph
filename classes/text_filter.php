@@ -57,21 +57,21 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Path to jsxgraphcores
      *
-     * @var String
+     * @var \string
      */
     public const PATH_FOR_CORES = '/filter/jsxgraph/amd/src/';
 
     /**
      * Path to library folders
      *
-     * @var String
+     * @var \string
      */
     public const PATH_FOR_LIBS = '/filter/jsxgraph/libs/';
 
     /**
      * Const for tag name (<jsxgraph></jsxgraph>).
      *
-     * @var String
+     * @var \string
      */
     private const TAG = "jsxgraph";
 
@@ -79,49 +79,49 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      * Name for JavaScript constant for board ids.
      * This is supplemented by a counter (BOARDID0, BOARDID1, ...).
      *
-     * @var String
+     * @var \string
      */
     private const BOARDID_CONST = "BOARDID";
 
     /**
      * Name for JavaScript constant array of board ids.
      *
-     * @var String
+     * @var \string
      */
     private const BOARDIDS_CONST = "BOARDIDS";
 
     /**
      * HTML encoding.
      *
-     * @var String
+     * @var \string
      */
     private const ENCODING = "UTF-8";
 
     /**
      * Allowed dimension attributes.
      *
-     * @var String
+     * @var \array
      */
     private const ALLOWED_DIMS = ["aspect-ratio", "width", "height", "max-width", "max-height"];
 
     /**
      * Attribute for aspect ratio.
      *
-     * @var String
+     * @var \string
      */
     private const AR = "aspect-ratio";
 
     /**
      * Allowed dimension attributes without aspect ratio.
      *
-     * @var String
+     * @var \array
      */
     private const ALLOWED_DIMS_EXCEPT_AR = ["width", "height", "max-width", "max-height"];
 
     /**
      * Attributes for width.
      *
-     * @var String
+     * @var \array
      */
     private const WIDTHS = ["width", "max-width"];
 
@@ -135,45 +135,45 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * List of <jsxgraph> tags.
      *
-     * @var domNode[]
+     * @var \array
      */
     private $taglist = null;
 
     /**
      * Global admin settings.
      *
-     * @var object
+     * @var \object
      */
     private $settings = null;
 
     /**
      * List of used unique board ids. Length >= length of $taglist.
      *
-     * @var string[]
+     * @var \array
      */
     private $ids = [];
 
     /**
      * Used version of JSXGraph.
      *
-     * @var null|object
+     * @var \null|\object
      */
     private $versionjsx = null;
 
     /**
      * Used version of Moodle.
      *
-     * @var null|object
+     * @var \null|\object
      */
     private $versionmoodle = null;
 
     /**
      * Main filter function.
      *
-     * @param String $text Moodle standard.
-     * @param Array  $options Moodle standard.
+     * @param \string $text Moodle standard.
+     * @param \array  $options Moodle standard.
      *
-     * @return String
+     * @return \string
      */
     public function filter($text, $options = []) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
@@ -252,10 +252,10 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Create a new div node for a given JSXGraph node.
      *
-     * @param domNode $node JSXGraph node.
-     * @param Integer $index Index in taglist.
+     * @param \domNode $node JSXGraph node.
+     * @param \int $index Index in taglist.
      *
-     * @return domNode
+     * @return \domNode
      */
     private function get_replaced_node($node, $index) {
         $attributes = $this->get_tagattributes($node);
@@ -314,7 +314,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Combine global code and code contained in $node. Define some JavaScript constants. Apply this code to the dom.
      *
-     * @param domNode $node JSXGraph node.
+     * @param \domNode $node JSXGraph node.
      *
      * @return void
      */
@@ -391,7 +391,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Helper Function for apply_js(...). Returns the pre and post part of JavaScript code.
      *
-     * @return String[]
+     * @return string[]
      */
     private function get_code_surroundings() {
         $result = [
@@ -654,8 +654,8 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *  (c) If only width is given, the height will be 0 like in css. You have to define an aspect-ratio or height to display the
      *      board!
      *
-     * @param String  $id
-     * @param Object  $dimensions with possible attributes
+     * @param \string  $id
+     * @param \object  $dimensions with possible attributes
      *                                      aspect-ratio  (the ratio of width / height)
      *                                      width         (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      height        (px, rem, vh, ...; if only a number is given, its interpreted as px)
@@ -663,15 +663,15 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *                                      min-width     (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      max-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
      *                                      min-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
-     * @param String  $classes Additional css classes for the board.
-     * @param String  $wrapperclasses Additional css classes for the boards container.
+     * @param \string  $classes Additional css classes for the board.
+     * @param \string  $wrapperclasses Additional css classes for the boards container.
      *                                      (If it is needed. In the other case this is merged with $classes.)
-     * @param Boolean $forcewrapper Default: false.
-     * @param String  $defaultaspectratio Default: "1 / 1".
-     * @param String  $defaultwidth Default: "100%".
-     * @param Boolean $perventjsdimreg Default: false.
+     * @param \bool $forcewrapper Default: false.
+     * @param \string  $defaultaspectratio Default: "1 / 1".
+     * @param \string  $defaultwidth Default: "100%".
+     * @param \bool $perventjsdimreg Default: false.
      *
-     * @return String                       The <div> for the board.
+     * @return string                       The <div> for the board.
      */
     private function get_board_html(
         $id, $dimensions = [], $classes = "", $wrapperclasses = "", $forcewrapper = false,
@@ -778,7 +778,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Load additional library
      *
-     * @param String $libname
+     * @param \string $libname
      *
      */
     private function load_library($libname) {
@@ -815,9 +815,9 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Determine the attributes
      *
-     * @param domNode $node
+     * @param \domNode $node
      *
-     * @return String[]
+     * @return \array
      */
     private function get_tagattributes($node) {
         $numberofboardsattr = 'numberOfBoards';
@@ -893,7 +893,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Get settings made by administrator
      *
-     * @return Array settings from administration
+     * @return \array settings from administration
      */
     private function get_adminsettings() {
         // Set defaults.
@@ -944,9 +944,9 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Converts a version string like 1.2.3 to an integer.
      *
-     * @param String $versionstring
+     * @param \string $versionstring
      *
-     * @return Integer
+     * @return \int
      */
     private function jxg_to_version_number($versionstring) {
         $arr = explode('.', $versionstring);
@@ -960,12 +960,12 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Gives the value of $attribute in $node as bool. If the attribute does not exist, $stdval is returned.
      *
-     * @param domNode     $node
-     * @param String      $attribute
-     * @param String      $givenval
-     * @param bool|String $stdval
+     * @param \domNode     $node
+     * @param \string      $attribute
+     * @param \string      $givenval
+     * @param \bool|\string $stdval
      *
-     * @return bool
+     * @return \bool
      */
     private function get_bool_value($node, $attribute, $givenval, $stdval) {
         if ($node->hasAttribute($attribute)) {
@@ -982,10 +982,10 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Convert string to bool
      *
-     * @param String $string
-     * @param bool   $default
+     * @param \string $string
+     * @param \bool   $default
      *
-     * @return bool
+     * @return \bool
      */
     private function convert_bool($string, $default = false) {
         if ($string === false || $string === "false" || $string === 0 || $string === "0") {
@@ -1000,10 +1000,10 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Decide between two strings
      *
-     * @param String $choice1
-     * @param String $choice2
+     * @param \string $choice1
+     * @param \string $choice2
      *
-     * @return String
+     * @return \string
      */
     private function string_or($choice1, $choice2) {
         if (!empty($choice1)) {
