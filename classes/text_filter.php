@@ -177,7 +177,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      */
     public function filter($text, $options = []) {
         // To optimize speed, search for a <jsxgraph> tag (avoiding to parse everything on every text).
-        if (!is_int(strpos($text, '<' . static::TAG))) {
+        if (!is_int(strpos($text, '<' . self::TAG))) {
             return $text;
         }
 
@@ -192,13 +192,13 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         // 1. STEP: Convert HTML string to a dom object.
 
         // Create a new dom object.
-        $this->document = new \domDocument('1.0', static::ENCODING);
+        $this->document = new \domDocument('1.0', self::ENCODING);
         $this->document->formatOutput = true;
 
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->settings["convertencoding"]) {
-            $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', static::ENCODING));
+            $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
         } else {
             $this->document->loadHTML($text);
         }
@@ -211,7 +211,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         // 2. STEP: Get tag elements.
 
-        $this->taglist = $this->document->getElementsByTagname(static::TAG);
+        $this->taglist = $this->document->getElementsByTagname(self::TAG);
 
         // 3.+4. STEP: Load library (if needed) and iterate backwards through the <jsxgraph> tags.
 
@@ -339,14 +339,14 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
             "// Define BOARDID constants.\n" .
             "////////////////////////////\n\n";
         for ($i = 0; $i < count($this->ids); $i++) {
-            $name = static::BOARDID_CONST . $i;
+            $name = self::BOARDID_CONST . $i;
             $code .=
                 "const $name = '" . $this->ids[$i] . "';\n" .
                 "console.log('$name = `'+$name+'` has been prepared.');\n";
         }
         $code .=
-            "const " . static::BOARDID_CONST . " = " . static::BOARDID_CONST . "0" . ";\n" .
-            "const " . static::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
+            "const " . self::BOARDID_CONST . " = " . self::BOARDID_CONST . "0" . ";\n" .
+            "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
             "\n";
 
         $code .=
@@ -362,7 +362,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         $usercode = $this->document->saveHTML($node);
         // Remove <jsxgraph> tags.
-        $usercode = preg_replace("(</?" . static::TAG . "[^>]*\>)i", "", $usercode);
+        $usercode = preg_replace("(</?" . self::TAG . "[^>]*\>)i", "", $usercode);
         // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
         $usercode = str_replace("</script>", "<\/script>", $usercode);
 
@@ -494,7 +494,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      * @return \moodle_url
      */
     private function get_core_url() {
-        return new \moodle_url(static::PATH_FOR_CORES . $this->versionjsx["file"]);
+        return new \moodle_url(self::PATH_FOR_CORES . $this->versionjsx["file"]);
     }
 
     /**
@@ -583,6 +583,38 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     }
 
     /**
+     * Returns true if variable is empty, 0 or equal to $default.
+     *
+     * @param \mixed $var Some variable
+     * @param \null  $default Default value
+     *
+     * @return \bool
+     */
+    static function empty_or_0_or_default($var, $default = null) {
+        return empty($var) || $var === 0 || $var === '0' || $var === '0px' || $var === $default;
+    }
+
+    /**
+     * Returns a css value or $default,
+     *
+     * @param \mixed  $var Some variable
+     * @param \string $default Default value
+     *
+     * @return string
+     */
+    static function css_norm($var, $default = '') {
+        if (substr('' . $var, 0, 1) === '0') {
+            $var = 0;
+        } else if (empty($var)) {
+            $var = $default;
+        } else if (is_numeric($var)) {
+            $var .= 'px';
+        }
+
+        return "" . $var;
+    }
+
+    /**
      * Build a <div> for board.
      *
      * This function creates the HTML for a board according to the given dimensions. It is possible, to define an aspect-ratio.
@@ -647,60 +679,24 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         $perventjsdimreg = false
     ) {
 
-        if (!function_exists("empty_or_0_or_default")) {
-            /**
-             * Returns true if variable is empty, 0 or equal to $default.
-             *
-             * @param mixed $var Some variable
-             * @param null  $default Default value
-             *
-             * @return bool
-             */
-            function empty_or_0_or_default($var, $default = null) {
-                return empty($var) || $var === 0 || $var === '0' || $var === '0px' || $var === $default;
-            }
-        }
-
-        if (!function_exists("css_norm")) {
-            /**
-             * Returns a css value or $default,
-             *
-             * @param mixed  $var Some variable
-             * @param String $default Default value
-             *
-             * @return String
-             */
-            function css_norm($var, $default = '') {
-                if (substr('' . $var, 0, 1) === '0') {
-                    $var = 0;
-                } else if (empty($var)) {
-                    $var = $default;
-                } else if (is_numeric($var)) {
-                    $var .= 'px';
-                }
-
-                return "" . $var;
-            }
-        }
-
         // Tmp vars.
         $styles = "";
         $wrapperstyles = "";
 
         $tmp = true;
-        foreach (static::ALLOWED_DIMS_EXCEPT_AR as $attr) {
-            $tmp = $tmp && empty_or_0_or_default($dimensions[$attr]);
+        foreach (self::ALLOWED_DIMS_EXCEPT_AR as $attr) {
+            $tmp = $tmp && self::empty_or_0_or_default($dimensions[$attr]);
         }
-        if ($tmp && empty_or_0_or_default($dimensions[static::AR])) {
-            $dimensions[static::AR] = $defaultaspectratio;
+        if ($tmp && self::empty_or_0_or_default($dimensions[self::AR])) {
+            $dimensions[self::AR] = $defaultaspectratio;
             $dimensions["width"] = $defaultwidth;
         }
 
         // At this point there is at least an aspect-ratio.
 
-        foreach (static::ALLOWED_DIMS as $attr) {
-            if (!empty_or_0_or_default($dimensions[$attr])) {
-                $styles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
+        foreach (self::ALLOWED_DIMS as $attr) {
+            if (!self::empty_or_0_or_default($dimensions[$attr])) {
+                $styles .= "$attr: " . self::css_norm($dimensions[$attr]) . "; ";
             }
         }
 
@@ -710,9 +706,9 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         if (!$perventjsdimreg) {
 
-            foreach (static::WIDTHS as $attr) {
-                if (!empty_or_0_or_default($dimensions[$attr])) {
-                    $wrapperstyles .= "$attr: " . css_norm($dimensions[$attr]) . "; ";
+            foreach (self::WIDTHS as $attr) {
+                if (!self::empty_or_0_or_default($dimensions[$attr])) {
+                    $wrapperstyles .= "$attr: " . self::css_norm($dimensions[$attr]) . "; ";
                 }
             }
 
@@ -795,7 +791,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         if (!array_key_exists($libname, $libs)) {
             return;
         }
-        $url = static::PATH_FOR_LIBS . $libs[$libname];
+        $url = self::PATH_FOR_LIBS . $libs[$libname];
 
         // POI: Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
