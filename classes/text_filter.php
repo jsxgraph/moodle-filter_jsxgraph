@@ -198,7 +198,18 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->settings["convertencoding"]) {
-            $this->document->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', self::ENCODING));
+            // fix #47
+            // see https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/
+            $this->document->loadHTML(
+                htmlspecialchars_decode(
+                    iconv(
+                        self::ENCODING,
+                        'ISO-8859-1',
+                        htmlentities($text, ENT_COMPAT, self::ENCODING)
+                    ),
+                    ENT_QUOTES
+                )
+            );
         } else {
             $this->document->loadHTML($text);
         }
@@ -253,7 +264,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      * Create a new div node for a given JSXGraph node.
      *
      * @param \domNode $node JSXGraph node.
-     * @param \int $index Index in taglist.
+     * @param \int     $index Index in taglist.
      *
      * @return \domNode
      */
@@ -654,8 +665,8 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *  (c) If only width is given, the height will be 0 like in css. You have to define an aspect-ratio or height to display the
      *      board!
      *
-     * @param \string  $id
-     * @param \object  $dimensions with possible attributes
+     * @param \string $id
+     * @param \object $dimensions with possible attributes
      *                                      aspect-ratio  (the ratio of width / height)
      *                                      width         (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      height        (px, rem, vh, ...; if only a number is given, its interpreted as px)
@@ -663,13 +674,13 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *                                      min-width     (px, rem, vw, ...; if only a number is given, its interpreted as px)
      *                                      max-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
      *                                      min-height    (px, rem, vh, ...; if only a number is given, its interpreted as px)
-     * @param \string  $classes Additional css classes for the board.
-     * @param \string  $wrapperclasses Additional css classes for the boards container.
+     * @param \string $classes Additional css classes for the board.
+     * @param \string $wrapperclasses Additional css classes for the boards container.
      *                                      (If it is needed. In the other case this is merged with $classes.)
-     * @param \bool $forcewrapper Default: false.
-     * @param \string  $defaultaspectratio Default: "1 / 1".
-     * @param \string  $defaultwidth Default: "100%".
-     * @param \bool $perventjsdimreg Default: false.
+     * @param \bool   $forcewrapper Default: false.
+     * @param \string $defaultaspectratio Default: "1 / 1".
+     * @param \string $defaultwidth Default: "100%".
+     * @param \bool   $perventjsdimreg Default: false.
      *
      * @return string                       The <div> for the board.
      */
@@ -960,9 +971,9 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     /**
      * Gives the value of $attribute in $node as bool. If the attribute does not exist, $stdval is returned.
      *
-     * @param \domNode     $node
-     * @param \string      $attribute
-     * @param \string      $givenval
+     * @param \domNode      $node
+     * @param \string       $attribute
+     * @param \string       $givenval
      * @param \bool|\string $stdval
      *
      * @return \bool
