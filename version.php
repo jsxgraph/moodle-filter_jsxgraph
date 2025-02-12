@@ -34,9 +34,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025021201;          // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2025021202;          // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2019111800;         // Requires this Moodle version.
 $plugin->supported = [38, 405];         // Moodle versions.
 $plugin->component = 'filter_jsxgraph'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.10.0';            // JSXGraph + filter version.
+$plugin->release = 'v1.10.1';            // JSXGraph + filter version.
