@@ -14,24 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * This is a plugin to enable function plotting and dynamic geometry constructions with JSXGraph within a Moodle platform.
- *
- * JSXGraph is a cross-browser JavaScript library for interactive geometry,
- * function plotting, charting, and data visualization in the web browser.
- * JSXGraph is implemented in pure JavaScript and does not rely on any other
- * library. Special care has been taken to optimize the performance.
- *
- * @package    filter_jsxgraph
- * @copyright  2023 JSXGraph team - Center for Mobile Learning with Digital Technology – Universität Bayreuth
- *             Matthias Ehmann,
- *             Michael Gerhaeuser,
- *             Carsten Miller,
- *             Andreas Walter <andreas.walter@uni-bayreuth.de>,
- *             Alfred Wassermann <alfred.wassermann@uni-bayreuth.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace filter_jsxgraph;
 
 defined('MOODLE_INTERNAL') || die;
@@ -198,8 +180,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->settings["convertencoding"]) {
-            // fix #47
-            // see https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/
+            // Fix #47: see https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/ for more information.
             $this->document->loadHTML(
                 htmlspecialchars_decode(
                     iconv(
@@ -601,7 +582,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *
      * @return \bool
      */
-    static function empty_or_0_or_default($var, $default = null) {
+    static public function empty_or_0_or_default($var, $default = null) {
         return empty($var) || $var === 0 || $var === '0' || $var === '0px' || $var === $default;
     }
 
@@ -613,7 +594,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *
      * @return string
      */
-    static function css_norm($var, $default = '') {
+    static public function css_norm($var, $default = '') {
         if (substr('' . $var, 0, 1) === '0') {
             $var = 0;
         } else if (empty($var)) {
