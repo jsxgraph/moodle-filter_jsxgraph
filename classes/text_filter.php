@@ -582,7 +582,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *
      * @return \bool
      */
-    static public function empty_or_0_or_default($var, $default = null) {
+    public static function empty_or_0_or_default($var, $default = null) {
         return empty($var) || $var === 0 || $var === '0' || $var === '0px' || $var === $default;
     }
 
@@ -594,7 +594,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      *
      * @return string
      */
-    static public function css_norm($var, $default = '') {
+    public static function css_norm($var, $default = '') {
         if (substr('' . $var, 0, 1) === '0') {
             $var = 0;
         } else if (empty($var)) {
