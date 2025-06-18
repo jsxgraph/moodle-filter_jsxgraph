@@ -180,17 +180,17 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->settings["convertencoding"]) {
-            // Fix #47: see https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/ for more information.
-            $this->document->loadHTML(
-                htmlspecialchars_decode(
-                    iconv(
-                        self::ENCODING,
-                        'ISO-8859-1',
-                        htmlentities($text, ENT_COMPAT, self::ENCODING)
-                    ),
-                    ENT_QUOTES
-                )
+            // Fix #47 and #48
+            // See for more information:
+            //  - https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/
+            //  - https://stackoverflow.com/questions/32322406/alternative-of-mb-convert-encoding-html-entities
+            //  - https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
+            $content = preg_replace(
+                "/(.*<" . self::TAG . "[^>]*>)(.+)(<\/" . self::TAG . ">.*)/ims",
+                "$1 <textarea> $2 </textarea> $3",
+                $text
             );
+            $this->document->loadHTML(mb_encode_numericentity($content, [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
         } else {
             $this->document->loadHTML($text);
         }
@@ -351,10 +351,22 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
             "}\n";
 
         // Load the code from <jsxgraph>-node.
-
         $usercode = $this->document->saveHTML($node);
+
         // Remove <jsxgraph> tags.
-        $usercode = preg_replace("(</?" . self::TAG . "[^>]*\>)i", "", $usercode);
+        if ($this->settings["convertencoding"]) {
+            $usercode = preg_replace(
+                "/(<" . self::TAG . "[^>]*>)(\s*<textarea>\s*)(.+)(\s*<\/textarea>\s*)(<\/" . self::TAG . ">)/ims",
+                "$3",
+                $usercode
+            );
+        } else {
+            $usercode = preg_replace(
+                "/(<" . self::TAG . "[^>]*>)(.+)(<\/" . self::TAG . ">)/ims",
+                "$2",
+                $usercode
+            );
+        }
         // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
         $usercode = str_replace("</script>", "<\/script>", $usercode);
 
