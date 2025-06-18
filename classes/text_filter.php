@@ -346,8 +346,8 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
             "/////////////////\n\n";
         $code .=
             "if(JXG.exists(JXG.Options.board)) {\n" .
-            "JXG.Options.board.title = '" . $attributes['title'][0] . "';\n" .
-            "JXG.Options.board.description = '" . $attributes['description'][0] . "';\n" .
+            "   JXG.Options.board.title = '" . $attributes['title'][0] . "';\n" .
+            "   JXG.Options.board.description = '" . $attributes['description'][0] . "';\n" .
             "}\n";
 
         // Load the code from <jsxgraph>-node.
@@ -387,8 +387,6 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         }
 
         // Paste the code.
-
-        // POI: Version differences. Here no differences.
         $PAGE->requires->js_init_call($code);
     }
 
@@ -411,7 +409,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         // Build from the inside out.
 
-        // POI: Version differences.
+        // Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
@@ -507,7 +505,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
     private function load_jsxgraph() {
         global $PAGE;
 
-        // POI: Version differences.
+        // Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
 
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
@@ -797,7 +795,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         }
         $url = self::PATH_FOR_LIBS . $libs[$libname];
 
-        // POI: Version differences.
+        // Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
 
             $t = $this->document->createElement('script', '');
