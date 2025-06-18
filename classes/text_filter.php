@@ -180,11 +180,12 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         // Load the html into the object.
         libxml_use_internal_errors(true);
         if ($this->settings["convertencoding"]) {
-            // Fix #47 and #48
-            // See for more information:
-            //  - https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/
-            //  - https://stackoverflow.com/questions/32322406/alternative-of-mb-convert-encoding-html-entities
-            //  - https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
+            /* Fix #47 and #48
+             * See for more information:
+             *  - https://aruljohn.com/blog/php-deprecated-mbstring-htmlentities/
+             *  - https://stackoverflow.com/questions/32322406/alternative-of-mb-convert-encoding-html-entities
+             *  - https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
+             */
             $content = preg_replace(
                 "/(.*<" . self::TAG . "[^>]*>)(.+)(<\/" . self::TAG . ">.*)/ims",
                 "$1 <textarea> $2 </textarea> $3",
