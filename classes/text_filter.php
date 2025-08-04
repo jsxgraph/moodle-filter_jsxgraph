@@ -187,9 +187,14 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
              *  - https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
              */
             $content = preg_replace(
-                "/(.*<" . self::TAG . "[^>]*>)(.+)(<\/" . self::TAG . ">.*)/ims",
-                "$1 <textarea> $2 </textarea> $3",
+                "/(<" . self::TAG . "[^>]*>)/ims",
+                "$1 <textarea>",
                 $text
+            );
+            $content = preg_replace(
+                "/(<\/" . self::TAG . ">)/ims",
+                "</textarea> $1",
+                $content
             );
             $this->document->loadHTML(mb_encode_numericentity($content, [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
         } else {
