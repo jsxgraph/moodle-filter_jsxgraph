@@ -292,7 +292,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                 $this->settings['fallbackwidth']
             );
 
-            $divdom = new \DOMDocument;
+            $divdom = new \DOMDocument();
             libxml_use_internal_errors(true);
             $divdom->loadHTML($div);
             libxml_use_internal_errors(false);

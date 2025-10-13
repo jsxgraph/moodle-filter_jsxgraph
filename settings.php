@@ -205,7 +205,10 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/globalJS',
             get_string('globalJS', 'filter_jsxgraph'),
             get_string('globalJS_desc', 'filter_jsxgraph'),
-            '', PARAM_RAW, 60, 20
+            '',
+            PARAM_RAW,
+            60,
+            20
         )
     );
 
@@ -222,7 +225,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/aspectratio',
             get_string('aspectratio', 'filter_jsxgraph'),
             get_string('aspectratio_desc', 'filter_jsxgraph'),
-            '', PARAM_TEXT
+            '',
+            PARAM_TEXT
         )
     );
 
@@ -231,7 +235,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/fixwidth',
             get_string('fixwidth', 'filter_jsxgraph'),
             get_string('fixwidth_desc', 'filter_jsxgraph'),
-            get_config('filter_jsxgraph', 'width') ?? '', PARAM_TEXT
+            get_config('filter_jsxgraph', 'width') ?? '',
+            PARAM_TEXT
         )
     );
 
@@ -240,7 +245,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/fixheight',
             get_string('fixheight', 'filter_jsxgraph'),
             get_string('fixheight_desc', 'filter_jsxgraph'),
-            get_config('filter_jsxgraph', 'height') ?? '', PARAM_TEXT
+            get_config('filter_jsxgraph', 'height') ?? '',
+            PARAM_TEXT
         )
     );
 
@@ -249,7 +255,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/maxwidth',
             get_string('maxwidth', 'filter_jsxgraph'),
             get_string('maxwidth_desc', 'filter_jsxgraph'),
-            '', PARAM_TEXT
+            '',
+            PARAM_TEXT
         )
     );
 
@@ -258,7 +265,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/maxheight',
             get_string('maxheight', 'filter_jsxgraph'),
             get_string('maxheight_desc', 'filter_jsxgraph'),
-            '', PARAM_TEXT
+            '',
+            PARAM_TEXT
         )
     );
 
@@ -267,7 +275,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/fallbackaspectratio',
             get_string('fallbackaspectratio', 'filter_jsxgraph'),
             get_string('fallbackaspectratio_desc', 'filter_jsxgraph'),
-            '1 / 1', PARAM_TEXT
+            '1 / 1',
+            PARAM_TEXT
         )
     );
 
@@ -276,7 +285,8 @@ if ($ADMIN->fulltree) {
             'filter_jsxgraph/fallbackwidth',
             get_string('fallbackwidth', 'filter_jsxgraph'),
             get_string('fallbackwidth_desc', 'filter_jsxgraph'),
-            '100%', PARAM_TEXT
+            '100%',
+            PARAM_TEXT
         )
     );
 
