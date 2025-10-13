@@ -265,7 +265,6 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         $new->appendChild($a);
 
         for ($i = 0; $i < $attributes['numberOfBoards']; $i++) {
-
             // Create div id.
             $divid = $this->string_or($attributes['boardid'][$i], $attributes['box'][$i]);
             if ($this->settings['usedivid']) {
@@ -417,9 +416,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         // Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
-
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
-
                 $result["pre"] =
                     "require(['" . $this->get_core_url() . "'], function (JXG) {\n" .
                     "if ($condition) {\n" .
@@ -428,22 +425,16 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                     $result["post"] .
                     "}\n " .
                     "});\n";
-
             } else {
-
                 $result["pre"] =
                     "if ($condition) {\n" .
                     $result["pre"];
                 $result["post"] =
                     $result["post"] .
                     "}\n ";
-
             }
-
         } else {
-
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
-
                 $result["pre"] =
                     "require(['" . $this->get_core_url() . "'], function (JXG) {\n" .
                     "if ($condition) {\n" .
@@ -452,9 +443,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                     $result["post"] .
                     "}\n " .
                     "});\n";
-
             } else if ($this->versionjsx["version_number"] > $this->jxg_to_version_number("0.99.6")) {
-
                 $result["pre"] =
                     "require(['jsxgraphcore'], function (JXG) {\n" .
                     "if ($condition) { \n" .
@@ -463,18 +452,14 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                     $result["post"] .
                     "}\n " .
                     "});\n";
-
             } else {
-
                 $result["pre"] =
                     "if ($condition) {\n" .
                     $result["pre"];
                 $result["post"] =
                     $result["post"] .
                     "}\n ";
-
             }
-
         }
 
         $result["pre"] =
@@ -513,14 +498,10 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         // Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
-
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
-
                 // Nothing to do!
                 return;
-
             } else {
-
                 $t = $this->document->createElement('script', '');
                 $a = $this->document->createAttribute('type');
                 $a->value = 'text/javascript';
@@ -529,22 +510,14 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                 $a->value = $this->get_core_url();
                 $t->appendChild($a);
                 $this->document->appendChild($t);
-
             }
-
         } else {
-
             if ($this->versionjsx["version_number"] >= $this->jxg_to_version_number("1.5.0")) {
-
                 // Nothing to do!
                 return;
-
             } else {
-
                 $PAGE->requires->js($this->get_core_url());
-
             }
-
         }
     }
 
@@ -682,8 +655,13 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
      * @return string                       The <div> for the board.
      */
     private function get_board_html(
-        $id, $dimensions = [], $classes = "", $wrapperclasses = "", $forcewrapper = false,
-        $defaultaspectratio = "1 / 1", $defaultwidth = "100%",
+        $id,
+        $dimensions = [],
+        $classes = "",
+        $wrapperclasses = "",
+        $forcewrapper = false,
+        $defaultaspectratio = "1 / 1",
+        $defaultwidth = "100%",
         $perventjsdimreg = false
     ) {
 
@@ -713,7 +691,6 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         $board = '<div id="' . $id . '" class="jxgbox' . $classes . '" style="' . $styles . '"></div>';
 
         if (!$perventjsdimreg) {
-
             foreach (self::WIDTHS as $attr) {
                 if (!self::empty_or_0_or_default($dimensions[$attr])) {
                     $wrapperstyles .= "$attr: " . self::css_norm($dimensions[$attr]) . "; ";
@@ -775,7 +752,6 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         }
     })();
         </script>';
-
         } else {
             $js = "";
         }
@@ -803,7 +779,6 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         // Version differences.
         if ($this->versionmoodle["is_newer_version"]) {
-
             $t = $this->document->createElement('script', '');
             $a = $this->document->createAttribute('type');
             $a->value = 'text/javascript';
@@ -812,11 +787,8 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
             $a->value = new \moodle_url($url);
             $t->appendChild($a);
             $this->document->appendChild($t);
-
         } else {
-
             $PAGE->requires->js(new \moodle_url($url));
-
         }
     }
 
