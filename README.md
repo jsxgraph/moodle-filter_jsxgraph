@@ -37,13 +37,14 @@ At the position the construction should appear, create a construction by:
 * inserting a `<jsxgraph>` tag with all required parameters
 * Each <code><div\></code> that contains a JSXGraph board needs a unique ID on the page. This ID is generated automatically. Reference it within the JavaScript using the constant <code>BOARDID</code>.
 
-**(*) Important notice:**   
-Please note that some Moodle editors remove the `<jsxgraph>` tag when saving.
-As a result, the construction may not be displayed correctly or at all.
-You should therefore always use the "Plain text editor".
-Some also report that the "Atto HTML editor" works, too.
+***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
 
-Example: 
+Have a look to this [video](https://youtu.be/gHsFA1upQLc).
+
+Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
+On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input.
+
+### Example: 
 
 ```html
 <jsxgraph width="500" aspect-ratio="1/1">
@@ -53,13 +54,13 @@ Example:
 ```
    
 Get many examples for constructions at [https://jsxgraph.org/share](https://jsxgraph.org/share). There you can export them to the JSXGraph Moodle filter format.
-   
-***For tag attributes and global settings have a look at [Attributes and settings](#attributes-and-settings) in this documentation.*** 
- 
-Have a look to this [video](https://youtu.be/gHsFA1upQLc).
 
-Be aware of the fact, that you don't see the construction unless you leave the editor and save your document.
-On reopening it later, you will notice the code rather than the `<jsxgraph>` tag. To edit your content later, again switch to the code input.
+### (*) Important notice:
+
+Please note that some Moodle editors remove the `<jsxgraph>` tag when saving.
+As a result, the construction may not be displayed correctly or at all.
+You should therefore always use the "Plain text editor".
+Some also report that the "Atto HTML editor" works, too.
 
 ### Using multipe boards in one tag
 
