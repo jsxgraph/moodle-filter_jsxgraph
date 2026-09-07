@@ -34,7 +34,9 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 ***                           JSXGraph styles                           ***
 **************************************************************************/
 /*
-    Copyright 2008-2025
+    JSXGraph 1.13.3
+
+    Copyright 2008-2026
         Matthias Ehmann,
         Michael Gerhaeuser,
         Carsten Miller,
@@ -175,7 +177,7 @@ along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
     height: 100%;
 }
 
-/* Classes forn smartlabels */
+/* Classes for smartlabels */
 .smart-label-solid {
     padding: 1px 7px 1px 7px;
     margin: 0;
