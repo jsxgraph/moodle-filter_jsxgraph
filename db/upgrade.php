@@ -45,11 +45,17 @@
  */
 function xmldb_filter_jsxgraph_upgrade($oldversion) {
 
-    $release = 'v1.12.0'; // This value should be the same as in version.php!
-    $recommendedjsx = 'v1.12.0';
+    $release = 'v1.13.3'; // This value should be the same as in version.php!
+    $recommendedjsx = 'v1.13.3';
 
     $versions = [
         ["id" => "auto"],
+        ["id" => '1.13.3', "label" => 'v1.13.3', "file" => 'jsxgraphcore-v1.13.3-lazy.js'],
+        ["id" => '1.13.2', "label" => 'v1.13.2', "file" => 'jsxgraphcore-v1.13.2-lazy.js'],
+        ["id" => '1.13.1', "label" => 'v1.13.1', "file" => 'jsxgraphcore-v1.13.1-lazy.js'],
+        ["id" => '1.13.0', "label" => 'v1.13.0', "file" => 'jsxgraphcore-v1.13.0-lazy.js'],
+        ["id" => '1.12.2', "label" => 'v1.12.2', "file" => 'jsxgraphcore-v1.12.2-lazy.js'],
+        ["id" => '1.12.1', "label" => 'v1.12.1', "file" => 'jsxgraphcore-v1.12.1-lazy.js'],
         ["id" => '1.12.0', "label" => 'v1.12.0', "file" => 'jsxgraphcore-v1.12.0-lazy.js'],
         ["id" => '1.11.1', "label" => 'v1.11.1', "file" => 'jsxgraphcore-v1.11.1-lazy.js'],
         ["id" => '1.11.0', "label" => 'v1.11.0', "file" => 'jsxgraphcore-v1.11.0-lazy.js'],
