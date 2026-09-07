@@ -1,9 +1,57 @@
 <?xml version="1.0"?>
 <libraries>
     <library>
+        <location>amd/src/jsxgraphcore-v1.13.3-lazy.js</location>
+        <name>JSXGraph 1.13.3</name>
+        <version>1.13.3</version>
+        <license>LGPL</license>
+        <licenseversion>3.0+</licenseversion>
+    </library>
+
+    <library>
+        <location>amd/src/jsxgraphcore-v1.13.2-lazy.js</location>
+        <name>JSXGraph 1.13.2</name>
+        <version>1.13.2</version>
+        <license>LGPL</license>
+        <licenseversion>3.0+</licenseversion>
+    </library>
+
+    <library>
+        <location>amd/src/jsxgraphcore-v1.13.1-lazy.js</location>
+        <name>JSXGraph 1.13.1</name>
+        <version>1.13.1</version>
+        <license>LGPL</license>
+        <licenseversion>3.0+</licenseversion>
+    </library>
+
+    <library>
+        <location>amd/src/jsxgraphcore-v1.13.0-lazy.js</location>
+        <name>JSXGraph 1.13.0</name>
+        <version>1.13.0</version>
+        <license>LGPL</license>
+        <licenseversion>3.0+</licenseversion>
+    </library>
+
+    <library>
+        <location>amd/src/jsxgraphcore-v1.12.2-lazy.js</location>
+        <name>JSXGraph 1.12.2</name>
+        <version>1.12.2</version>
+        <license>LGPL</license>
+        <licenseversion>3.0+</licenseversion>
+    </library>
+
+    <library>
+        <location>amd/src/jsxgraphcore-v1.12.1-lazy.js</location>
+        <name>JSXGraph 1.12.1</name>
+        <version>1.12.1</version>
+        <license>LGPL</license>
+        <licenseversion>3.0+</licenseversion>
+    </library>
+
+    <library>
         <location>amd/src/jsxgraphcore-v1.12.0-lazy.js</location>
-        <name>JSXGraph 1.11.1</name>
-        <version>1.11.1</version>
+        <name>JSXGraph 1.12.0</name>
+        <version>1.12.0</version>
         <license>LGPL</license>
         <licenseversion>3.0+</licenseversion>
     </library>
