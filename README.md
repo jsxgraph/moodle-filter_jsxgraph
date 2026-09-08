@@ -1,6 +1,6 @@
-# JSXGraph Moodle filter <!-- [![Build Status](https://travis-ci.org/jsxgraph/moodle-filter_jsxgraph.svg?branch=master)](https://travis-ci.org/github/jsxgraph/moodle-filter_jsxgraph) --> 
+# JSXGraph Moodle filter 
 
-Also listed in [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
+Also listed in [Moodle Marketplace](https://marketplace.moodle.com/plugins/filter_jsxgraph).
 
 ### About JSXGraph
 
@@ -23,7 +23,7 @@ Using the [JSXGraph](http://jsxgraph.org) filter makes it a lot easier to embed 
 
 ## Installation
 
-You can download the filter here: [Moodle plugins directory](https://moodle.org/plugins/filter_jsxgraph).
+You can download the filter here: [Moodle Marketplace](https://marketplace.moodle.com/plugins/filter_jsxgraph).
 A video about the installation process is available on [YouTube](https://youtu.be/nQvUKg-qD4g).
 
 To find out more about the installation, you can also [read on here](#installing-the-filter-step-by-step).
