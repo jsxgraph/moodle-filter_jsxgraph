@@ -372,8 +372,6 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
                 $usercode
             );
         }
-        // In order not to terminate the JavaScript part prematurely, the backslash has to be escaped.
-        $usercode = str_replace("</script>", "<\/script>", $usercode);
 
         $code .=
             "// Code from user input.\n" .
@@ -387,9 +385,13 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         // Convert the HTML-entities in the variable $code.
 
-        if ($this->settings['html_entities'] && $attributes['entities']) {
+        if ($this->settings['html_entities'] && $attributes['entities'][0]) {
             $code = html_entity_decode($code);
         }
+
+        // In order not to terminate the JavaScript part prematurely, the slash of a closing script tag has to be escaped.
+        // This has to be done after the decoding of the HTML-entities, which would restore a closing script tag.
+        $code = preg_replace('~</(script)~i', '<\\/$1', $code);
 
         // Paste the code.
         $PAGE->requires->js_init_call($code);
