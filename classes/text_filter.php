@@ -338,12 +338,12 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
         for ($i = 0; $i < count($this->ids); $i++) {
             $name = self::BOARDID_CONST . $i;
             $code .=
-                "const $name = '" . $this->ids[$i] . "';\n" .
+                "const $name = " . $this->to_js_literal($this->ids[$i]) . ";\n" .
                 "console.log('$name = `'+$name+'` has been prepared.');\n";
         }
         $code .=
             "const " . self::BOARDID_CONST . " = " . self::BOARDID_CONST . "0" . ";\n" .
-            "const " . self::BOARDIDS_CONST . " = ['" . implode("', '", $this->ids) . "'];\n" .
+            "const " . self::BOARDIDS_CONST . " = " . $this->to_js_literal(array_values($this->ids)) . ";\n" .
             "\n";
 
         $code .=
@@ -351,8 +351,8 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
             "/////////////////\n\n";
         $code .=
             "if(JXG.exists(JXG.Options.board)) {\n" .
-            "   JXG.Options.board.title = '" . $attributes['title'][0] . "';\n" .
-            "   JXG.Options.board.description = '" . $attributes['description'][0] . "';\n" .
+            "   JXG.Options.board.title = " . $this->to_js_literal($attributes['title'][0]) . ";\n" .
+            "   JXG.Options.board.description = " . $this->to_js_literal($attributes['description'][0]) . ";\n" .
             "}\n";
 
         // Load the code from <jsxgraph>-node.
@@ -408,7 +408,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         $condition = '';
         for ($i = 0; $i < count($this->ids); $i++) {
-            $condition .= "document.getElementById('" . $this->ids[$i] . "') != null && ";
+            $condition .= "document.getElementById(" . $this->to_js_literal($this->ids[$i]) . ") != null && ";
         }
         $condition = substr($condition, 0, -4);
 
@@ -471,14 +471,31 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         $result["pre"] =
             "\n\n// ###################################################" .
-            "\n// JavaScript code for JSXGraph board '" . $this->ids[0] . "' and other\n" .
+            "\n// JavaScript code for JSXGraph board " . $this->to_js_literal($this->ids[0]) . " and other\n" .
             $result["pre"];
         $result["post"] =
             $result["post"] .
-            "\n// End code for JSXGraph board '" . $this->ids[0] . "' and other " .
+            "\n// End code for JSXGraph board " . $this->to_js_literal($this->ids[0]) . " and other " .
             "\n// ###################################################\n\n";
 
         return $result;
+    }
+
+    /**
+     * Encodes a value as JavaScript literal, which can safely be embedded in an inline script.
+     *
+     * The HEX flags keep quotes, ampersands and angle brackets out of the result, so neither a later decoding of
+     * HTML entities nor a closing script tag can break out of the literal.
+     *
+     * @param \mixed $value String or array of strings.
+     *
+     * @return \string
+     */
+    private function to_js_literal($value) {
+        return json_encode(
+            $value,
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE
+        );
     }
 
     /**
@@ -688,7 +705,7 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         $styles = substr($styles, 0, -1);
         $classes = !empty($classes) ? ' ' . $classes : '';
-        $board = '<div id="' . $id . '" class="jxgbox' . $classes . '" style="' . $styles . '"></div>';
+        $board = '<div id="' . s($id) . '" class="jxgbox' . s($classes) . '" style="' . s($styles) . '"></div>';
 
         if (!$perventjsdimreg) {
             foreach (self::WIDTHS as $attr) {
@@ -719,9 +736,9 @@ class text_filter extends \filter_jsxgraph_base_text_filter {
 
         const FORCE_WRAPPER = false || ' . ($forcewrapper ? 'true' : 'false') . ';
 
-        let boardid = "' . $id . '",
-            wrapper_classes = "' . $wrapperclasses . '".split(" "),
-            wrapper_styles = "' . $wrapperstyles . '",
+        let boardid = ' . $this->to_js_literal($id) . ',
+            wrapper_classes = ' . $this->to_js_literal($wrapperclasses) . '.split(" "),
+            wrapper_styles = ' . $this->to_js_literal($wrapperstyles) . ',
             board = document.getElementById(boardid),
             ar, ar_h, ar_w, padding_bottom;
 
